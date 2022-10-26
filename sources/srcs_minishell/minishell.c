@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/10/26 17:43:10 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/10/26 18:16:33 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,73 +14,71 @@
 
 char *get_path(char **env, char *cmd)
 {
-	// char  *path;
+	char  *path;
 	int   i;
-	// char  *path_slash;
+	char  *path_slash;
 	char  **split_paths;
 	
 	(void)*cmd;
 	i = 0;
-	while (ft_strnstr(env[i], "PATH", 4) )
-	{
+	while (ft_strnstr(env[i], "PATH", 4) == 1)
 		i++;
-	}
 	split_paths = ft_split(env[i] + 5, ':');
 	i = 0;
 	while (split_paths[i])
 	{
-		printf("%s\n", split_paths[i]);
+		path_slash = ft_strjoin(split_paths[i], "/");
+		path = ft_strjoin(path_slash, cmd);
+		free(path_slash);
+		free(split_paths[i]);
+		if (access(path, F_OK) == 0)
+			return (path);
+		free(path);
 		i++;
 	}
-
 	return (NULL);
-	// join tout ce qu'il y a apres le "=" jusqu'au ":" remplacer les : par / 
+	// free le reste de path slash ??
 }
   
 int main(int argc, char **argv, char **env)
 {
-  char  prompt[3] = "$>";
-  char  *str;
-  char  **cmd;
-  int   i;
-/*
-  ETAPE 1 PROMPT
-  faisons le simple principe d’afficher un prompt qui lit des
-  commandes et fait rien (pour l’instant) puis qui se raffiche.
-*/
-(void)argc;
-(void)argv;
-i = 0;
-while (env[i])
-{
-	printf("%s\n", env[i]);
-	i++;
-}
-i = 0;
-str = readline(prompt);
-
-cmd = ft_split(str, ' ');
-while (cmd[i])
-{
-	printf("%s\n", cmd[i]);
-	i++;
-}
-get_path(env, cmd[0]);
-while (1)
-{
+	char  prompt[3] = "$>";
+	char  *str;
+	char  **cmd;
+	// int   i;
+	
+	(void)argc;
+	(void)argv;
+	// i = 0;
+	// while (env[i])
+	// {
+	// 	printf("%s\n", env[i]);
+	// 	i++;
+	// }
+	// i = 0;
 	str = readline(prompt);
-	add_history(str);
-	if (str == NULL)
+	cmd = ft_split(str, ' ');
+	// while (cmd[i])
+	// {
+	// 	printf("%s\n", cmd[i]);
+	// 	i++;
+	// }
+	execve(get_path(env, cmd[0]), cmd, env);
+	while (1)
 	{
-	  free (str);
-	  exit (0);
+		str = readline(prompt);
+		add_history(str);
+		if (str == NULL)
+		{
+			free (str);
+			exit (0);
+		}
+		free (str);
+		//    readline lira une ligne du terminal et la renverra, en utilisant
+		//    le prompt en tant que prompt. Si le prompt est NULL ou la chaîne vide, rien est émis.
+		//    La ligne retournée est allouée avec malloc(3) ;
+		//    l'appelant doit le libérer lorsqu'il a terminé.
 	}
-	free (str);
-	//    readline lira une ligne du terminal et la renverra, en utilisant
-	//    le prompt en tant que prompt. Si le prompt est NULL ou la chaîne vide, rien est émis.
-	//    La ligne retournée est allouée avec malloc(3) ;
-	//    l'appelant doit le libérer lorsqu'il a terminé.
-}
 	return (0);
 }
 /*
@@ -165,10 +163,4 @@ while (1)
 /*
   ETAPE 7 CD
   la, je me contenterait de vous dire "chdir". Et man. Et google.
-*/
-
-/*
-  Et voila, t’as un super minishell !
-  Merci, db0-lepage_b !
-  Bisous ? Non...? Ok.
 */
