@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/10/26 18:16:33 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/10/27 12:28:06 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,14 @@ char *get_path(char **env, char *cmd)
 		free(path);
 		i++;
 	}
+	i = 0;
+	while (split_paths[i])
+	{
+		free(split_paths[i]);
+		i++;
+	}
+	free(split_paths);
 	return (NULL);
-	// free le reste de path slash ??
 }
   
 int main(int argc, char **argv, char **env)
@@ -46,26 +52,37 @@ int main(int argc, char **argv, char **env)
 	char  *str;
 	char  **cmd;
 	// int   i;
-	
+    pid_t pid;
 	(void)argc;
 	(void)argv;
-	// i = 0;
-	// while (env[i])
-	// {
-	// 	printf("%s\n", env[i]);
-	// 	i++;
-	// }
-	// i = 0;
+	char *path;
+    
+
 	str = readline(prompt);
-	cmd = ft_split(str, ' ');
-	// while (cmd[i])
-	// {
-	// 	printf("%s\n", cmd[i]);
-	// 	i++;
-	// }
-	execve(get_path(env, cmd[0]), cmd, env);
+    pid = fork();
+	if (pid == -1)
+		return (1);
+
 	while (1)
 	{
+		cmd = ft_split(str, ' ');
+		printf ("cmd[0] = %s\n", cmd[0]);
+	    if  (pid > 0)
+	    {
+	        wait(NULL);
+	        printf("je suis le pere\n");
+	    }
+	    else
+	    {
+			if ((path = get_path(env, cmd[0])) != NULL)
+			{
+	        	printf("je suis le fils\n");
+				execve(path, cmd, env);
+				// penser a free les lignes du tableau CMD
+				free (cmd);
+			}
+	
+	    }
 		str = readline(prompt);
 		add_history(str);
 		if (str == NULL)
@@ -73,7 +90,8 @@ int main(int argc, char **argv, char **env)
 			free (str);
 			exit (0);
 		}
-		free (str);
+		pid = fork();
+		// free (str);
 		//    readline lira une ligne du terminal et la renverra, en utilisant
 		//    le prompt en tant que prompt. Si le prompt est NULL ou la chaîne vide, rien est émis.
 		//    La ligne retournée est allouée avec malloc(3) ;
@@ -81,28 +99,7 @@ int main(int argc, char **argv, char **env)
 	}
 	return (0);
 }
-/*
-  ETAPE 2 LANCER UN PROGRAMME - RECUPERER LE PATH
-  essayons de lancer un programme. Pour cela, nous utilisons execve (const char *pathname, char *const argv[], char *const envp[]);.
-  Cette fonction prend en parametre un path. Il faut donc commencer par
-  trouver ce path. Pour cela, notre environnement nous fournit un element
-  appele PATH.
 
-  -- > faire un split de ce qu’a renvoyer readline : 
-  -- > faire une fonction qui recupere le contenu d’un element de l’env.
-*/
-
-//   char*my_getenv(char **env, char *elem/*"PATH"*/)
-// {
-//   /* je parcours l’env, je trouve la ligne qui commence par PATH*/
-//   /* j’envoie l’adresse de ce qui se trouve apres le ’=’ */
-// }
-
-/*  -- > faire une fonction qui recupere uns a uns les paths dans cet elem
-	-- > faire une fonction qui ajoute a la suite du path recupere le
-  element du tableau de str_to_wordtab.
-	Tester ces paths avec la fonction access. Comment elle marche ? -> man
-*/
 
 /*
   ETAPE 3 LANCER UN PROGRAMME - FORKER
