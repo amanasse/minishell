@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/10/27 12:28:06 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/10/27 15:21:49 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,44 +45,75 @@ char *get_path(char **env, char *cmd)
 	free(split_paths);
 	return (NULL);
 }
+
+int	*ft_fork1(char **env, char **cmd)
+{
+	pid_t	pid;
+	char	*path;
+	int 	*pipefd;
+
+	pipefd = malloc(sizeof(int) * 2);
+	if (pipefd == NULL)
+	{
+		perror("ERROR: malloc");
+		exit(EXIT_FAILURE);
+	}
+
+	pid = fork();
+	if (pipe(pipefd) == -1)
+		return (NULL);
+	if (pid == 0)
+	{
+		if ((path = get_path(env, cmd[0])) == NULL)
+			return (0);
+		close(pipefd[0]); //ferme la lecture
+		dup2(pipefd[1], 1); //la sortie du processus = l'entree du pipe
+		close(pipefd[1]); //ferme l'ecriture
+		execve(path, cmd, env);
+	}
+	else
+		return (NULL);
+	return (pipefd);
+}
+
+int	ft_fork2(char **env, char **cmd, int *pipefd)
+{
+	pid_t	pid;
+	char	*path;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		if ((path = get_path(env, cmd[0])) == NULL)
+			return (0);
+		close(pipefd[1]); //ferme la lecture
+		dup2(pipefd[0], 0); //la sortie du pipe = l'entree du processus
+		close(pipefd[0]); //ferme l'ecriture
+		execve(path, cmd, env);
+	}
+	else
+		return (0);
+	return (1);
+}
   
 int main(int argc, char **argv, char **env)
 {
 	char  prompt[3] = "$>";
 	char  *str;
 	char  **cmd;
-	// int   i;
-    pid_t pid;
+	int *pipefd;
+	
 	(void)argc;
 	(void)argv;
-	char *path;
-    
 
 	str = readline(prompt);
-    pid = fork();
-	if (pid == -1)
-		return (1);
-
+	cmd = ft_split(str, '|');
 	while (1)
 	{
-		cmd = ft_split(str, ' ');
-		printf ("cmd[0] = %s\n", cmd[0]);
-	    if  (pid > 0)
-	    {
-	        wait(NULL);
-	        printf("je suis le pere\n");
-	    }
-	    else
-	    {
-			if ((path = get_path(env, cmd[0])) != NULL)
-			{
-	        	printf("je suis le fils\n");
-				execve(path, cmd, env);
-				// penser a free les lignes du tableau CMD
-				free (cmd);
-			}
-	
-	    }
+		pipefd = ft_fork1(env, cmd);
+		ft_fork2(env, cmd + 1, pipefd);
+	    // if (pid > 0)
+		// 	wait(NULL);
 		str = readline(prompt);
 		add_history(str);
 		if (str == NULL)
@@ -90,12 +121,7 @@ int main(int argc, char **argv, char **env)
 			free (str);
 			exit (0);
 		}
-		pid = fork();
 		// free (str);
-		//    readline lira une ligne du terminal et la renverra, en utilisant
-		//    le prompt en tant que prompt. Si le prompt est NULL ou la chaîne vide, rien est émis.
-		//    La ligne retournée est allouée avec malloc(3) ;
-		//    l'appelant doit le libérer lorsqu'il a terminé.
 	}
 	return (0);
 }
