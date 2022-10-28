@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 14:47:35 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/10/28 15:23:43 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/10/28 16:25:00 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_ms	*ft_lstnew_ms(void *content)
 		return (NULL);
 	element->next = NULL;
 	element->str = content;
+	element->type = 0;
 	return (element);
 }
 
@@ -39,4 +40,20 @@ void	ft_lstadd_back_ms(t_ms **lst, t_ms *new)
 	}
 	else
 		*lst = new;
+}
+
+void    ft_view_lst(t_ms *lst)
+{
+    int    i;
+
+    i = 1;
+    while (lst->next != NULL)
+    {
+        printf("lst[%d] = %s\nSon adresse : %p\nSon type : %d\n", i, lst->str, lst, lst->type);
+        lst = lst->next;
+        i++;
+    }
+	printf("lst[%d] = %s\nSon adresse : %p\nSon type : %d\n", i, lst->str, lst, lst->type);
+
+    printf("-----------------\n");
 }
