@@ -15,6 +15,7 @@ SRC    = 	ft_strlen.c\
 			ft_strchr.c\
 			ft_strlcat.c\
 			ft_strlcpy.c\
+			ft_strncpy.c\
 			ft_strncmp.c\
 			ft_strnstr.c\
 			ft_strrchr.c\

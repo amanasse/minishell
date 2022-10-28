@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/10/27 17:50:02 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/10/28 13:34:22 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,63 +35,57 @@ char *get_path(char **env, char *cmd)
 		free(path);
 		i++;
 	}
-	// i = 0;
-	// while (split_paths[i])
-	// {
-	// 	free(split_paths[i]);
-	// 	i++;
-	// }
-	// free(split_paths);
+	i = 0;
+	while (split_paths[i])
+	{
+		free(split_paths[i]);
+		i++;
+	}
+	free(split_paths);
 	return (NULL);
 }
 
-void ft_fork1(char **env, char **cmd, char *str)
+int	ft_fork1(char **env, char **cmd, int *pipefd)
 {
 	pid_t	pid;
 	char	*path;
-	int 	*pipefd;
-
-	pipefd = malloc(sizeof(int) * 2);
-	if (pipefd == NULL)
-	{
-		perror("ERROR: malloc");
-		exit(EXIT_FAILURE);
-	}
+	
 	pid = fork();
-	if (pipe(pipefd) == -1)
-		return ;
 	if (pid == 0)
 	{
-		cmd = ft_split(str, '|');
-		cmd = ft_split(cmd[1], ' ');
-		printf ("cmd[0] = %s\n", cmd[0]);
-		printf ("Je suis le fils01\n");
-		if ((path = get_path(env, cmd[0])) == NULL)
-			return ;
-		printf ("path00 = %s\n", path = get_path(env, cmd[0]));
-		close(pipefd[1]);
-		dup2(pipefd[0], 0);
-		close(pipefd[0]);
-		execve(path, cmd, env);
-	}
-	else
-	{
-		cmd = ft_split(str, '|');
-		cmd = ft_split(cmd[0], ' ');
-		printf ("cmd[0] = %s\n", cmd[0]);
-		printf ("Je suis le fils02\n");
 		if ((path = get_path(env, cmd[0])) == NULL)
 		{
-			printf ("path01 = %s\n", path);
-			return ;
+			printf("%s: command not found\n", cmd[0]);
+			return (0);
 		}
-		printf ("path02 = %s\n", path);
-			
-		close(pipefd[0]);
 		dup2(pipefd[1], 1);
+		close(pipefd[0]);
 		close(pipefd[1]);
 		execve(path, cmd, env);
 	}
+	return (1);
+}
+
+int	ft_fork2(char **env, char **cmd, int *pipefd)
+{
+	pid_t	pid;
+	char	*path;
+
+	
+	pid = fork();
+	if (pid == 0)
+	{
+		if ((path = get_path(env, cmd[0])) == NULL)
+		{
+			printf("%s: command not found\n", cmd[0]);
+			return (0);
+		}
+		dup2(pipefd[0], 0);
+		close(pipefd[1]);
+		close(pipefd[0]);
+		execve(path, cmd, env);
+	}
+	return (1);
 }
   
 int main(int argc, char **argv, char **env)
@@ -99,17 +93,27 @@ int main(int argc, char **argv, char **env)
 	char  prompt[3] = "$>";
 	char  *str;
 	char  **cmd;
+	int	 *pipefd;
 	
 	(void)argc;
 	(void)argv;
 
 	str = readline(prompt);
 	cmd = ft_split(str, '|');
+	pipefd = malloc(sizeof(int) * 2);
 	while (1)
 	{
 		cmd = ft_split(cmd[0], ' ');
-		ft_fork1(env, cmd, str);
-		
+		if (pipe(pipefd) == -1)
+			return (0);
+		ft_fork1(env, cmd, pipefd);
+		cmd = ft_split(str, '|');
+		cmd = ft_split(cmd[1], ' ');
+		ft_fork2(env, cmd, pipefd);
+		close(pipefd[1]);
+		close(pipefd[0]);
+		wait(NULL);
+		wait(NULL);
 		str = readline(prompt);
 		add_history(str);
 		if (str == NULL)
@@ -130,6 +134,7 @@ int main(int argc, char **argv, char **env)
   On veut arreter le programme, pas le minishell. Il faut donc duppliquer le
   prog. C’est le role de fork. Le cours explique comment il marche.
   A vous de jouer.
+  
 */
 
 /*

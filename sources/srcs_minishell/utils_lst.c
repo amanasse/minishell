@@ -1,40 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   utils_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/10/28 15:08:47 by mede-sou         ###   ########.fr       */
+/*   Created: 2022/10/28 14:47:35 by mede-sou          #+#    #+#             */
+/*   Updated: 2022/10/28 15:23:43 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int main(int argc, char **argv, char **env)
+t_ms	*ft_lstnew_ms(void *content)
 {
-	char  prompt[3] = "$>";
-	char  *str;
-	t_ms *lex; 
-		
-	(void)argc;
-	(void)argv;
-	(void)env;
+	t_ms	*element;
 
-	lex = NULL;
-	while (1)
+	element = malloc(sizeof(t_ms));
+	if (element == NULL)
+		return (NULL);
+	element->next = NULL;
+	element->str = content;
+	return (element);
+}
+
+void	ft_lstadd_back_ms(t_ms **lst, t_ms *new)
+{
+	t_ms	*tmp;
+
+	if (new == NULL)
+		return ;
+	if (*lst)
 	{
-		str = readline(prompt);
-		if (ft_lexer(lex, str) == 0)
-			return (0);
-		add_history(str);
-		if (str == NULL)
-		{
-			free (str);
-			exit (0);
-		}
-		free (str);
+		tmp = *lst;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
 	}
-	return (0);
+	else
+		*lst = new;
 }

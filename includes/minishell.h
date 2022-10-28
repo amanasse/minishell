@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/10/27 12:11:31 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/10/28 14:54:48 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,17 @@
 # include <readline/history.h>
 # include "../sources/libft/includes/libft.h"
 
+typedef struct s_ms
+{
+	int				type;
+	struct s_ms		*next;
+	char			*str;
+}					t_ms;
+
 char	**ft_split(char const *s, char sep);
+int		ft_lexer(t_ms *lex, char *str);
+int		ft_check_quotes(char *str, char c);
+t_ms	*ft_lstnew_ms(void *content);
+void	ft_lstadd_back_ms(t_ms **lst, t_ms *new);
 
 #endif

@@ -1,40 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/10/28 15:08:47 by mede-sou         ###   ########.fr       */
+/*   Created: 2022/02/08 15:33:42 by mede-sou          #+#    #+#             */
+/*   Updated: 2022/10/28 14:52:08 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../includes/libft.h"
 
-int main(int argc, char **argv, char **env)
+char	*ft_strncpy(char *src, unsigned int n)
 {
-	char  prompt[3] = "$>";
-	char  *str;
-	t_ms *lex; 
-		
-	(void)argc;
-	(void)argv;
-	(void)env;
+	unsigned int	i;
+	char			*dest;
 
-	lex = NULL;
-	while (1)
+	dest = malloc(sizeof(char) * (n + 1));
+	if (dest == NULL)
+		return (NULL);
+	i = 0;
+	while (i < n && src[i] != '\0')
 	{
-		str = readline(prompt);
-		if (ft_lexer(lex, str) == 0)
-			return (0);
-		add_history(str);
-		if (str == NULL)
-		{
-			free (str);
-			exit (0);
-		}
-		free (str);
+		dest[i] = src[i];
+		i++;
 	}
-	return (0);
+	dest[i] = '\0';
+	return (dest);
 }
