@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 14:47:35 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/10/28 16:25:00 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/10/31 09:00:37 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,5 @@ void    ft_view_lst(t_ms *lst)
         i++;
     }
 	printf("lst[%d] = %s\nSon adresse : %p\nSon type : %d\n", i, lst->str, lst, lst->type);
-
     printf("-----------------\n");
 }
