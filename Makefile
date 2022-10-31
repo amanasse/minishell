@@ -1,6 +1,7 @@
 SRCS    = 	minishell.c\
 		lexer.c\
-		utils_lst.c
+		utils_lst.c\
+		clean_lst.c
 
 
 DIR_SRC_MINISHELL = ./sources/srcs_minishell/

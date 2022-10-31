@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/10/31 15:43:12 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/10/31 17:01:54 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*prio ' ' et " " : verifier si fermes, sinon erreur
 chaque maillon = 1 mot (split espace)
 types :
-0 = entre guillemets
+0 = entre guillemets OK
 1 = cmd - str OK
 2 = pipe　OK
 3 = redirection entree < OK
@@ -92,9 +92,9 @@ int	ft_chevron(t_ms **lex, char *str, char c)
 
 int	ft_lexer(t_ms *lex, char *str)
 {
-	int	i;
-	int	j;
-	int	res;
+	int		i;
+	int		j;
+	int		res;
 	char	*temp;
 
 	i = 0;
@@ -139,8 +139,10 @@ int	ft_lexer(t_ms *lex, char *str)
 			ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, 1));
 			i = j;
 		}
-		ft_view_lst(lex);
 	}
+	ft_view_lst(lex);
+	ft_clean_lst(&lex);
+	ft_view_lst(lex);
 	return (1);
 }
 	
