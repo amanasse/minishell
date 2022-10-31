@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 14:47:35 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/10/31 09:00:37 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/10/31 12:57:20 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,25 @@ void    ft_view_lst(t_ms *lst)
 {
     int    i;
 
-    i = 1;
+    i = 0;
     while (lst->next != NULL)
     {
-        printf("lst[%d] = %s\nSon adresse : %p\nSon type : %d\n", i, lst->str, lst, lst->type);
+        printf("lst[%d] = %s\n", i, lst->str);
         lst = lst->next;
         i++;
     }
-	printf("lst[%d] = %s\nSon adresse : %p\nSon type : %d\n", i, lst->str, lst, lst->type);
+	printf("lst[%d] = %s\n", i, lst->str);
     printf("-----------------\n");
+}
+
+void	ft_lstclear_ms(t_ms *lst)
+{
+	t_ms	*tmp;
+
+	while (lst != NULL)
+	{
+		tmp = lst;
+		lst = lst->next;
+		free(tmp);
+	}
 }

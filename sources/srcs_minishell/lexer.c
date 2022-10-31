@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/10/31 12:01:13 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/10/31 13:00:17 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	ft_chevron(t_ms **lex, char *str, char c)
 		temp = ft_substr(str, 0, i);
 		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp));		
 	}
-	return (1);
+	return (i);
 	
 }
 
@@ -91,10 +91,11 @@ int	ft_lexer(t_ms *lex, char *str)
 {
 	int	i;
 	int	j;
+	int	res;
 	char	*temp;
 
 	i = 0;
-	while (str[i])
+	while (str[i] != '\0')
 	{
 		if (str[i] == '\'' || str[i] == '"')
 		{			
@@ -108,15 +109,33 @@ int	ft_lexer(t_ms *lex, char *str)
 		else if (str[i] == '<' || str[i] == '>')
 		{
 			
-			if ((ft_chevron(&lex, str + i, str[i])) == 0)
+			res = ft_chevron(&lex, str + i, str[i]);
+			i += res;
+			if (res == 0)
 				i++;
-			if ((ft_chevron(&lex, str + i, str[i])) == -1)
+			else if (res == -1)
 			{	
-				printf ("syntax error near unexpected token '%c'\n", str[i]);
+				printf("syntax error near unexpected token '%c'\n", str[i]);
 				return (0);
 			}
 		}
-		i++;
+		else if (str[i] == '|')
+		{
+			ft_lstadd_back_ms(&lex, ft_lstnew_ms("|"));
+			i++;
+		}
+		else if (str[i] == ' ')
+			i++;
+		else
+		{
+			j = i;
+			while ((str[j] != ' ') && (str[j] != '\0') && (str[j] != '<') && (str[j] != '>') && (str[j] != '|'))
+				j++;
+			temp = ft_substr(str + i, 0, j);
+			ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp));
+			i += j;
+		}
+		// i++;
 	}
 	ft_view_lst(lex);
 	return (1);
