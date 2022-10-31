@@ -6,13 +6,13 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 14:47:35 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/10/31 12:57:20 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/10/31 14:36:00 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_ms	*ft_lstnew_ms(void *content)
+t_ms	*ft_lstnew_ms(void *content, int type)
 {
 	t_ms	*element;
 
@@ -21,7 +21,7 @@ t_ms	*ft_lstnew_ms(void *content)
 		return (NULL);
 	element->next = NULL;
 	element->str = content;
-	element->type = 0;
+	element->type = type;
 	return (element);
 }
 
@@ -50,10 +50,12 @@ void    ft_view_lst(t_ms *lst)
     while (lst->next != NULL)
     {
         printf("lst[%d] = %s\n", i, lst->str);
+        printf("type = %d\n", lst->type);
         lst = lst->next;
         i++;
     }
 	printf("lst[%d] = %s\n", i, lst->str);
+    printf("type = %d\n", lst->type);
     printf("-----------------\n");
 }
 

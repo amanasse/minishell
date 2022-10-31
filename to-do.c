@@ -1,6 +1,10 @@
 DANS STRUCTURE
 ajouter liste chainee 
 
+
+echo "ls | test" >> file | wc -l | cat -e "$USER"
+
+
 I.LEXING
 /*ou Tokenization : Conversion d’une chaîne de caractères en une liste de symboles.
 Elle fait partie de la première phase de la chaîne de compilation

@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/10/31 12:57:15 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/10/31 14:34:42 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_ms
 char	**ft_split(char const *s, char sep);
 int		ft_lexer(t_ms *lex, char *str);
 int		ft_check_quotes(char *str, char c);
-t_ms	*ft_lstnew_ms(void *content);
+t_ms	*ft_lstnew_ms(void *content, int type);
 void	ft_lstadd_back_ms(t_ms **lst, t_ms *new);
 void    ft_view_lst(t_ms *lst);
 void	ft_lstclear_ms(t_ms *lst);
