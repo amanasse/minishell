@@ -1,35 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/02 13:03:34 by amanasse         ###   ########.fr       */
+/*   Created: 2022/02/08 10:34:10 by amanasse          #+#    #+#             */
+/*   Updated: 2022/11/02 12:49:54 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
-#include "../../includes/builtins.h"
+#include "../../../includes/minishell.h"
+#include "../../../includes/builtins.h"
 
-int main(int argc, char **argv, char **env)
+int	ft_strcmp(char *s1, char *s2)
 {
-	char **cmd;
-	(void) argc;
-	(void) **argv;
-	(void) **env;
-	
-	cmd = malloc(sizeof(char *) * (2 + 1));
-	
-	cmd[0] = "cd";
-	cmd[1] = "..";
-	printf("cmd[0] = %s\n", cmd[0]);
-	printf("cmd[1] = %s\n", cmd[1]);
-	change_directory(cmd);
+	int i;
 
-
-
-	
-	return (0);
+	i = 0;
+	while (s1[i] == s2[i] && (s1[i] != '\0' || s2[i] != '\0'))
+		i++;
+	if (s1[i] == s2[i])
+		return (0);
+	else if (s1[i] < s2[i])
+		return (-1);
+	else
+		return (1);
 }
