@@ -6,11 +6,12 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/10/31 17:03:43 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/02 10:11:54 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
+
 /*
 0 = entre guillemets OK
 1 = cmd - str OK

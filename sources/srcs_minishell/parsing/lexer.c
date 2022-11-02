@@ -6,11 +6,11 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/10/31 17:01:54 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/02 10:12:46 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
 /*prio ' ' et " " : verifier si fermes, sinon erreur
 chaque maillon = 1 mot (split espace)
@@ -41,7 +41,7 @@ int	ft_append(t_ms **lex, char *str)
 		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 5));
 	else if (str[1] == '>')
 		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 6));	
-	return (1);
+	return (i);
 }
 
 
@@ -71,8 +71,8 @@ int	ft_chevron(t_ms **lex, char *str, char c)
 	{
 		if (str[i + 1] == '<' || str[i + 1] == '>')
 			return (-1);
-		ft_append(lex, str);
-		return (0);
+		i = ft_append(lex, str);
+		return (i);
 	}
 	while (str[++i] == ' ')
 		i++;
@@ -112,7 +112,6 @@ int	ft_lexer(t_ms *lex, char *str)
 		else if (str[i] == '<' || str[i] == '>')
 		{
 			res = ft_chevron(&lex, str + i, str[i]);
-			printf("res = %d\n", res);
 			i += res + 1;
 			if (res == 0)
 				i++;
@@ -145,4 +144,3 @@ int	ft_lexer(t_ms *lex, char *str)
 	ft_view_lst(lex);
 	return (1);
 }
-	

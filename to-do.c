@@ -31,10 +31,10 @@ II.EXEC
 
 
 III.CODER BUILTINS
-	◦ echo et l option -n
+	◦ echo et option -n
 	◦ cd uniquement avec un chemin relatif ou absolu
 	◦ pwd sans aucune option
-	◦ export sans aucune option
+	◦ export var de lenvironnement sans aucune option 
 	◦ unset sans aucune option
 	◦ env sans aucune option ni argument
 	◦ exit sans aucune option
