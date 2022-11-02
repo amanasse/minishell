@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 10:20:05 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/02 15:30:37 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/02 17:47:46 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,7 @@ char	*cmd_cd(char **cmd)
 	if ((ft_strcmp(cmd[0], "cd")) == 0 )
 	{
 		if ((ft_strcmp(cmd[1], "~")) == 0) 
-		{
 			dir = getenv("HOME");
-		}	
 		else  dir = cmd[1] ;	
 		t = chdir(dir);
 		if (t == 0) 
@@ -65,16 +63,43 @@ char	*cmd_cd(char **cmd)
 
 void cmd_echo(char **cmd)
 {
-	if ((ft_strcmp(cmd[0], "pwd")) == 0 )
+	int	i;
+	int j;
+	int	count_cmd;
+
+	i = 0;
+	j = 0;
+	count_cmd = 0;
+	if(cmd[1] != NULL)
 	{
-
-		if(cmd[1])
-			printf("pwd: too many arguments.\n");		
-		else
-			printf ("%s\n", pwd);
+		while (cmd[i] != NULL)
+		{
+			i++;
+			count_cmd++;
+		}
+		i = 0;
+		if ((ft_strcmp(cmd[i], "echo")) == 0 && count_cmd > 0)
+		{
+			i++;
+			if ((ft_strcmp(cmd[i], "-n")) == 0)
+			{
+				j = i;
+				i++;
+			}
+			if (count_cmd > 1)
+			{
+				while (i < count_cmd)
+				{
+					printf ("%s", cmd[i]);
+					if (i + 1 != count_cmd)
+						printf (" ");
+					i++;
+				}
+			}
+		}
+		if ((ft_strcmp(cmd[j], "-n")) != 0)
+			printf ("\n");
 	}
-
-
-
-
+	else
+		printf ("\n");
 }

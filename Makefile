@@ -1,9 +1,9 @@
 SRCS    = 	main.c\
 		builtins/builtins_utils.c\
+		builtins/builtins.c\
 		parsing/lexer.c\
 		utils_lst.c\
 		parsing/clean_lst.c\
-		builtins/builtins.c\
 
 DIR_SRC_MINISHELL = ./sources/srcs_minishell/
 
