@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/02 12:26:04 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/02 16:01:01 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ types :
 5 = redirection << (append) doit recevoir un delimiteur OK
 6 = redirection sortie append (reecrit dessus) >> OK
 7 = var environnement $var ???
+8 = entre ''
 */
 
 int	ft_append(t_ms **lex, char *str)
@@ -103,7 +104,10 @@ int	ft_lexer(t_ms *lex, char *str)
 			if (j == 0)
 				return (0);
 			temp = ft_strncpy(str + i, j + 1);
-			ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, 0));
+			if (str[i] == '"')
+				ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, 0));
+			else if (str[i] == '\'')
+				ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, 8));
 			i += j + 1;
 		}
 		else if (str[i] == '<' || str[i] == '>')

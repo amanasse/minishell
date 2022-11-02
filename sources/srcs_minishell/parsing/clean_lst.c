@@ -6,46 +6,52 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/02 15:28:29 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/02 17:25:45 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
 /*
-0 = entre guillemets OK
+0 = entre guillemets "" OK
 1 = cmd - str OK
 2 = pipe　OK
 3 = redirection entree < OK
 4 = redirection sortie > OK
 5 = redirection << (append) doit recevoir un delimiteur OK
 6 = redirection sortie append (reecrit dessus) >> OK
-7 = var environnement $var // fonction a faire = check si caractere est valide apres $ // ex : @ - = # & *
-*/
+7 = var environnement $var
+fonction a faire = check si caractere est valide apres $ // ex : @ - = # & *
+8 = entre ''
+ */
 
-void	ft_clean_quotes(t_ms *temp)
+char	*ft_clean_quotes(t_ms *temp)
 {
 	int		i;
 	int		j;
-	char	*str;
-	t_ms	*temp_lst;
+	char 	*value;
+	char	*to_replace;
+	char	*tmp_str;
 
-	str = temp->str;
 	i = 1;
-	while (str[i] != '$' && str[i] != '\0')
-			i++;
-	if (str[i] == '$')
+	while (temp->str[i] != '$' && temp->str[i] != '\0' && temp->str[i] != '"')
+		i++;
+	if (temp->str[i] == '$')
 	{
-		j = i - 1;
-		while (str[j] != '\0')
+		j = i;
+		tmp_str = ft_substr(temp->str, 1, j - 1);
+		while (temp->str[j] != ' ' && temp->str[j] != '"')
 			j++;
-		temp->str = ft_substr(str, 1, i - 1);
-		printf("temp->str = [%s]\n", temp->str);
-		temp_lst = temp->next;
-		temp->next = ft_lstnew_ms(ft_substr(str + i, 0, j - i), 7);
-		printf("temp->next->str = [%s]\n", temp->next->str);
-		temp->next->next = temp_lst;
+		to_replace = ft_substr(temp->str + i, 1, j - i - 1);
+		value = getenv(to_replace);
+		if (value == NULL)
+			value = "";
+		tmp_str = ft_strcat(tmp_str, value);
+		tmp_str = ft_strcat(tmp_str, temp->str + j);
 	}
+	else
+		return (temp->str);
+	return (tmp_str);
 }
 
 void	ft_clean_lst(t_ms **lex)
@@ -56,7 +62,9 @@ void	ft_clean_lst(t_ms **lex)
 	while (temp != NULL)
 	{
 		if (temp->type == 0)
-			ft_clean_quotes(temp);		
+			temp->str = ft_clean_quotes(temp);
+		// else if (temp->type == 8)
+		// 	ft_clean_simple_quotes(temp);
 		temp = temp->next;
 	}
 }

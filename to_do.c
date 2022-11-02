@@ -1,5 +1,6 @@
 Ex : echo "ls | test" >> file | wc -l | cat -e "$USER"
 echo "ls$test ppp" >> file | wc -l | cat -e "$USER"
+echo "ls$USER ppp" >> file | wc -l | cat -e "$USER"
 
 I.LEXING
 /*ou Tokenization : Conversion d’une chaîne de caractères en une liste de symboles.

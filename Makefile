@@ -2,6 +2,7 @@ SRCS    = 	main.c\
 		parsing/lexer.c\
 		utils_lst.c\
 		parsing/clean_lst.c\
+		parsing/ft_strcat.c
 
 DIR_SRC_MINISHELL = ./sources/srcs_minishell/
 
