@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:21:36 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/02 12:59:14 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/02 15:22:14 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@
 
 /*BUILTINS*/
 
-char *change_directory(char **cmd);
-int	ft_strcmp(char *s1, char *s2);
+char	*cmd_cd(char **cmd);
+int		cmd_exit(char **cmd);
+void	cmd_pwd(char **cmd);
 
-
+/*UTILS*/
+int		ft_strcmp(char *s1, char *s2);
 
 
 #endif

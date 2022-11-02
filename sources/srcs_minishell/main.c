@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/02 13:03:34 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/02 15:21:38 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,20 @@
 int main(int argc, char **argv, char **env)
 {
 	char **cmd;
+	int i;
 	(void) argc;
 	(void) **argv;
 	(void) **env;
 	
 	cmd = malloc(sizeof(char *) * (2 + 1));
-	
-	cmd[0] = "cd";
-	cmd[1] = "..";
-	printf("cmd[0] = %s\n", cmd[0]);
-	printf("cmd[1] = %s\n", cmd[1]);
-	change_directory(cmd);
-
+	i = 0;
+	cmd[i] = "exit";
+	printf("cmd[0] = %s\n", cmd[i]);
+	cmd[++i] = "lol";
+	printf("cmd[1] = %s\n", cmd[i]);
+	cmd_cd(cmd);
+	cmd_pwd(cmd);
+	cmd_exit(cmd);
 
 
 	
