@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/02 12:45:59 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/02 15:28:29 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 4 = redirection sortie > OK
 5 = redirection << (append) doit recevoir un delimiteur OK
 6 = redirection sortie append (reecrit dessus) >> OK
-7 = var environnement $var ??? fonction a faire = check si caractere est valide apres $ ex : $1 = OK, $a = OK, $@ = KO, $- = KO
+7 = var environnement $var // fonction a faire = check si caractere est valide apres $ // ex : @ - = # & *
 */
 
 void	ft_clean_quotes(t_ms *temp)
@@ -33,18 +33,17 @@ void	ft_clean_quotes(t_ms *temp)
 	str = temp->str;
 	i = 1;
 	while (str[i] != '$' && str[i] != '\0')
-		i++;
+			i++;
 	if (str[i] == '$')
 	{
 		j = i - 1;
-		while (str[j] != ' ' && str[j] != '\0' && str[i] != '\'' && str[j] != '"')
+		while (str[j] != '\0')
 			j++;
 		temp->str = ft_substr(str, 1, i - 1);
+		printf("temp->str = [%s]\n", temp->str);
 		temp_lst = temp->next;
-		printf("str[j] = %c\n", str[j]);
-		printf("j = %d\n", j);
 		temp->next = ft_lstnew_ms(ft_substr(str + i, 0, j - i), 7);
-		printf("temp->next->str = %s\n", temp->next->str);
+		printf("temp->next->str = [%s]\n", temp->next->str);
 		temp->next->next = temp_lst;
 	}
 }
