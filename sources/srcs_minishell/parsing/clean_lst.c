@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/03 12:17:21 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/03 14:58:34 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,28 @@ char	*ft_clean_quotes(t_ms *temp)
 	}
 }
 
+void	ft_join_maillons(t_ms **lex)
+{
+	t_ms	*temp;
+
+	temp = *lex;
+	while (temp->next != NULL)
+	{
+		if (temp->type == 0)
+		{
+			while ((temp->next->type == 0 || temp->next->type == 1) && temp->next != NULL)
+			{
+				temp->str = ft_strcat(temp->str, temp->next->str);
+				temp->next = temp->next->next;
+				if (temp->next == NULL)
+					break ;
+			}
+		}
+		else
+			temp = temp->next;
+	}
+}
+
 void	ft_clean_lst(t_ms **lex)
 {
 	t_ms	*temp;
@@ -144,4 +166,5 @@ void	ft_clean_lst(t_ms **lex)
 			temp->str = ft_clean_simple_quotes(temp);
 		temp = temp->next;
 	}
+	ft_join_maillons(lex);
 }
