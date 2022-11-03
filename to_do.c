@@ -1,6 +1,6 @@
 Ex : echo "ls | test" >> file | wc -l | cat -e "$USER"
 echo "ls$test ppp" >> file | wc -l | cat -e "$USER"
-echo "ls$USER ppp" >> file | wc -l | cat -e "$USER"
+echo "ls$USER ppp" >> file | lll$LANGUAGE wc -l | cat -e "$USER" '$USER' $USER
 
 I.LEXING
 /*ou Tokenization : Conversion d’une chaîne de caractères en une liste de symboles.
@@ -15,16 +15,16 @@ a) identifier chaque element : //OK
 		Cependant, l historique n a pas à être mis à jour !
 	◦ >> doit rediriger la sortie en mode append. - ca met a la suite
 - pipe
-- simple quotes : doit empêcher le shell d interpréter les méta-caractères présents dans la str entre les ' '
-- double quotes : doit empêcher le shell d interpréter les méta-caractères présents dans la str entre les " " sauf le $
+- simple quotes : doit empêcher le shell d interpréter les méta-caractères présents dans la str entre les ' ' // OK
+- double quotes : doit empêcher le shell d interpréter les méta-caractères présents dans la str entre les " " sauf le $ // faire fonction carac speciaux
 - commande / builtins
-- variable d environnement precedee d un "$" // NO
+- variable d environnement precedee d un "$" // OK
 - $? : doit être substitué par le statut de sortie de la dernière pipeline exécutée au premier plan // NO
 
 b) mettre chaque element avec leurs infos (type) dans un maillon //OK
 c) modifier les maillons selon type :
 	- si option d une commande, join les maillons de la commande et de l option //OK
-	- si guillemets : regarder si $ et changer le type du maillon
+	- si guillemets : regarder si $ et changer le type du maillon // OK
 	
 d) construire tableau de commandes
 
@@ -33,10 +33,10 @@ II.EXEC
 
 
 III.CODER BUILTINS
-	◦ cd uniquement avec un chemin relatif ou absolu
-	◦ exit sans aucune option
+	◦ cd uniquement avec un chemin relatif ou absolu // OK
+	◦ exit sans aucune option // OK
 	◦ pwd sans aucune option
-	◦ echo et option -n
+	◦ echo et option -n // OK
 	◦ export var de lenvironnement sans aucune option 
 	◦ unset sans aucune option
 	◦ env sans aucune option ni argument
