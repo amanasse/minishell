@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/10/31 15:53:20 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/03 16:16:13 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@
 # include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "../includes/builtins.h"
 # include "../sources/libft/includes/libft.h"
+
 
 typedef struct s_ms
 {

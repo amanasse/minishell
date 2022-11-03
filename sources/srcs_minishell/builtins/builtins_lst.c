@@ -1,33 +1,60 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_lst.c                                        :+:      :+:    :+:   */
+/*   builtins_lst.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/28 14:47:35 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/03 15:25:08 by amanasse         ###   ########.fr       */
+/*   Created: 2022/11/03 14:38:05 by amanasse          #+#    #+#             */
+/*   Updated: 2022/11/03 15:25:23 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
+#include "../../../includes/builtins.h"
 
-t_ms	*ft_lstnew_ms(void *content, int type)
+void    ft_view_env(t_env *lst)
 {
-	t_ms	*element;
+    int    i;
 
-	element = malloc(sizeof(t_ms));
+    i = 0;
+    while (lst->next != NULL)
+    {
+        printf("lst[%d] = %s\n", i, lst->str);
+        lst = lst->next;
+        i++;
+    }
+	printf("lst[%d] = %s\n", i, lst->str);
+    printf("-----------------\n");
+}
+
+void	ft_lstclear_env(t_env *lst)
+{
+	t_env	*tmp;
+
+	while (lst != NULL)
+	{
+		tmp = lst;
+		lst = lst->next;
+		free(tmp);
+	}
+}
+
+t_env	*ft_lstnew_env(void *content)
+{
+	t_env	*element;
+
+	element = malloc(sizeof(t_env));
 	if (element == NULL)
 		return (NULL);
 	element->next = NULL;
 	element->str = content;
-	element->type = type;
 	return (element);
 }
 
-void	ft_lstadd_back_ms(t_ms **lst, t_ms *new)
+void	ft_lstadd_back_env(t_env **lst, t_env *new)
 {
-	t_ms	*tmp;
+	t_env	*tmp;
 
 	if (new == NULL)
 		return ;
@@ -40,33 +67,4 @@ void	ft_lstadd_back_ms(t_ms **lst, t_ms *new)
 	}
 	else
 		*lst = new;
-}
-
-void    ft_view_lst(t_ms *lst)
-{
-    int    i;
-
-    i = 0;
-    while (lst->next != NULL)
-    {
-        printf("lst[%d] = %s\n", i, lst->str);
-        printf("type = %d\n", lst->type);
-        lst = lst->next;
-        i++;
-    }
-	printf("lst[%d] = %s\n", i, lst->str);
-    printf("type = %d\n", lst->type);
-    printf("-----------------\n");
-}
-
-void	ft_lstclear_ms(t_ms *lst)
-{
-	t_ms	*tmp;
-
-	while (lst != NULL)
-	{
-		tmp = lst;
-		lst = lst->next;
-		free(tmp);
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/02 17:43:54 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/03 16:28:40 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,43 @@
 
 int main(int argc, char **argv, char **env)
 {
+	t_shell	shell;
 	char **cmd;
 	(void) argc;
 	(void) **argv;
 	(void) **env;
-	
-	// cmd = NULL;
-	cmd = malloc(sizeof(char *) * 5);
+
+	// ft_memset((void*) shell, 0, 0);
+	shell.environ = NULL;
+	copy_of_env(env, &shell.environ);
+	cmd = NULL;
+	cmd = malloc(sizeof(char *) * 3);
 	if (cmd == NULL)
 		return (0);
-	// memset(cmd, 0, 4);
-	cmd[0] = "echo";
-	// cmd[1] = "-n";
-	// cmd[1] = "-n";
-	cmd[1] = "lola";
-	cmd[2] = "ahah";
-	cmd[3] = NULL;
+	memset(cmd, 0, 4);
+	cmd[0] = "pwd";
+	cmd[1] = NULL;
+	// cmd[1] = "pwd";
+
+
+
+
+
+	ft_view_env(shell.environ);
+	builtins(cmd, shell.environ);
+	ft_lstclear_env(shell.environ);
+
+	
+	
+
+	
+	// cmd[3] = "-n";
+	// cmd[3] = "..";
+	// cmd[4] = "ahah";
 	// cmd_cd(cmd);
 	// cmd_pwd(cmd);
 	// cmd_exit(cmd);
-	cmd_echo(cmd);
-	free(cmd);
+	// free(cmd);
 
 
 	

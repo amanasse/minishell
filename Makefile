@@ -1,6 +1,12 @@
 SRCS    = 	main.c\
-		builtins/builtins_utils.c\
+		builtins/init_env.c\
+		builtins/builtins_lst.c\
 		builtins/builtins.c\
+		builtins/builtins_utils.c\
+		builtins/builtins_cmd_pwd.c\
+		builtins/builtins_cmd_cd.c\
+		builtins/builtins_cmd_echo.c\
+		builtins/builtins_cmd_exit.c\
 		parsing/lexer.c\
 		utils_lst.c\
 		parsing/clean_lst.c\
