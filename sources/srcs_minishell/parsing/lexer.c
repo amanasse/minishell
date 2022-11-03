@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/03 12:39:36 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/03 17:26:16 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,66 +26,20 @@ types :
 8 = entre '' OK
 */
 
-int	ft_append(t_ms **lex, char *str)
+
+
+int	char_is_separator(char c)
 {
-	char	*temp;
-	int		i;
-
-	i = 2;
-	while (str[i] == ' ')
-		i++;
-	while ((str[i] != ' ') && (str[i] != '\0') && (str[i] != '<')
-		&& (str[i] != '>'))
-		i++;
-	temp = ft_substr(str, 0, i);
-	if (str[1] == '<')
-		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 5));
-	else if (str[1] == '>')
-		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 6));	
-	return (i);
-}
-
-
-int	ft_check_quotes(char *str, char c)
-{
-	int	i;
-	
-	i = 1;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (i);
-		i++;
-	}
+	if (c ==  '<' || c ==  '>' || c == '|' || c == '\0' || c == '\'' || c == '"')
+		return (1);
 	return (0);
 }
 
-int	ft_chevron(t_ms **lex, char *str, char c)
+int	char_is_space(char c)
 {
-	int		i;
-	char	*temp;
-
-	i = 1;
-	if (str[i] == c)
-	{
-		if (str[i + 1] == '<' || str[i + 1] == '>')
-			return (-1);
-		i = ft_append(lex, str);
-		return (i);
-	}
-	while (str[i] == ' ')
-		i++;
-	while ((str[i] != ' ') && (str[i] != '\0') && (str[i] != '<')
-		&& (str[i] != '>'))
-		i++;
-	if (i == 1)
-		return (-1);
-	temp = ft_substr(str, 0, i);
-	if (c == '<') 
-		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 3));
-	else if (c == '>')
-		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 4));
-	return (i);
+	if (c ==  ' ')
+		return (1);
+	return (0);
 }
 
 int	ft_lexer(t_ms *lex, char *str)
@@ -103,13 +57,19 @@ int	ft_lexer(t_ms *lex, char *str)
 			j = ft_check_quotes(str + i, str[i]);
 			if (j == 0)
 				return (0);
+			while ((char_is_separator(str[j + 1]) == 0) && (char_is_space(str[j + 1]) == 0))
+				j++;
 			temp = ft_strncpy(str + i, j + 1);
 			if (str[i] == '"')
 				ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, 0));
 			else if (str[i] == '\'')
 				ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, 8));
 			i += j + 1;
+
+			
 		}
+
+		
 		else if (str[i] == '<' || str[i] == '>')
 		{
 			res = ft_chevron(&lex, str + i, str[i]);
@@ -122,18 +82,24 @@ int	ft_lexer(t_ms *lex, char *str)
 				return (0);
 			}
 		}
+
+
+		
 		else if (str[i] == '|')
 		{
 			ft_lstadd_back_ms(&lex, ft_lstnew_ms("|", 2));
 			i++;
 		}
+
+		
 		else if (str[i] == ' ')
 			i++;
+		
+		
 		else
 		{
 			j = i;
-			while ((str[j] != ' ') && (str[j] != '\0') && (str[j] != '<') 
-				&& (str[j] != '>') && (str[j] != '|') && (str[j] != '\'' && str[j] != '"'))
+			while ((char_is_separator(str[j]) == 0) && (char_is_space(str[j]) == 0))
 				j++;
 			temp = ft_substr(str + i, 0, j - i);
 			ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, 1));
@@ -145,3 +111,20 @@ int	ft_lexer(t_ms *lex, char *str)
 	ft_view_lst(lex);
 	return (1);
 }
+
+
+
+
+/*
+
+trigger
+
+if double quote == 0
+
+if single quote == 1
+
+
+while (char_is_espace(str[i]) == 0 && char_is_separateur == 0 && trigger == 0
+
+
+*/

@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/02 16:36:22 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/03 17:27:21 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,10 @@ void    ft_view_lst(t_ms *lst);
 void	ft_lstclear_ms(t_ms *lst);
 void	ft_clean_lst(t_ms **lex);
 char	*ft_strcat(char *dest, char *src);
+int		ft_append(t_ms **lex, char *str);
+int		ft_check_quotes(char *str, char c);
+int		ft_chevron(t_ms **lex, char *str, char c);
+
 
 
 /*EXEC*/

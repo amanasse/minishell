@@ -1,7 +1,7 @@
 Ex : echo "ls | test" >> file | wc -l | cat -e "$USER"
 echo "ls$test ppp" >> file | wc -l | cat -e "$USER"
 echo "ls$USER ppp" >> file | lll$LANGUAGE wc -l | cat -e "$USER" '$USER' $USER
-"fdfjd '$U"S"ER'"
+"fdfjd '$U"S"ER'" salut
 
 I.LEXING
 /*ou Tokenization : Conversion d’une chaîne de caractères en une liste de symboles.
@@ -31,6 +31,7 @@ d) construire tableau de commandes
 
 II.EXEC
 /*quel comportement suivant le type d element, en prenant compte des pipes*/
+au debut = recuperer shell level avec getenv puis ajouter +1 a chaque execution de nouveau minishell / bash
 
 
 III.CODER BUILTINS
