@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/03 17:26:16 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/03 17:31:43 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ types :
 7 = var environnement $var ??? OK 
 8 = entre '' OK
 */
-
-
 
 int	char_is_separator(char c)
 {

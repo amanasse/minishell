@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/03 17:27:21 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/03 17:31:34 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,23 @@ typedef struct s_ms
 /*ERRORS*/
 
 /*LEXER*/
-char	**ft_split(char const *s, char sep);
 int		ft_lexer(t_ms *lex, char *str);
-int		ft_check_quotes(char *str, char c);
+
 t_ms	*ft_lstnew_ms(void *content, int type);
 void	ft_lstadd_back_ms(t_ms **lst, t_ms *new);
 void    ft_view_lst(t_ms *lst);
 void	ft_lstclear_ms(t_ms *lst);
 void	ft_clean_lst(t_ms **lex);
+
 char	*ft_strcat(char *dest, char *src);
+char	**ft_split(char const *s, char sep);
+
 int		ft_append(t_ms **lex, char *str);
 int		ft_check_quotes(char *str, char c);
 int		ft_chevron(t_ms **lex, char *str, char c);
 
-
+int		char_is_space(char c);
+int		char_is_separator(char c);
 
 /*EXEC*/
 

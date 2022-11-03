@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/03 17:17:32 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/03 17:32:36 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ char	*ft_clean_quotes(t_ms *temp)
 		tmp_str = ft_substr(temp->str, 1, j - 1);
 		if (tmp_str == NULL)
 			return (NULL);
-		while (temp->str[j] != ' ' && temp->str[j] != '"' && temp->str[j] != '\'')
+		while (temp->str[j] != ' ' && temp->str[j] != '"')
 			j++;
 		to_replace = ft_substr(temp->str + i, 1, j - i - 1);
 		if (to_replace == NULL)
