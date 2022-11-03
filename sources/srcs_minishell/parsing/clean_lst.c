@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/03 11:45:16 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/03 12:17:21 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ char	*ft_clean_quotes(t_ms *temp)
 	char	*tmp2;
 
 	i = 1;
+	tmp_str = NULL;
+	tmp2 = NULL;
 	while (temp->str[i] != '$' && temp->str[i] != '\0' && temp->str[i] != '"')
 		i++;
 	if (temp->str[i] == '$')
@@ -107,7 +109,7 @@ char	*ft_clean_quotes(t_ms *temp)
 		tmp_str = ft_substr(temp->str, 1, j - 1);
 		if (tmp_str == NULL)
 			return (NULL);
-		while (temp->str[j] != ' ' && temp->str[j] != '"')
+		while (temp->str[j] != ' ' && temp->str[j] != '"' && temp->str[j] != '\'')
 			j++;
 		to_replace = ft_substr(temp->str + i, 1, j - i - 1);
 		if (to_replace == NULL)
@@ -121,7 +123,10 @@ char	*ft_clean_quotes(t_ms *temp)
 		return (tmp2);
 	}
 	else
-		return (temp->str);
+	{
+		tmp_str = ft_substr(temp->str, 1, ft_strlen(temp->str) - 2);
+		return (tmp_str);
+	}
 }
 
 void	ft_clean_lst(t_ms **lex)

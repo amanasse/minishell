@@ -14,7 +14,7 @@ a) identifier chaque element : //OK
 	◦ << doit recevoir un délimiteur et lire l input donné jusqu à rencontrer une ligne	contenant le délimiteur. - ca met a la suite
 		Cependant, l historique n a pas à être mis à jour !
 	◦ >> doit rediriger la sortie en mode append. - ca met a la suite
-- pipe
+- pipe // OK
 - simple quotes : doit empêcher le shell d interpréter les méta-caractères présents dans la str entre les ' ' // OK
 - double quotes : doit empêcher le shell d interpréter les méta-caractères présents dans la str entre les " " sauf le $ // faire fonction carac speciaux
 - commande / builtins

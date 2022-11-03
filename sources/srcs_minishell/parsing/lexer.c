@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/02 16:01:01 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/03 12:39:36 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ types :
 4 = redirection sortie > OK
 5 = redirection << (append) doit recevoir un delimiteur OK
 6 = redirection sortie append (reecrit dessus) >> OK
-7 = var environnement $var ???
-8 = entre ''
+7 = var environnement $var ??? OK 
+8 = entre '' OK
 */
 
 int	ft_append(t_ms **lex, char *str)
@@ -133,7 +133,7 @@ int	ft_lexer(t_ms *lex, char *str)
 		{
 			j = i;
 			while ((str[j] != ' ') && (str[j] != '\0') && (str[j] != '<') 
-				&& (str[j] != '>') && (str[j] != '|'))
+				&& (str[j] != '>') && (str[j] != '|') && (str[j] != '\'' && str[j] != '"'))
 				j++;
 			temp = ft_substr(str + i, 0, j - i);
 			ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, 1));
