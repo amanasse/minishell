@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 17:26:05 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/03 17:26:31 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/04 14:54:37 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,20 @@ int	ft_append(t_ms **lex, char *str)
 }
 
 
-int	ft_check_quotes(char *str, char c)
-{
-	int	i;
+// int	ft_check_quotes(char *str, char c)
+// {
+// 	int	i;
 	
-	i = 1;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (i);
-		i++;
-	}
-	return (0);
-}
+// 	i = 1;
+// 	while (str[i])
+// 	{
+// 		printf("str[i] = %c\n", str[i]);
+// 		if (str[i] == c)
+// 			return (i);
+// 		i++;
+// 	}
+// 	return (0);
+// }
 
 int	ft_chevron(t_ms **lex, char *str, char c)
 {

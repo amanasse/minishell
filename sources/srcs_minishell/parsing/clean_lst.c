@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/03 17:32:36 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/04 14:52:30 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*ft_replace_var(t_ms *temp)
 				return (NULL);
 		}
 		j = i;
-		while (temp->str[j] != ' ' && temp->str[j] != '\0')
+		while (temp->str[j] != ' ' && temp->str[j] != '\0' && temp->str[j] != '"')
 			j++;
 		to_replace = ft_substr(temp->str + i, 1, j);
 		if (to_replace == NULL)
