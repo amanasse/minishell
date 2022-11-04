@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/04 17:58:00 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/04 18:13:52 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	*ft_clean_quotes(t_ms *temp)
 	int		i;
 	int		j;
 	char	*tmp_str;
-
+	
 	i = 1;
 	j = 0;
 	while (temp->str[i] != '\0' && temp->str[i] != '"')
@@ -106,7 +106,13 @@ char	*ft_clean_quotes(t_ms *temp)
 	while (tmp_str[i])
 	{
 		if (tmp_str[i] == '"')
-			j = i;
+		{
+			j = i + 1;
+			while (tmp_str[j] != '"' && tmp_str[j] != '\0')
+				j++;
+			tmp_str = ft_strcat(tmp_str, tmp_str + i);
+			printf("tmp_str = %s\n", tmp_str);
+		}
 		i++;
 	}
 	return (tmp_str);
