@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/04 14:52:30 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/04 17:58:00 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,40 +93,23 @@ char	*ft_clean_quotes(t_ms *temp)
 {
 	int		i;
 	int		j;
-	char 	*value;
-	char	*to_replace;
 	char	*tmp_str;
-	char	*tmp2;
 
 	i = 1;
-	tmp_str = NULL;
-	tmp2 = NULL;
-	while (temp->str[i] != '$' && temp->str[i] != '\0' && temp->str[i] != '"')
+	j = 0;
+	while (temp->str[i] != '\0' && temp->str[i] != '"')
 		i++;
-	if (temp->str[i] == '$')
+	tmp_str = ft_substr(temp->str, 1, ft_strlen(temp->str) - 2);
+	if (tmp_str == NULL)
+		return (NULL);
+	i = 0;
+	while (tmp_str[i])
 	{
-		j = i;
-		tmp_str = ft_substr(temp->str, 1, j - 1);
-		if (tmp_str == NULL)
-			return (NULL);
-		while (temp->str[j] != ' ' && temp->str[j] != '"')
-			j++;
-		to_replace = ft_substr(temp->str + i, 1, j - i - 1);
-		if (to_replace == NULL)
-			return (NULL);
-		value = getenv(to_replace);
-		if (value == NULL)
-			value = "";
-		tmp2 = tmp_str;
-		tmp2 = ft_strcat(tmp_str, value);
-		tmp2 = ft_strcat(tmp_str, temp->str + j);
-		return (tmp2);
+		if (tmp_str[i] == '"')
+			j = i;
+		i++;
 	}
-	else
-	{
-		tmp_str = ft_substr(temp->str, 1, ft_strlen(temp->str) - 2);
-		return (tmp_str);
-	}
+	return (tmp_str);
 }
 
 void	ft_clean_lst(t_ms **lex)
