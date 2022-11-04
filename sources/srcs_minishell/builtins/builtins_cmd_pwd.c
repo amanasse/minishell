@@ -6,12 +6,13 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:41:08 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/03 16:06:54 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/04 11:27:24 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 #include "../../../includes/builtins.h"
+
 
 void	cmd_pwd(char **cmd, t_env *c_env)
 {

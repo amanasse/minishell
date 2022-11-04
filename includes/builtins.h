@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:21:36 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/03 16:22:25 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/04 12:35:08 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_shell
 /*BUILTINS*/
 
 void	builtins(char **cmd, t_env *c_env);
-char	*cmd_cd(char **cmd, t_env *c_env);
+int	*cmd_cd(char **cmd, t_env *c_env);
 int		cmd_exit(char **cmd);
 void	cmd_pwd(char **cmd, t_env *c_env);
 void    cmd_echo(char **cmd);
@@ -53,8 +53,8 @@ int     ft_atoi(const char *nptr);
 
 void    ft_view_env(t_env *lst);
 void	ft_lstclear_env(t_env *lst);
-int		count_env(char **env);
-void	copy_of_env(char **env, t_env **c_env);
+int		get_home(t_shell *shell);
+void	copy_of_env(char **env, t_shell *shell);
 
 t_env	*ft_lstnew_env(void *content);
 void	ft_lstadd_back_env(t_env **lst, t_env *new);
