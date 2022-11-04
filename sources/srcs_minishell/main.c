@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/04 13:55:51 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/04 17:30:29 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int main(int argc, char **argv, char **env)
 		return (0);
 	memset(cmd, 0, 4);
 	cmd[0] = "cd";
-	cmd[1] = ".";
+	cmd[1] = "/mnt/nfs/homes/amanasse/Documents/CURSUS/minishell/builtins/includes/";
 	cmd[2] = NULL;
 	// cmd[1] = "pwd";
 
@@ -38,10 +38,12 @@ int main(int argc, char **argv, char **env)
 
 
 
-	ft_view_env(shell.environ);
+	// ft_view_env(shell.environ);
 	builtins(cmd, shell.environ);
 	ft_lstclear_env(shell.environ);
-
+	free(shell.old_pwd);
+	free(shell.pwd);
+	free(cmd);
 	
 	
 
