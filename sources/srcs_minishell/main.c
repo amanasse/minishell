@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/07 15:30:59 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/07 18:32:58 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int main(int argc, char **argv, char **env)
 	(void) **argv;
 	(void) **env;
 
-	// ft_memset((void*) shell, 0, 0);
 	shell.environ = NULL;
 	copy_of_env(env, &shell);
 	cmd = NULL;
@@ -40,6 +39,8 @@ int main(int argc, char **argv, char **env)
 	builtins(cmd, &shell);
 	ft_view_env(shell.environ);
 	ft_lstclear_env(shell.environ);
+	
+	
 	free(shell.old_pwd);
 	free(shell.pwd);
 	free(cmd);

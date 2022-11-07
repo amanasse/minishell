@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:21:36 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/07 14:37:29 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/07 18:59:28 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int     ft_atoi(const char *nptr);
 void    ft_view_env(t_env *lst);
 void	ft_lstclear_env(t_env *lst);
 int		get_home(t_shell *shell);
+int		get_old_pwd(t_shell *shell);
+int		get_pwd(t_shell *shell);
 int		copy_of_env(char **env, t_shell *shell);
 
 t_env	*ft_lstnew_env(void *content);

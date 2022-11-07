@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:41:42 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/07 16:27:17 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/07 18:40:01 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int old_pwd(t_shell *shell)
 	t_env *tmp2;
 	size_t i;
 	char *tmp_pwd;
+	char *old_pwd;
 
 	tmp = shell->environ;
 	tmp2 = shell->environ;
@@ -27,18 +28,18 @@ int old_pwd(t_shell *shell)
 		if(ft_strnstr(tmp->str, "PWD=", 4) == 0)
 		{
 			i = ft_strlen(tmp->str) + 3;
-			tmp_pwd = malloc(sizeof(char) * i + 1);
-			if (tmp_pwd == NULL)
+			old_pwd = malloc(sizeof(char) * i + 1);
+			if (old_pwd == NULL)
 				return (-1);
-			tmp_pwd[0] = 'O';
-			tmp_pwd[1] = 'L';
-			tmp_pwd[2] = 'D';
-			tmp_pwd[3] = 'P';
-			tmp_pwd[4] = 'W';
-			tmp_pwd[5] = 'D';
-			tmp_pwd[6] = '=';
-			tmp_pwd[7] = '\0';
-			tmp_pwd = ft_strcat_mini(tmp_pwd, tmp->str + 4);
+			old_pwd[0] = 'O';
+			old_pwd[1] = 'L';
+			old_pwd[2] = 'D';
+			old_pwd[3] = 'P';
+			old_pwd[4] = 'W';
+			old_pwd[5] = 'D';
+			old_pwd[6] = '=';
+			old_pwd[7] = '\0';
+			old_pwd = ft_strcat_mini(old_pwd, tmp->str + 4);
 			break ;
 		}
 		tmp = tmp->next;
@@ -47,7 +48,12 @@ int old_pwd(t_shell *shell)
 	while (tmp2 != NULL)
 	{
 		if(ft_strnstr(tmp2->str, "OLDPWD=", 7) == 0)
-			tmp2->str = tmp_pwd;
+		{
+			tmp_pwd = tmp2->str;
+			tmp2->str = old_pwd;
+			shell->old_pwd = tmp2->str;
+			free (tmp_pwd);
+		}
 		tmp2 = tmp2->next;
 	}
 	return (0);
@@ -55,8 +61,9 @@ int old_pwd(t_shell *shell)
 
 int new_pwd(t_shell *shell, char *dir)
 {
-	t_env *tmp;
-	size_t i;
+	t_env	*tmp;
+	size_t	i;
+	char	*tmp_pwd;
 
 	i = ft_strlen(dir) + 5;
 	tmp = shell->environ;
@@ -64,6 +71,7 @@ int new_pwd(t_shell *shell, char *dir)
 	{
 		if(ft_strnstr(tmp->str, "PWD=", 4) == 0)
 		{
+			tmp_pwd = tmp->str;
 			tmp->str = malloc(sizeof(char) * i + 1);
 			if (tmp->str == NULL)
 				return (-1);
@@ -73,6 +81,8 @@ int new_pwd(t_shell *shell, char *dir)
 			tmp->str[3] = '=';
 			tmp->str[4] = '\0';
 			tmp->str = ft_strcat_mini(tmp->str, dir);
+			shell->pwd = tmp->str;
+			free(tmp_pwd);
 			return (0);			
 		}
 		tmp = tmp->next;
@@ -110,18 +120,14 @@ int	*cmd_cd(char **cmd, t_shell *shell)
 	else
 		dir = cmd[1];
 	t = chdir(dir);
-	printf("debug dir\n");
 	if (t == 0) 
 	{
 		dir = getcwd(NULL, 0);
 		old_pwd(shell);
 		new_pwd(shell, dir);
-		printf("dir = %s\n", dir);
-
 		free(dir);
 	}
 	else
 		printf("\nError : Directory change failed.\n");
-	printf("debug after\n");
 	return (0);
 }

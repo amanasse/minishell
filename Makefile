@@ -7,9 +7,6 @@ SRCS    = 	main.c\
 		builtins/builtins_cmd_cd.c\
 		builtins/builtins_cmd_echo.c\
 		builtins/builtins_cmd_exit.c\
-		parsing/lexer.c\
-		utils_lst.c\
-		parsing/clean_lst.c\
 
 DIR_SRC_MINISHELL = ./sources/srcs_minishell/
 
