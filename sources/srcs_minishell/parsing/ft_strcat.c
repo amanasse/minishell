@@ -6,11 +6,11 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 13:51:40 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/02 17:17:44 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/07 16:32:30 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
+#include "../../../includes/parsing.h"
 
 char	*ft_strcat(char *dest, char *src)
 {

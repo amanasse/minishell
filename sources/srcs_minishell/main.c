@@ -6,11 +6,11 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/04 16:10:29 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/07 16:32:49 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../includes/parsing.h"
 
 int main(int argc, char **argv, char **env)
 {

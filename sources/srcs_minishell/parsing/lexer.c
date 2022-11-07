@@ -6,11 +6,11 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/07 11:36:14 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/07 16:32:37 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
+#include "../../../includes/parsing.h"
 
 /*prio ' ' et " " : verifier si fermes, sinon erreur
 chaque maillon = 1 mot
