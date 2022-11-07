@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:38:05 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/03 15:25:23 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/07 14:34:34 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,14 @@ void	ft_lstclear_env(t_env *lst)
 
 	while (lst != NULL)
 	{
+		if(ft_strnstr(lst->str, "PWD=", 4) == 0)
+		{
+			free(lst->str);	
+		}
+		if(ft_strnstr(lst->str, "OLDPWD=", 7) == 0)
+		{
+			free(lst->str);	
+		}
 		tmp = lst;
 		lst = lst->next;
 		free(tmp);

@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/07 11:39:05 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/07 15:30:59 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int main(int argc, char **argv, char **env)
 	cmd[1] = "~";
 	cmd[2] = NULL;
 	// cmd[1] = "pwd";
-
 
 
 

@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 11:57:06 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/04 16:57:40 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/07 13:52:43 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	get_home(t_shell *shell)
 	{
 		if(ft_strnstr(shell->environ->str, "OLDPWD=", 7) == 0)
 		{
-			printf("DEBUG");
 			i = ft_strlen(shell->environ->str);
 			shell->old_pwd = malloc(sizeof(char) * i + 1);
 			if(shell->old_pwd == NULL)
@@ -57,7 +56,7 @@ int	get_home(t_shell *shell)
 }
 
 
-void	copy_of_env(char **env, t_shell *shell)
+int		copy_of_env(char **env, t_shell *shell)
 {
 	int	i;
     
@@ -67,5 +66,7 @@ void	copy_of_env(char **env, t_shell *shell)
 		ft_lstadd_back_env(&shell->environ, ft_lstnew_env(env[i]));
 		i++;
 	}
-	get_home(shell);
+	if (get_home(shell) == -1)
+		return (-1);
+	return (0);
 }
