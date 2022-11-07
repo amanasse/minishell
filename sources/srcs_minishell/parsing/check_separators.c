@@ -6,11 +6,12 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 17:26:05 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/07 16:32:13 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/07 16:50:52 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/parsing.h"
+#include "../../../includes/minishell.h"
 
 int	ft_append(t_ms **lex, char *str)
 {
