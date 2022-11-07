@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/07 12:12:17 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/07 15:53:28 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 5 = redirection << (append) doit recevoir un delimiteur OK
 6 = redirection sortie append (reecrit dessus) >> OK
 7 = var environnement $var
-fonction a faire = check si caractere est valide apres $ // ex : @ - = # & *
+fonction a faire = check si caractere est valide apres $ // ex : @ - = # *
+
 8 = entre ''
  */
 
@@ -69,9 +70,9 @@ char	*ft_replace_var(char *str)
 				return (NULL);
 		}
 		j = i;
-		while (str[j] != ' ' && str[j] != '\0')
+		while (str[j] != ' ' && str[j] != '\0' && str[j] != '"')
 			j++;
-		to_replace = ft_substr(str + i, 1, j);
+		to_replace = ft_substr(str + i, 1, j - 1);
 		if (to_replace == NULL)
 			return (NULL);
 		value = getenv(to_replace);
@@ -87,24 +88,41 @@ char	*ft_replace_var(char *str)
 	return (tmp_str);
 }
 
+char	*ft_stock_str(char *old_str, char c)
+{
+	char	*new_str;
+	int		i;
+
+	i = 0;
+	new_str = malloc (ft_strlen(old_str) + 2);
+	if (new_str == NULL)
+		return (NULL);
+	while (old_str && old_str[i])
+	{
+		new_str[i] = old_str[i];
+		i++;
+	}
+	new_str[i] = c;
+	new_str[i + 1] = '\0';
+	return (new_str);
+}
+
 char	*ft_clean_quotes(t_ms *temp)
 {
 	int		i;
-	int		j;
-	int		k;
 	char	*tmp_str;
 	char	*tmp2;
+	char	*str;
 	
 	i = 1;
-	k = 0;
 	tmp2 = NULL;
+	str = NULL;
 	while (temp->str[i] != '\0' && temp->str[i] != '"' && temp->str[i] != '$')
 		i++;
 	tmp_str = ft_substr(temp->str, 1, ft_strlen(temp->str) - 2);
 	if (tmp_str == NULL)
 		return (NULL);
 	i = 0;
-	j = 0;
 	while (tmp_str[i])
 	{
 		if (tmp_str[i] == '"')
@@ -114,22 +132,18 @@ char	*ft_clean_quotes(t_ms *temp)
 			tmp2 = ft_replace_var(tmp_str + i);
 			while (tmp_str[i] != ' ' && tmp_str[i] != '\0' && tmp_str[i] != '"')
 				i++;
-			while (tmp2[k])
-			{
-				tmp_str[j] = tmp2[k];
-				j++;
-				k++;
-			}
+			if (str)
+				str = ft_strcat(str, ft_strncpy(tmp2, ft_strlen(tmp2)));
+			else
+				str = ft_strncpy(tmp2, ft_strlen(tmp2));
 		}
 		else
 		{
-			tmp_str[j] = tmp_str[i];
-			j++;
+			str = ft_stock_str(str, tmp_str[i]);
 			i++;
 		}
 	}
-	tmp_str[j] = '\0';
-	return (tmp_str);
+	return (str);
 }
 
 void	ft_clean_lst(t_ms **lex)

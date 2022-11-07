@@ -1,9 +1,31 @@
 Ex : 
 echo "ls | test" >> file | wc -l | cat -e "$USER"
 echo "hi$test lol" >> file | wc -l | cat -e "$USER"
-echo "hi$USER lol" >> file | hihi$LANGUAGE wc -l | cat -e "$USER" '$USER' $USER
+echo "hi$USER lol" >> file | hihi$LANG wc -l | cat -e "$USER" '$USER' $USER
 echo "coucou '$U"S"ER'" salut $USER
 echo "coucou U"S"ER" salut $USER ""
+
+
+echo $-USER // - ! 
+himBHsUSER
+
+echo $=USER // = % ^ + / . ~
+$=USER
+
+echo $@USER // @ * 12 123 ignore 1er, affiche les suivants
+USER
+
+echo $#USER
+0USER
+
+echo $_USER
+
+echo $\USER
+$USER
+
+echo $&USER // & ; | 
+USER: command not found
+
 
 
 I.LEXING
