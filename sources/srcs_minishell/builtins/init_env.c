@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 11:57:06 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/07 13:52:43 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/07 16:30:12 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	get_home(t_shell *shell)
 			if(shell->old_pwd == NULL)
 				return (-1);
 			ft_strlcpy(shell->old_pwd, shell->environ->str, i + 1);
+			shell->environ->str = shell->old_pwd;
 			shell->environ = tmp;
 			break ;
 		}		
@@ -45,6 +46,7 @@ int	get_home(t_shell *shell)
 			if(shell->pwd == NULL)
 				return (-1);
 			ft_strlcpy(shell->pwd, shell->environ->str, j + 1);
+			shell->environ->str = shell->pwd;
 			shell->environ = tmp;
 			break ;
 		}		
