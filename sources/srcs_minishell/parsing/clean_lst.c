@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/07 16:50:56 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/07 17:56:38 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,8 +150,10 @@ char	*ft_clean_quotes(t_ms *temp)
 void	ft_clean_lst(t_ms **lex)
 {
 	t_ms	*temp;
+	int		count;
 
 	temp = *lex;
+	count = 0;
 	while (temp != NULL)
 	{
 		if (temp->type == 0)
@@ -160,6 +162,9 @@ void	ft_clean_lst(t_ms **lex)
 			temp->str = ft_replace_var(temp->str);
 		else if (temp->type == 8)
 			temp->str = ft_clean_simple_quotes(temp);
+		else if (temp->type == 2)
+			count++;
 		temp = temp->next;
 	}
+	// ft_build_cmd(lex);
 }

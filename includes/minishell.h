@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/07 16:56:12 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/07 17:28:29 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,18 @@
 # include "../sources/libft/includes/libft.h"
 
 
+	char			**cmd;
+
+	
 typedef struct s_shell
 {
 	t_env	        *environ;
-	char			**cmd;
     char            *pwd;
+	char			***cmd;
     char            *old_pwd;
 }					t_shell;
+
+cmd[1] = &str;
 
 /*ERRORS*/
 
