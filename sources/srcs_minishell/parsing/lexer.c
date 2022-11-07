@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/04 17:51:05 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/07 11:36:14 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ int	ft_lexer(t_ms *lex, char *str)
 				&& (str[j] != '\0'))
 				j++;
 			temp = ft_substr(str + i, 0, j - i);
-			printf("temp autre = %s\n", temp);
 			ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, 1));
 			i = j;
 		}

@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/04 18:13:52 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/07 12:12:17 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*ft_clean_simple_quotes(t_ms *temp)
 	return (str);	
 }
 
-char	*ft_replace_var(t_ms *temp)
+char	*ft_replace_var(char *str)
 {
 	int		i;
 	int		j;
@@ -58,20 +58,20 @@ char	*ft_replace_var(t_ms *temp)
 
 	i = 0;
 	tmp_str = NULL;
-	while (temp->str[i] != '$' && temp->str[i] != '\0')
+	while (str[i] != '$' && str[i] != '\0')
 		i++;
-	if (temp->str[i] == '$')
+	if (str[i] == '$')
 	{
 		if (i > 0)
 		{
-			tmp_str = ft_substr(temp->str, 0, i);
+			tmp_str = ft_substr(str, 0, i);
 			if (tmp_str == NULL)
 				return (NULL);
 		}
 		j = i;
-		while (temp->str[j] != ' ' && temp->str[j] != '\0' && temp->str[j] != '"')
+		while (str[j] != ' ' && str[j] != '\0')
 			j++;
-		to_replace = ft_substr(temp->str + i, 1, j);
+		to_replace = ft_substr(str + i, 1, j);
 		if (to_replace == NULL)
 			return (NULL);
 		value = getenv(to_replace);
@@ -81,11 +81,9 @@ char	*ft_replace_var(t_ms *temp)
 			tmp_str = ft_strdup(value);
 		else
 			tmp_str = ft_strcat(tmp_str, value);
-		if (temp->str[j + 1] != '\0')
-			tmp_str = ft_strcat(tmp_str, temp->str + j);
 	}
 	else
-		return (temp->str);
+		return (str);
 	return (tmp_str);
 }
 
@@ -93,28 +91,44 @@ char	*ft_clean_quotes(t_ms *temp)
 {
 	int		i;
 	int		j;
+	int		k;
 	char	*tmp_str;
+	char	*tmp2;
 	
 	i = 1;
-	j = 0;
-	while (temp->str[i] != '\0' && temp->str[i] != '"')
+	k = 0;
+	tmp2 = NULL;
+	while (temp->str[i] != '\0' && temp->str[i] != '"' && temp->str[i] != '$')
 		i++;
 	tmp_str = ft_substr(temp->str, 1, ft_strlen(temp->str) - 2);
 	if (tmp_str == NULL)
 		return (NULL);
 	i = 0;
+	j = 0;
 	while (tmp_str[i])
 	{
 		if (tmp_str[i] == '"')
+			i++;
+		else if (tmp_str[i] == '$')
 		{
-			j = i + 1;
-			while (tmp_str[j] != '"' && tmp_str[j] != '\0')
+			tmp2 = ft_replace_var(tmp_str + i);
+			while (tmp_str[i] != ' ' && tmp_str[i] != '\0' && tmp_str[i] != '"')
+				i++;
+			while (tmp2[k])
+			{
+				tmp_str[j] = tmp2[k];
 				j++;
-			tmp_str = ft_strcat(tmp_str, tmp_str + i);
-			printf("tmp_str = %s\n", tmp_str);
+				k++;
+			}
 		}
-		i++;
+		else
+		{
+			tmp_str[j] = tmp_str[i];
+			j++;
+			i++;
+		}
 	}
+	tmp_str[j] = '\0';
 	return (tmp_str);
 }
 
@@ -128,48 +142,9 @@ void	ft_clean_lst(t_ms **lex)
 		if (temp->type == 0)
 			temp->str = ft_clean_quotes(temp);
 		else if (temp->type == 1)
-			temp->str = ft_replace_var(temp);
+			temp->str = ft_replace_var(temp->str);
 		else if (temp->type == 8)
 			temp->str = ft_clean_simple_quotes(temp);
 		temp = temp->next;
 	}
-	// ft_join_maillons(lex);
 }
-
-
-// void	ft_join_maillons(t_ms **lex)
-// {
-// 	t_ms	*temp;
-
-// 	temp = *lex;
-// 	while (temp->next != NULL)
-// 	{
-// 		if (temp->type == 0)
-// 		{
-// 			if ((temp->next->type == 1 || temp->next->type == 1) && temp->next != NULL)
-// 			{
-// 				temp->str = ft_strcat(temp->str, temp->next->str);
-// 				temp->next = temp->next->next;
-// 				temp->type = 1;
-// 				if (temp->next == NULL)
-// 					break ;
-// 			}
-// 			else
-// 				temp = temp->next;
-// 		}
-// 		else if (temp->type == 1)
-// 		{
-// 			if (temp->next->type == 0 && temp->next != NULL)
-// 			{
-// 				temp->str = ft_strcat(temp->str, temp->next->str);
-// 				temp->next = temp->next->next;
-// 				if (temp->next == NULL)
-// 					break ;
-// 			}
-// 			else
-// 				temp = temp->next;
-// 		}
-// 		else
-// 			temp = temp->next;
-// 	}
-// }

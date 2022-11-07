@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 14:47:35 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/03 17:23:31 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/07 11:23:19 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,3 +70,40 @@ void	ft_lstclear_ms(t_ms *lst)
 		free(tmp);
 	}
 }
+
+// void	ft_join_maillons(t_ms **lex)
+// {
+// 	t_ms	*temp;
+
+// 	temp = *lex;
+// 	while (temp->next != NULL)
+// 	{
+// 		if (temp->type == 0)
+// 		{
+// 			if ((temp->next->type == 1 || temp->next->type == 1) && temp->next != NULL)
+// 			{
+// 				temp->str = ft_strcat(temp->str, temp->next->str);
+// 				temp->next = temp->next->next;
+// 				temp->type = 1;
+// 				if (temp->next == NULL)
+// 					break ;
+// 			}
+// 			else
+// 				temp = temp->next;
+// 		}
+// 		else if (temp->type == 1)
+// 		{
+// 			if (temp->next->type == 0 && temp->next != NULL)
+// 			{
+// 				temp->str = ft_strcat(temp->str, temp->next->str);
+// 				temp->next = temp->next->next;
+// 				if (temp->next == NULL)
+// 					break ;
+// 			}
+// 			else
+// 				temp = temp->next;
+// 		}
+// 		else
+// 			temp = temp->next;
+// 	}
+// }
