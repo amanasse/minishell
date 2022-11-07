@@ -6,12 +6,33 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:41:42 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/04 17:33:41 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/07 12:11:46 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 #include "../../../includes/builtins.h"
+
+int new_old_pwd(t_shell *shell, char *dir)
+{
+	t_env *tmp;
+	int i;
+
+	i = ft_strlen(dir + 4);
+	tmp = shell->environ;
+	while (tmp != NULL)
+	{
+		if(ft_strnstr(tmp->str, "PWD=", 4) == 0)
+		{
+			free(tmp->str);
+			tmp->str = ft_strncpy(dir, i);
+			if (tmp->str = NULL)
+				return (-1);			
+			tmp = tmp->next;
+		}
+	}
+	return (0);
+}
 
 char *go_home(t_env *tmp)
 {
@@ -26,17 +47,16 @@ char *go_home(t_env *tmp)
 	return (dir);
 }
 
-int	*cmd_cd(char **cmd, t_env *c_env)
+int	*cmd_cd(char **cmd, t_shell *shell)
 {
 	int t;
 	int i;
-	// int j;
 	char *dir;
 	t_env	*tmp;
 
 	t = 0;
 	i = 0;
-	tmp = c_env;
+	tmp = shell->environ;
 	while (cmd[i])
 		i++;
 	if(i == 1)
@@ -45,11 +65,11 @@ int	*cmd_cd(char **cmd, t_env *c_env)
 		dir = go_home(tmp);
 	else
 		dir = cmd[1];
-	printf("dir = %s\n", dir);
 	t = chdir(dir);
 	if (t == 0) 
 	{
 		dir = getcwd(NULL, 0);
+		new_old_pwd(shell, dir);
 		printf("dir = %s\n", dir);
 		
 		free(dir);

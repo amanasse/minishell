@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:41:08 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/04 11:27:24 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/07 11:40:28 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../../../includes/builtins.h"
 
 
-void	cmd_pwd(char **cmd, t_env *c_env)
+void	cmd_pwd(char **cmd, t_shell *shell)
 {
 	t_env   *tmp;
 
@@ -22,7 +22,7 @@ void	cmd_pwd(char **cmd, t_env *c_env)
 		printf("pwd: too many arguments.\n");		
 	else
 	{
-		tmp = c_env;
+		tmp = shell->environ;
 		while (tmp != NULL)
 		{
 			if(ft_strnstr(tmp->str, "PWD=", 4) == 0)

@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:21:36 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/04 12:35:08 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/07 11:55:57 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,11 @@ typedef struct s_shell
 
 /*BUILTINS*/
 
-void	builtins(char **cmd, t_env *c_env);
-int	*cmd_cd(char **cmd, t_env *c_env);
+void	builtins(char **cmd, t_shell *shell);
+int		*cmd_cd(char **cmd, t_shell *shell);
+int 	new_old_pwd(t_shell *shell, char *dir);
 int		cmd_exit(char **cmd);
-void	cmd_pwd(char **cmd, t_env *c_env);
+void	cmd_pwd(char **cmd, t_shell *shell);
 void    cmd_echo(char **cmd);
 
 /*UTILS*/
