@@ -52,7 +52,13 @@ c) modifier les maillons selon type :
 	- si option d une commande, join les maillons de la commande et de l option //OK
 	- si guillemets : regarder si $ et changer le type du maillon // OK
 	
-d) construire tableau de commandes
+d) construire tableau de struc de commandes
+mettre chaque morceau avant le pipe dans une structure qui contient 
+- char ** avec chaque maillon 
+- int fd_in
+- int fd_out
+- char *file_in
+
 
 II.EXEC
 /*quel comportement suivant le type d element, en prenant compte des pipes*/

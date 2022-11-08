@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/07 17:28:29 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/08 12:05:18 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,6 @@
 # include "../includes/parsing.h"
 # include "../sources/libft/includes/libft.h"
 
-
-	char			**cmd;
-
 	
 typedef struct s_shell
 {
@@ -36,8 +33,6 @@ typedef struct s_shell
 	char			***cmd;
     char            *old_pwd;
 }					t_shell;
-
-cmd[1] = &str;
 
 /*ERRORS*/
 

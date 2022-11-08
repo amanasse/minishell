@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/07 16:51:03 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/08 18:01:05 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	ft_lexer(t_ms *lex, char *str)
 		else if (str[i] == '<' || str[i] == '>')
 		{
 			res = ft_chevron(&lex, str + i, str[i]);
-			i += res + 1;
+			i += res;
 			if (res == 0)
 				i++;
 			else if (res == -1)
@@ -136,7 +136,6 @@ int	ft_lexer(t_ms *lex, char *str)
 	}
 	ft_view_lst(lex);
 	ft_clean_lst(&lex);
-	ft_view_lst(lex);
 	return (1);
 }
 

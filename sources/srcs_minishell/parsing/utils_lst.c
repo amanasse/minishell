@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 14:47:35 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/07 16:51:06 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/08 15:16:24 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,14 @@ void    ft_view_lst(t_ms *lst)
     int    i;
 
     i = 0;
-    while (lst->next != NULL)
+    while (lst != NULL)
     {
         printf("lst[%d] = [%s]\n", i, lst->str);
         printf("type = %d\n", lst->type);
         lst = lst->next;
         i++;
     }
-	printf("lst[%d] = [%s]\n", i, lst->str);
-    printf("type = %d\n", lst->type);
+	printf("lst[%d] = [%p]\n", i, lst);
     printf("-----------------\n");
 }
 
@@ -70,6 +69,19 @@ void	ft_lstclear_ms(t_ms *lst)
 		lst = lst->next;
 		free(tmp);
 	}
+}
+
+int	ft_lstsize_ms(t_ms *lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		i++;
+	}
+	return (i);
 }
 
 // void	ft_join_maillons(t_ms **lex)

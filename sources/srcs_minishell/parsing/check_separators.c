@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 17:26:05 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/07 16:50:52 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/08 18:01:00 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,16 @@ int	ft_append(t_ms **lex, char *str)
 {
 	char	*temp;
 	int		i;
+	int		j;
 
 	i = 2;
 	while (str[i] == ' ')
 		i++;
+	j = i;
 	while ((str[i] != ' ') && (str[i] != '\0') && (str[i] != '<')
 		&& (str[i] != '>'))
 		i++;
-	temp = ft_substr(str, 0, i);
+	temp = ft_substr(str, j, i - j);
 	if (str[1] == '<')
 		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 5));
 	else if (str[1] == '>')
@@ -32,28 +34,14 @@ int	ft_append(t_ms **lex, char *str)
 	return (i);
 }
 
-
-// int	ft_check_quotes(char *str, char c)
-// {
-// 	int	i;
-	
-// 	i = 1;
-// 	while (str[i])
-// 	{
-// 		printf("str[i] = %c\n", str[i]);
-// 		if (str[i] == c)
-// 			return (i);
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
 int	ft_chevron(t_ms **lex, char *str, char c)
 {
 	int		i;
+	int		j;
 	char	*temp;
 
 	i = 1;
+	j = 1;
 	if (str[i] == c)
 	{
 		if (str[i + 1] == '<' || str[i + 1] == '>')
@@ -61,14 +49,15 @@ int	ft_chevron(t_ms **lex, char *str, char c)
 		i = ft_append(lex, str);
 		return (i);
 	}
-	while (str[i] == ' ')
-		i++;
+	while (str[j] == ' ')
+		j++;
+	i++;
 	while ((str[i] != ' ') && (str[i] != '\0') && (str[i] != '<')
 		&& (str[i] != '>'))
 		i++;
 	if (i == 1)
 		return (-1);
-	temp = ft_substr(str, 0, i);
+	temp = ft_substr(str, j, i - j);
 	if (c == '<') 
 		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 3));
 	else if (c == '>')

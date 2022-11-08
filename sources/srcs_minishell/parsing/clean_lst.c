@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/07 17:56:38 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/08 18:05:10 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 6 = redirection sortie append (reecrit dessus) >> OK
 7 = var environnement $var
 fonction a faire = check si caractere est valide apres $ // ex : @ - = # *
-
 8 = entre ''
  */
 
@@ -166,5 +165,6 @@ void	ft_clean_lst(t_ms **lex)
 			count++;
 		temp = temp->next;
 	}
-	// ft_build_cmd(lex);
+	ft_view_lst(*lex);
+	ft_build_struc_parse(lex, count);
 }
