@@ -1,9 +1,11 @@
 Ex : 
 echo "ls | test" >> file | wc -l | cat -e "$USER"
+echo "ls | test" >> file"lol" | wc -l | cat -e "$USER"
 echo "hi$test lol" >> file | wc -l | cat -e "$USER"
 echo "hi$USER lol" >> file | hihi$LANG wc -l | cat -e "$USER" '$USER' $USER
 echo "coucou '$U"S"ER'" salut $USER
 echo "coucou U"S"ER" salut $USER ""
+echo coucouU"S"ER salut $USER ""
 
 
 echo $-USER // - ! 
