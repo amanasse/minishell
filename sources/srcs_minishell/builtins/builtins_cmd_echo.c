@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:41:38 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/08 12:30:13 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/08 18:18:45 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void cmd_echo(char **cmd)
 {
 	int	i;
 	int j;
-	int k;
+	int ok;
 	int	count_cmd;
 
 	i = 0;
-	j = 0;
-	k = 0;
+	j = 1;
+	ok = 1;
 	count_cmd = 0;
 	if(cmd[1] != NULL)
 	{
@@ -37,14 +37,33 @@ void cmd_echo(char **cmd)
 			i++;
 			if (ft_strnstr(cmd[i], "-n", 2) == 0)
 			{
-				k = 1;
 				while (cmd[i][j] == 'n' && cmd[i][j] != '\0')
-					k++;
+					j++;
+				if (cmd[i][j - 1] == 'n' && cmd[i][j] == '\0')
+					ok = 0;
 				j = i;
-				i++;
+				if (ok == 0)
+					i++;
 			}
 			if (count_cmd > 1)
 			{
+				while (i < count_cmd)
+				{
+					if (ok == 0 && (ft_strnstr(cmd[i], "-n", 2)) == 0)
+					{	
+						printf("cmd[%d] = [%s]\n", i, cmd[i]);
+						j = 1;
+						while (cmd[i][j] == 'n' && cmd[i][j] != '\0')
+							j++;
+						if (cmd[i][j - 1] == 'n' && cmd[i][j] != '\0')
+							break;
+						i++;
+					}
+					else
+						break;
+				}
+				// i--;
+				printf("i = %d\n", i);
 				while (i < count_cmd)
 				{
 					printf ("%s", cmd[i]);
@@ -53,11 +72,9 @@ void cmd_echo(char **cmd)
 					i++;
 				}
 			}
+			if (ok == 1)
+				printf ("\n");
 		}
-		if (cmd[1][k] != '\0' && cmd[1][k - 1] != 'n')
-			return ;
-		else ((ft_strcmp(cmd[j], "-n")) != 0 || 
-			printf ("\n");
 	}
 	else
 		printf ("\n");
