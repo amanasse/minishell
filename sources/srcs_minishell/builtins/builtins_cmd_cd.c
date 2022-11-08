@@ -6,44 +6,47 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:41:42 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/07 18:40:01 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/08 11:45:11 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 #include "../../../includes/builtins.h"
 
-int old_pwd(t_shell *shell)
+char	*search_old_pwd(t_shell *shell)
 {
-	t_env *tmp;
-	t_env *tmp2;
-	size_t i;
-	char *tmp_pwd;
-	char *old_pwd;
+	t_env	*tmp;
+	size_t	i;
+	char	*srch_old_pwd;
 
 	tmp = shell->environ;
-	tmp2 = shell->environ;
 	while (tmp != NULL)
 	{
-		if(ft_strnstr(tmp->str, "PWD=", 4) == 0)
+		if (ft_strnstr(tmp->str, "PWD=", 4) == 0)
 		{
 			i = ft_strlen(tmp->str) + 3;
-			old_pwd = malloc(sizeof(char) * i + 1);
-			if (old_pwd == NULL)
-				return (-1);
-			old_pwd[0] = 'O';
-			old_pwd[1] = 'L';
-			old_pwd[2] = 'D';
-			old_pwd[3] = 'P';
-			old_pwd[4] = 'W';
-			old_pwd[5] = 'D';
-			old_pwd[6] = '=';
-			old_pwd[7] = '\0';
-			old_pwd = ft_strcat_mini(old_pwd, tmp->str + 4);
+			srch_old_pwd = malloc(sizeof(char) * i + 1);
+			if (srch_old_pwd == NULL)
+				return (NULL);
+			srch_old_pwd = strcpy(srch_old_pwd, "OLDPWD=");
+			srch_old_pwd = ft_strcat_mini(srch_old_pwd, tmp->str + 4);
 			break ;
 		}
 		tmp = tmp->next;
 	}
+	return(srch_old_pwd);
+}
+
+int	old_pwd(t_shell *shell)
+{
+	t_env	*tmp2;
+	char 	*tmp_pwd;
+	char 	*old_pwd;
+
+	tmp2 = shell->environ;
+	old_pwd = search_old_pwd(shell);
+	if (old_pwd == NULL)
+		return (-1);
 	ft_view_env(shell->environ);
 	while (tmp2 != NULL)
 	{
@@ -75,11 +78,7 @@ int new_pwd(t_shell *shell, char *dir)
 			tmp->str = malloc(sizeof(char) * i + 1);
 			if (tmp->str == NULL)
 				return (-1);
-			tmp->str[0] = 'P';
-			tmp->str[1] = 'W';
-			tmp->str[2] = 'D';
-			tmp->str[3] = '=';
-			tmp->str[4] = '\0';
+			tmp->str = strcpy(tmp->str, "PWD=");
 			tmp->str = ft_strcat_mini(tmp->str, dir);
 			shell->pwd = tmp->str;
 			free(tmp_pwd);
@@ -115,7 +114,7 @@ int	*cmd_cd(char **cmd, t_shell *shell)
 		i++;
 	if(i == 1)
 		dir = go_home(shell->environ);
-    else if (i == 2 && (ft_strcmp(cmd[1], "~")) == 0)
+	else if (i == 2 && (ft_strcmp(cmd[1], "~")) == 0)
 		dir = go_home(shell->environ);
 	else
 		dir = cmd[1];

@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:21:36 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/07 18:59:28 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/08 11:27:39 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	cmd_pwd(char **cmd, t_shell *shell);
 void    cmd_echo(char **cmd);
 
 /*UTILS*/
+char	*ft_strcpy(char *dest, char *src);
 char	*ft_strcat_mini(char *dest, char *src);
 int		ft_strcmp(char *s1, char *s2);
 int     ft_str_is_numeric(char *str);

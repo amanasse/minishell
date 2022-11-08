@@ -6,12 +6,26 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 10:34:10 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/07 15:31:25 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/08 11:25:47 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 #include "../../../includes/builtins.h"
+
+char	*ft_strcpy(char *dest, char *src)
+{
+	int	i;
+	
+	i = 0;
+	while (src[i] != '\0')
+	{
+		dest[i]	= src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return dest;
+}
 
 char    *ft_strcat_mini(char *dest, char *src)
 {
