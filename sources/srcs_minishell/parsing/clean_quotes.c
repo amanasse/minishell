@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 11:19:20 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/09 12:19:44 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:30:04 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,51 +55,66 @@ char	*ft_stock_str(char *old_str, char c)
 	return (new_str);
 }
 
+char	*ft_malloc(int len)
+{
+	char	*s;
+
+	s = malloc(sizeof(char) * len);
+	if (s == NULL)
+		return (NULL);
+	s[0] = '\0';
+	return (s);
+}
+
+// char	*ft_supp_quotes(char *str, int i, int quote, char *new_str)
+// {
+// 	if (str[i] == '"')
+// 	{
+// 		if (quote == 0)
+// 			quote = 1;
+// 	}
+// 	else if (str[i] == '\'')
+// 	{
+// 		if (quote == 1)
+// 			new_str = ft_stock_str(new_str, str[i]);
+// 	}
+// 	return (new_str);
+// }
+
 char	*ft_clean_if_quotes(char *str)
 {
 	int		i;
 	int		quote;
-	char	*tmp2;
 	char	*new_str;
 	
-	i = 0;
+	i = -1;
 	quote = 0;
-	tmp2 = NULL;
 	new_str = NULL;
-	while (str[i])
+	while (str[++i])
 	{
+		// if (str[i] == '"' || str[i] == '\'')
+		// 	new_str = ft_supp_quotes(str, i, quote, new_str);
 		if (str[i] == '"')
 		{
 			if (quote == 0)
 				quote = 1;
-			i++;
 		}
 		else if (str[i] == '\'')
 		{
 			if (quote == 1)
 				new_str = ft_stock_str(new_str, str[i]);
-			i++;
 		}
 		else if (str[i] == '$')
 		{
-			tmp2 = ft_replace_var(str + i);
-			while (str[i] != ' ' && str[i] != '\0' && str[i] != '"' && str[i] != '\'')
+			new_str = ft_replace_dollar(str + i, new_str);
+			while (str[i + 1] != ' ' && str[i + 1] != '\0' 
+				&& str[i + 1] != '"' && str[i + 1] != '\'')
 				i++;
-			if (new_str)
-				new_str = ft_strcat(new_str, ft_strncpy(tmp2, ft_strlen(tmp2)));
-			else
-				new_str = ft_strncpy(tmp2, ft_strlen(tmp2));
 		}
 		else
-		{
 			new_str = ft_stock_str(new_str, str[i]);
-			i++;
-		}
 	}
 	if (new_str == NULL)
-	{
-		new_str = malloc(sizeof(char));
-		new_str[0] = '\0';
-	}
+		new_str = ft_malloc(1);
 	return (new_str);
 }

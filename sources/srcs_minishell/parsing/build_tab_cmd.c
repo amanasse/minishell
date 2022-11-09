@@ -6,14 +6,16 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:29:36 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/09 12:56:10 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:43:35 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/parsing.h"
 #include "../../../includes/minishell.h"
 
-void	ft_print_struc_parse(t_parse *parse, int k)
+//norminette ok
+
+void	ft_print_struc_parse(t_parse *parse, int k) // a supprimer
 {
 	int i;
 	int	j;
@@ -57,39 +59,44 @@ void	ft_init_struc_parse(t_parse *parse, int i)
 	parse[i].if_pipe = 0;
 }
 
+void	ft_fill_parse(t_parse *parse, t_ms *temp, int j, int i)
+{
+	parse[j].tab_cmd[i] = temp->str;
+	if (temp->type == 3 || temp->type == 4 
+		|| temp->type == 5 || temp->type == 6)
+		parse[j].file_in = ft_strncpy(temp->str, ft_strlen(temp->str));
+	parse[j].type = temp->type;
+	if (temp->next != NULL && temp->next->type == 2)
+		parse[j].if_pipe = 1;
+}
+
 void	ft_fill_tab_cmd(t_ms *temp, t_parse *parse)
 {
 	int		j;
 	int		i;
 	int		nb_cmd;
 
-	nb_cmd = 0;
-	j = 0;
+	j = -1;
 	while (temp != NULL)
 	{
 		i = 0;
 		nb_cmd = ft_count_cmd(temp);
-		parse[j].tab_cmd = malloc(sizeof(char *) * (nb_cmd + 1));
+		parse[++j].tab_cmd = malloc(sizeof(char *) * (nb_cmd + 1));
+		if (parse[j].tab_cmd == NULL)
+			return ;
 		while (temp->type != 2 && temp != NULL)
 		{
-			if (temp->type == 3 || temp->type == 4 
-				|| temp->type == 5 || temp->type == 6)
-				parse[j].file_in = ft_strncpy(temp->str, ft_strlen(temp->str));
-			parse[j].tab_cmd[i] = temp->str;
-			parse[j].type = temp->type;
+			ft_fill_parse(parse, temp, j, i);
 			i++;
-			if (temp->next != NULL && temp->next->type == 2)
-				parse[j].if_pipe = 1;
 			temp = temp->next;
 			if (temp == NULL)
 				break ;
 		}
 		parse[j].tab_cmd[i] = NULL;
-		j++;
 		if (temp != NULL)
 			temp = temp->next;
 	}
-	parse[j].tab_cmd = NULL;
+	parse[++j].tab_cmd = NULL;
 }
 
 void	ft_build_struc_parse(t_ms **lex, int count)

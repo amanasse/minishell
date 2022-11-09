@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/07 16:50:36 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/09 15:23:20 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int main(int argc, char **argv, char **env)
 			ft_lstclear_ms(lex);
 			return (0);
 		}
+		
 		add_history(str);
 		if (str == NULL)
 		{

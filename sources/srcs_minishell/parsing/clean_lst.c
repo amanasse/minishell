@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/09 12:21:28 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:48:54 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,30 +26,39 @@ fonction a faire = check si caractere est valide apres $ // ex : @ - = # *
 8 = entre ''
  */
 
+char	*ft_replace_dollar(char *str, char *new_str)
+{
+	int		i;
+	char	*tmp;
+	char	*tmp2;
+
+	i = 0;
+	tmp = ft_replace_var(str);
+	tmp2 = NULL;
+	while (str[i] != ' ' && str[i] != '\0' && str[i] != '"' 
+		&& str[i] != '\'')
+		i++;
+	if (new_str != NULL)
+		tmp2 = ft_strjoin(new_str, ft_strncpy(tmp, ft_strlen(tmp)));
+	else
+		tmp2 = ft_strncpy(tmp, ft_strlen(tmp));
+	return (tmp2);
+}
+
 char	*ft_replace_var(char *str)
 {
 	int		i;
-	int		j;
 	char 	*value;
 	char	*to_replace;
 	char	*tmp_str;
 
 	i = 0;
 	tmp_str = NULL;
-	while (str[i] != '$' && str[i] != '\0')
-		i++;
 	if (str[i] == '$')
 	{
-		if (i > 0)
-		{
-			tmp_str = ft_substr(str, 0, i);
-			if (tmp_str == NULL)
-				return (NULL);
-		}
-		j = i;
-		while (str[j] != ' ' && str[j] != '\0' && str[j] != '"')
-			j++;
-		to_replace = ft_substr(str + i, 1, j - 1);
+		while (str[i] != ' ' && str[i] != '\0' && str[i] != '"')
+			i++;
+		to_replace = ft_substr(str, 1, i - 1);
 		if (to_replace == NULL)
 			return (NULL);
 		value = getenv(to_replace);
@@ -58,13 +67,14 @@ char	*ft_replace_var(char *str)
 		if (!tmp_str)
 			tmp_str = ft_strdup(value);
 		else
-			tmp_str = ft_strcat(tmp_str, value);
+			tmp_str = ft_strjoin(tmp_str, value);
+		if (tmp_str == NULL)
+			return (NULL);
 	}
 	else
 		return (str);
 	return (tmp_str);
 }
-
 
 void	ft_clean_lst(t_ms **lex)
 {

@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 17:26:05 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/08 18:01:00 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/09 14:56:30 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_append(t_ms **lex, char *str)
 	if (str[1] == '<')
 		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 5));
 	else if (str[1] == '>')
-		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 6));	
+		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 6));
 	return (i);
 }
 
@@ -46,8 +46,7 @@ int	ft_chevron(t_ms **lex, char *str, char c)
 	{
 		if (str[i + 1] == '<' || str[i + 1] == '>')
 			return (-1);
-		i = ft_append(lex, str);
-		return (i);
+		return (ft_append(lex, str));
 	}
 	while (str[j] == ' ')
 		j++;
@@ -55,12 +54,40 @@ int	ft_chevron(t_ms **lex, char *str, char c)
 	while ((str[i] != ' ') && (str[i] != '\0') && (str[i] != '<')
 		&& (str[i] != '>'))
 		i++;
-	if (i == 1)
-		return (-1);
 	temp = ft_substr(str, j, i - j);
 	if (c == '<') 
 		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 3));
 	else if (c == '>')
 		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 4));
 	return (i);
+}
+
+int	char_is_separator(char c)
+{
+	if (c ==  '<' || c ==  '>' || c == '|' || c == '\0')
+		return (1);
+	return (0);
+}
+
+int	char_is_space(char c)
+{
+	if (c ==  ' ')
+		return (1);
+	return (0);
+}
+
+int	char_is_quote(char *str, char c)
+{
+	int	i;
+	int	check;
+	
+	i = 0;
+	check = 0;
+	while (str[i])
+	{
+		if (c == str[i])
+			check++;
+		i++;
+	}
+	return (check);
 }

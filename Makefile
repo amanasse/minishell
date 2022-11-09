@@ -3,7 +3,6 @@ SRCS    = 	parsing/main.c\
 		parsing/utils_lst.c\
 		parsing/clean_lst.c\
 		parsing/clean_quotes.c\
-		parsing/ft_strcat.c\
 		parsing/check_separators.c\
 		parsing/build_tab_cmd.c\
 		builtins/init_env.c\
