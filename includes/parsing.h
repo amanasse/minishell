@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/08 14:59:19 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/09 11:36:01 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,13 @@ int		ft_chevron(t_ms **lex, char *str, char c);
 
 int		char_is_space(char c);
 int		char_is_separator(char c);
+
+char	*ft_clean_simple_quotes(char *str);
+char	*ft_clean_if_quotes(char *str);
+char	*ft_stock_str(char *old_str, char c);
+char	*ft_replace_var(char *str);
+
+
 
 void	ft_build_struc_parse(t_ms **lex, int count);
 
