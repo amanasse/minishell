@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:41:38 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/10 11:26:04 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/10 12:12:30 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,12 @@
 
 void	cmd_echo(char **cmd)
 {
-	int	i;
-	int	j;
-	int	ok;
-	int	count_cmd;
+	t_echo	echo;
 
-	i = 0;
-	j = 1;
-	ok = 1;
-	count_cmd = 0;
+	echo.i = 0;
+	echo.j = 1;
+	echo.ok = 1;
+	echo.count_cmd = 0;
 	if (cmd[1] != NULL)
 	{
 		while (cmd[i] != NULL)

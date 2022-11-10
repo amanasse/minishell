@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:21:36 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/08 11:49:00 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/10 12:09:00 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,14 @@ typedef struct s_shell
     char            *old_pwd;
 }					t_shell;
 
+typedef struct s_echo
+{
+	int				i;
+	int				j;
+	int				ok;
+	int				count_cmd;
+}					t_echo;
+
 
 
 /*BUILTINS*/
@@ -42,6 +50,7 @@ int 	new_pwd(t_shell *shell, char *dir);
 int		cmd_exit(char **cmd);
 void	cmd_pwd(char **cmd, t_shell *shell);
 void    cmd_echo(char **cmd);
+int		cmd_echo2(int count_cmd,char **cmd,int i,int j);
 
 /*UTILS*/
 char	*ft_strcpy(char *dest, char *src);
