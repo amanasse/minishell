@@ -4,9 +4,12 @@ SRCS    = 	main.c\
 		builtins/builtins.c\
 		builtins/builtins_utils.c\
 		builtins/builtins_utils2.c\
+		builtins/builtins_cmd_env.c\
 		builtins/builtins_cmd_pwd.c\
 		builtins/builtins_cmd_cd.c\
 		builtins/builtins_cmd_echo.c\
+		builtins/builtins_cmd_export.c\
+		builtins/builtins_cmd_unset.c\
 		builtins/builtins_cmd_exit.c\
 
 DIR_SRC_MINISHELL = ./sources/srcs_minishell/

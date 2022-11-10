@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:38:05 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/10 11:24:03 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/10 18:06:05 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 
 void	ft_view_env(t_env *lst)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (lst->next != NULL)
 	{
-		printf("lst[%d] = %s\n", i, lst->str);
+		if(lst->printable == 1)
+			printf("[%d]%s\n",i, lst->str);
 		lst = lst->next;
 		i++;
 	}
-	printf("lst[%d] = %s\n", i, lst->str);
-	printf("-----------------\n");
+	printf("[%d]%s\n", i, lst->str);
 }
 
 void	ft_lstclear_env(t_env *lst)
@@ -36,6 +36,7 @@ void	ft_lstclear_env(t_env *lst)
 	{
 		tmp = lst;
 		lst = lst->next;
+		free(tmp->str);
 		free(tmp);
 	}
 }
@@ -43,12 +44,18 @@ void	ft_lstclear_env(t_env *lst)
 t_env	*ft_lstnew_env(void *content)
 {
 	t_env	*element;
+	int i;
 
+	i = ft_strlen(content);
 	element = malloc(sizeof(t_env));
 	if (element == NULL)
 		return (NULL);
 	element->next = NULL;
-	element->str = content;
+	element->printable = 1;
+	element->str = (char*)malloc(sizeof(char) * i + 1);
+	if (element->str == NULL)
+		return (NULL);
+	element->str = ft_strcpy(element->str, content);
 	return (element);
 }
 

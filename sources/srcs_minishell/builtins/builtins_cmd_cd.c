@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:41:42 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/08 11:48:28 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/10 16:26:22 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int	old_pwd(t_shell *shell)
 	old_pwd = search_old_pwd(shell);
 	if (old_pwd == NULL)
 		return (-1);
-	ft_view_env(shell->environ);
 	while (tmp2 != NULL)
 	{
 		if (ft_strnstr(tmp2->str, "OLDPWD=", 7) == 0)
@@ -102,6 +101,7 @@ char	*go_home(t_env *tmp)
 	return (dir);
 }
 
+// PENSER A FREE EN CAS DERREUR ENV + CMD SI JAMAIS ON EXIT LE PROGRAMME
 int	*cmd_cd(char **cmd, t_shell *shell)
 {
 	int		t;

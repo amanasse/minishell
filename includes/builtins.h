@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:21:36 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/10 13:54:02 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/10 18:23:17 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_env
 {
 	struct s_env	*next;
 	char			*str;
+	int				printable;
 }					t_env;
 
 typedef struct s_shell
@@ -44,16 +45,27 @@ typedef struct s_echo
 
 /*BUILTINS*/
 
-void	count_cmd(t_echo *echo, char **cmd);
 void	builtins(char **cmd, t_shell *shell);
+
+int		cmd_export(char **cmd, t_shell *shell);
+char	**print_sort_env(t_shell *shell, char **tab);
+char	**env_in_tab(t_shell *shell);
+
+
+
+void	cmd_env(char **cmd, t_shell *shell);
 int		*cmd_cd(char **cmd, t_shell *shell);
 int 	new_pwd(t_shell *shell, char *dir);
 int		cmd_exit(char **cmd);
 void	cmd_pwd(char **cmd, t_shell *shell);
+
+
+void	count_cmd(t_echo *echo, char **cmd);
 void 	init_echo(t_echo *echo);
 void    cmd_echo(char **cmd);
 void	parse_cmd_n(t_echo *e, char **cmd);
 int		cmd_echo2(t_echo *echo, char **cmd);
+
 
 /*UTILS*/
 char	*ft_strcpy(char *dest, char *src);
