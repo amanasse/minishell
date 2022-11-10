@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 10:34:10 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/08 11:25:47 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/10 11:20:11 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,21 @@
 char	*ft_strcpy(char *dest, char *src)
 {
 	int	i;
-	
+
 	i = 0;
 	while (src[i] != '\0')
 	{
-		dest[i]	= src[i];
+		dest[i] = src[i];
 		i++;
 	}
 	dest[i] = '\0';
-	return dest;
+	return (dest);
 }
 
-char    *ft_strcat_mini(char *dest, char *src)
+char	*ft_strcat_mini(char *dest, char *src)
 {
-	int    i;
-	int    j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -112,7 +112,7 @@ int	ft_atoi(const char *nptr)
 
 int	ft_strcmp(char *s1, char *s2)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s1[i] == s2[i] && (s1[i] != '\0' || s2[i] != '\0'))

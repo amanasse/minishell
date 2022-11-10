@@ -6,25 +6,25 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:41:38 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/08 18:18:45 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/10 11:26:04 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 #include "../../../includes/builtins.h"
 
-void cmd_echo(char **cmd)
+void	cmd_echo(char **cmd)
 {
 	int	i;
-	int j;
-	int ok;
+	int	j;
+	int	ok;
 	int	count_cmd;
 
 	i = 0;
 	j = 1;
 	ok = 1;
 	count_cmd = 0;
-	if(cmd[1] != NULL)
+	if (cmd[1] != NULL)
 	{
 		while (cmd[i] != NULL)
 		{
@@ -56,13 +56,12 @@ void cmd_echo(char **cmd)
 						while (cmd[i][j] == 'n' && cmd[i][j] != '\0')
 							j++;
 						if (cmd[i][j - 1] == 'n' && cmd[i][j] != '\0')
-							break;
+							break ;
 						i++;
 					}
 					else
-						break;
+						break ;
 				}
-				// i--;
 				printf("i = %d\n", i);
 				while (i < count_cmd)
 				{

@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:40:55 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/03 11:50:57 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/10 11:21:21 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	cmd_exit(char **cmd)
 	if (!cmd[1])
 	{
 		printf("exit\n");
-		// destroy_cmd(cmd);
+		/*destroy_cmd(cmd);*/
 		return (0);
 	}
 	else

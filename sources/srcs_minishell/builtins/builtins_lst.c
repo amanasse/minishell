@@ -6,26 +6,26 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:38:05 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/07 18:30:48 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/10 11:24:03 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 #include "../../../includes/builtins.h"
 
-void    ft_view_env(t_env *lst)
+void	ft_view_env(t_env *lst)
 {
-    int    i;
+	int	i;
 
-    i = 0;
-    while (lst->next != NULL)
-    {
-        printf("lst[%d] = %s\n", i, lst->str);
-        lst = lst->next;
-        i++;
-    }
+	i = 0;
+	while (lst->next != NULL)
+	{
+		printf("lst[%d] = %s\n", i, lst->str);
+		lst = lst->next;
+		i++;
+	}
 	printf("lst[%d] = %s\n", i, lst->str);
-    printf("-----------------\n");
+	printf("-----------------\n");
 }
 
 void	ft_lstclear_env(t_env *lst)
