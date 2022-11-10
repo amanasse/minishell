@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/08 18:20:32 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/10 13:43:41 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int main(int argc, char **argv, char **env)
 		return (0);
 	memset(cmd, 0, 4);
 	cmd[0] = "echo";
-	cmd[1] = "-n-n-n-n";
+	cmd[1] = "-n";
 	cmd[2] = "-nnnnnnnn";
 	cmd[3] = "-nnnnnnnnnnnnnn";
 	// cmd[3] = "-nnnnnnnnnnnnnn";

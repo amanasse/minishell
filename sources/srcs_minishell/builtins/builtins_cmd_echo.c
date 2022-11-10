@@ -6,69 +6,84 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:41:38 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/10 12:12:30 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/10 13:52:16 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 #include "../../../includes/builtins.h"
 
+void	init_echo(t_echo *echo)
+{
+	echo->i = 0;
+	echo->j = 1;
+	echo->ok = 1;
+	echo->count_cmd = 0;
+}
+
+void	count_cmd(t_echo *echo, char **cmd)
+{
+	while (cmd[echo->i] != NULL)
+	{
+		echo->i++;
+		echo->count_cmd++;
+	}
+	echo->i = 0;
+}
+
+void	parse_cmd_n(t_echo *e, char **cmd)
+{
+	while (cmd[e->i][e->j] == 'n' && cmd[e->i][e->j] != '\0')
+		e->j++;
+	if (cmd[e->i][e->j - 1] == 'n' && cmd[e->i][e->j] == '\0')
+		e->ok = 0;
+	e->j = e->i;
+	if (e->ok == 0)
+		e->i++;
+}
+
+int	cmd_echo2(t_echo *e, char **cmd)
+{
+	while (e->i < e->count_cmd)
+	{
+		if (e->ok == 0 && (ft_strnstr(cmd[e->i], "-n", 2)) == 0)
+		{	
+			e->j = 1;
+			while (cmd[e->i][e->j] == 'n' && cmd[e->i][e->j] != '\0')
+				e->j++;
+			if (cmd[e->i][e->j - 1] == 'n' && cmd[e->i][e->j] != '\0')
+				break ;
+			e->i++;
+		}
+		else
+			break ;
+	}
+	while (e->i < e->count_cmd)
+	{
+		printf ("%s", cmd[e->i]);
+		if (e->i + 1 != e->count_cmd)
+			printf (" ");
+		e->i++;
+	}
+	return (0);
+}
+
 void	cmd_echo(char **cmd)
 {
 	t_echo	echo;
 
-	echo.i = 0;
-	echo.j = 1;
-	echo.ok = 1;
-	echo.count_cmd = 0;
+	init_echo(&echo);
 	if (cmd[1] != NULL)
 	{
-		while (cmd[i] != NULL)
+		count_cmd(&echo, cmd);
+		if (echo.count_cmd > 0)
 		{
-			i++;
-			count_cmd++;
-		}
-		i = 0;
-		if (count_cmd > 0)
-		{
-			i++;
-			if (ft_strnstr(cmd[i], "-n", 2) == 0)
-			{
-				while (cmd[i][j] == 'n' && cmd[i][j] != '\0')
-					j++;
-				if (cmd[i][j - 1] == 'n' && cmd[i][j] == '\0')
-					ok = 0;
-				j = i;
-				if (ok == 0)
-					i++;
-			}
-			if (count_cmd > 1)
-			{
-				while (i < count_cmd)
-				{
-					if (ok == 0 && (ft_strnstr(cmd[i], "-n", 2)) == 0)
-					{	
-						printf("cmd[%d] = [%s]\n", i, cmd[i]);
-						j = 1;
-						while (cmd[i][j] == 'n' && cmd[i][j] != '\0')
-							j++;
-						if (cmd[i][j - 1] == 'n' && cmd[i][j] != '\0')
-							break ;
-						i++;
-					}
-					else
-						break ;
-				}
-				printf("i = %d\n", i);
-				while (i < count_cmd)
-				{
-					printf ("%s", cmd[i]);
-					if (i + 1 != count_cmd)
-						printf (" ");
-					i++;
-				}
-			}
-			if (ok == 1)
+			echo.i++;
+			if (ft_strnstr(cmd[echo.i], "-n", 2) == 0)
+				parse_cmd_n(&echo, cmd);
+			if (echo.count_cmd > 1)
+				cmd_echo2(&echo, cmd);
+			if (echo.ok == 1)
 				printf ("\n");
 		}
 	}

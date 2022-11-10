@@ -3,6 +3,7 @@ SRCS    = 	main.c\
 		builtins/builtins_lst.c\
 		builtins/builtins.c\
 		builtins/builtins_utils.c\
+		builtins/builtins_utils2.c\
 		builtins/builtins_cmd_pwd.c\
 		builtins/builtins_cmd_cd.c\
 		builtins/builtins_cmd_echo.c\

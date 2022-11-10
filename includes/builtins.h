@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:21:36 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/10 12:09:00 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/10 13:54:02 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,16 @@ typedef struct s_echo
 
 /*BUILTINS*/
 
+void	count_cmd(t_echo *echo, char **cmd);
 void	builtins(char **cmd, t_shell *shell);
 int		*cmd_cd(char **cmd, t_shell *shell);
 int 	new_pwd(t_shell *shell, char *dir);
 int		cmd_exit(char **cmd);
 void	cmd_pwd(char **cmd, t_shell *shell);
+void 	init_echo(t_echo *echo);
 void    cmd_echo(char **cmd);
-int		cmd_echo2(int count_cmd,char **cmd,int i,int j);
+void	parse_cmd_n(t_echo *e, char **cmd);
+int		cmd_echo2(t_echo *echo, char **cmd);
 
 /*UTILS*/
 char	*ft_strcpy(char *dest, char *src);
