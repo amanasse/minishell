@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/09 15:23:20 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/14 12:06:06 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int main(int argc, char **argv, char **env)
 {
 	char  prompt[3] = "$>";
 	char  *str;
-	t_ms *lex; 
+	t_ms *lex;
 		
 	(void)argc;
 	(void)argv;
@@ -28,12 +28,7 @@ int main(int argc, char **argv, char **env)
 	while (1)
 	{
 		str = readline(prompt);
-		if (ft_lexer(lex, str) == 0)
-		{
-			ft_lstclear_ms(lex);
-			return (0);
-		}
-		
+		ft_lexer(lex, str);
 		add_history(str);
 		if (str == NULL)
 		{

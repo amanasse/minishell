@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/09 17:48:26 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/14 12:09:25 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ int	ft_lexer_quotes(int i, char *str, t_ms **lex)
 		j++;
 	while (char_is_space(str[j]) == 0 && str[j] != '\0')
 		j++;
-	temp = ft_strncpy(str + i, j - i);
+	temp = ft_strncpy(str + i, j - i + 1);
 	if (temp == NULL)
-		return (0);
+		return (free(temp), 0);
 	if (str[i] == '"')
 		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 0));
 	else

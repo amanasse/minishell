@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 11:19:20 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/09 17:30:04 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/14 12:02:54 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_clean_simple_quotes(char *str)
 
 	i = 0;
 	j = 0;
-	new_str = malloc(sizeof(char) * (ft_strlen(str) - 1));
+	new_str = malloc(sizeof(char) * ft_strlen(str));
 	if (new_str == NULL)
 		return (NULL);
 	while (str[i])
@@ -33,7 +33,7 @@ char	*ft_clean_simple_quotes(char *str)
 		j++;
 	}
 	new_str[j] = '\0';
-	return (new_str);	
+	return (new_str);
 }
 
 char	*ft_stock_str(char *old_str, char c)
@@ -52,7 +52,7 @@ char	*ft_stock_str(char *old_str, char c)
 	}
 	new_str[i] = c;
 	new_str[i + 1] = '\0';
-	return (new_str);
+	return (free(old_str), new_str);
 }
 
 char	*ft_malloc(int len)

@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/09 17:48:54 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/14 11:26:21 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*ft_replace_dollar(char *str, char *new_str)
 		tmp2 = ft_strjoin(new_str, ft_strncpy(tmp, ft_strlen(tmp)));
 	else
 		tmp2 = ft_strncpy(tmp, ft_strlen(tmp));
-	return (tmp2);
+	return (free(new_str), tmp2);
 }
 
 char	*ft_replace_var(char *str)
@@ -69,11 +69,11 @@ char	*ft_replace_var(char *str)
 		else
 			tmp_str = ft_strjoin(tmp_str, value);
 		if (tmp_str == NULL)
-			return (NULL);
+			return (free(to_replace), NULL);
 	}
 	else
 		return (str);
-	return (tmp_str);
+	return (free(to_replace), tmp_str);
 }
 
 void	ft_clean_lst(t_ms **lex)
