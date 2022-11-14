@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/09 17:30:22 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/14 17:04:47 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ typedef struct s_parse
 # define ERR_CHEVRON "syntax error near unexpected token"
 
 /*LEXER*/
-int		ft_lexer(t_ms *lex, char *str);
+int		ft_lexer(t_ms *lex, char *str, t_shell *shell);
 
 t_ms	*ft_lstnew_ms(void *content, int type);
 void	ft_lstadd_back_ms(t_ms **lst, t_ms *new);
 void    ft_view_lst(t_ms *lst);
 void	ft_lstclear_ms(t_ms *lst);
-void	ft_clean_lst(t_ms **lex);
+int		ft_clean_lst(t_ms **lex, t_shell *shell);
 int		ft_lstsize_ms(t_ms *lst);
 
 char	*ft_strcat(char *dest, char *src);
@@ -65,7 +65,7 @@ char	*ft_stock_str(char *old_str, char c);
 char	*ft_replace_var(char *str);
 char	*ft_replace_dollar(char *str, char *new_str);
 
-void	ft_build_struc_parse(t_ms **lex, int count);
+void	ft_build_struc_parse(t_ms **lex, int count, t_shell *shell);
 
 
 /*EXEC*/

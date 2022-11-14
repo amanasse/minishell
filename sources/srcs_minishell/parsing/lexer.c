@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/14 13:26:08 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/14 17:21:35 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_lexer_quotes(int i, char *str, t_ms **lex)
 		j++;
 	while (char_is_space(str[j]) == 0 && str[j] != '\0')
 		j++;
-	temp = ft_strncpy(str + i, j - i - 1);
+	temp = ft_strncpy(str + i, j - i);
 	if (temp == NULL)
 		return (free(temp), 0);
 	if (str[i] == '"')
@@ -79,7 +79,6 @@ int	ft_lexer_others(int i, char *str, t_ms **lex)
 		&& (str[j] != '\0'))
 		j++;
 	temp = ft_substr(str + i, 0, j - i);
-	printf("adresse temp = %p\n", temp);
 	if (temp == NULL)
 		return (free(temp), 0);
 	ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 1));
@@ -99,7 +98,7 @@ int	ft_lexer_redirection(int i, char *str, t_ms **lex)
 	return (i);
 }
 
-int	ft_lexer(t_ms *lex, char *str)
+int	ft_lexer(t_ms *lex, char *str, t_shell *shell)
 {
 	int		i;
 
@@ -126,8 +125,8 @@ int	ft_lexer(t_ms *lex, char *str)
 		else
 			i = ft_lexer_others(i, str, &lex);
 	}
-	ft_view_lst(lex); // a supprimer
-	ft_clean_lst(&lex); // a supprimer
+	// ft_view_lst(lex); // a supprimer
+	ft_clean_lst(&lex, shell);
 	return (1);
 }
 

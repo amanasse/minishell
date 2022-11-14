@@ -1,36 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   builtins_cmd_env.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/14 16:00:56 by mede-sou         ###   ########.fr       */
+/*   Created: 2022/11/10 14:03:50 by amanasse          #+#    #+#             */
+/*   Updated: 2022/11/14 16:02:52 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "../../../includes/minishell.h"
+#include "../../../includes/builtins.h"
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <string.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include "../includes/builtins.h"
-# include "../includes/parsing.h"
-# include "../sources/libft/includes/libft.h"
+int	cmd_env(char **cmd, t_shell *shell)
+{
+    t_env   *tmp;
 
-/*ERRORS*/
-
-/*LEXER*/
-
-/*EXEC*/
-
-/*BUILTINS*/
-
-#endif
+    tmp = shell->environ;
+	if (cmd[1] == NULL)
+       ft_view_env(tmp);
+	else
+		printf("env: '%s': No such file or directory\n", cmd[1]);
+	return (0);
+}

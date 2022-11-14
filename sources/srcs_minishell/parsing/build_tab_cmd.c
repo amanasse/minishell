@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:29:36 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/14 13:24:32 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/14 17:13:11 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	ft_fill_tab_cmd(t_ms *temp, t_parse *parse)
 // 	free (parse);
 // }
 
-void	ft_build_struc_parse(t_ms **lex, int count)
+void	ft_build_struc_parse(t_ms **lex, int count, t_shell *shell)
 {
 	t_ms	*temp;
 	t_parse	*parse;
@@ -136,8 +136,12 @@ void	ft_build_struc_parse(t_ms **lex, int count)
 		i++;
 	}
 	ft_fill_tab_cmd(temp, parse);
-	ft_print_struc_parse(parse, count + 1);
-	// ft_free_tab_cmd(parse);
+	i = 0;
+	while (parse[i].tab_cmd != NULL)
+	{
+		builtins(parse[i].tab_cmd, shell);
+		i++;
+	}
 	ft_lstclear_ms(*lex);
 	free(parse->tab_cmd);
 	free(parse);

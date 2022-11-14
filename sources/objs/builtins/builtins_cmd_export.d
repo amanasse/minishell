@@ -1,5 +1,5 @@
-sources/objs/builtins/builtins_cmd_exit.o: \
- sources/srcs_minishell/builtins/builtins_cmd_exit.c \
+sources/objs/builtins/builtins_cmd_export.o: \
+ sources/srcs_minishell/builtins/builtins_cmd_export.c \
  sources/srcs_minishell/builtins/../../../includes/minishell.h \
  sources/srcs_minishell/builtins/../../../includes/../includes/builtins.h \
  sources/srcs_minishell/builtins/../../../includes/../includes/../includes/minishell.h \

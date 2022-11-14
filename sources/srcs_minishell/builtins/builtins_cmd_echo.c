@@ -3,55 +3,91 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_cmd_echo.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:41:38 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/03 10:51:15 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/14 16:02:33 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 #include "../../../includes/builtins.h"
 
-void cmd_echo(char **cmd)
+void	init_echo(t_echo *echo)
 {
-	int	i;
-	int j;
-	int	count_cmd;
+	echo->i = 0;
+	echo->j = 1;
+	echo->ok = 1;
+	echo->count_cmd = 0;
+}
 
-	i = 0;
-	j = 0;
-	count_cmd = 0;
-	if(cmd[1] != NULL)
+void	count_cmd(t_echo *echo, char **cmd)
+{
+	while (cmd[echo->i] != NULL)
 	{
-		while (cmd[i] != NULL)
-		{
-			i++;
-			count_cmd++;
+		echo->i++;
+		echo->count_cmd++;
+	}
+	echo->i = 0;
+}
+
+void	parse_cmd_n(t_echo *e, char **cmd)
+{
+	while (cmd[e->i][e->j] == 'n' && cmd[e->i][e->j] != '\0')
+		e->j++;
+	if (cmd[e->i][e->j - 1] == 'n' && cmd[e->i][e->j] == '\0')
+		e->ok = 0;
+	e->j = e->i;
+	if (e->ok == 0)
+		e->i++;
+}
+
+int	cmd_echo2(t_echo *e, char **cmd)
+{
+	while (e->i < e->count_cmd)
+	{
+		if (e->ok == 0 && (ft_strnstr(cmd[e->i], "-n", 2)) == 0)
+		{	
+			e->j = 1;
+			while (cmd[e->i][e->j] == 'n' && cmd[e->i][e->j] != '\0')
+				e->j++;
+			if (cmd[e->i][e->j - 1] == 'n' && cmd[e->i][e->j] != '\0')
+				break ;
+			e->i++;
 		}
-		i = 0;
-		if (count_cmd > 0)
+		else
+			break ;
+	}
+	while (e->i < e->count_cmd)
+	{
+		printf ("%s", cmd[e->i]);
+		if (e->i + 1 != e->count_cmd)
+			printf (" ");
+		e->i++;
+	}
+	return (0);
+}
+
+int	cmd_echo(char **cmd)
+{
+	t_echo	echo;
+
+	init_echo(&echo);
+	if (cmd[1] != NULL)
+	{
+		count_cmd(&echo, cmd);
+		if (echo.count_cmd > 0)
 		{
-			i++;
-			if ((ft_strcmp(cmd[i], "-n")) == 0)
-			{
-				j = i;
-				i++;
-			}
-			if (count_cmd > 1)
-			{
-				while (i < count_cmd)
-				{
-					printf ("%s", cmd[i]);
-					if (i + 1 != count_cmd)
-						printf (" ");
-					i++;
-				}
-			}
+			echo.i++;
+			if (ft_strnstr(cmd[echo.i], "-n", 2) == 0)
+				parse_cmd_n(&echo, cmd);
+			if (echo.count_cmd > 1)
+				cmd_echo2(&echo, cmd);
+			if (echo.ok == 1)
+				printf ("\n");
 		}
-		if ((ft_strcmp(cmd[j], "-n")) != 0)
-			printf ("\n");
 	}
 	else
 		printf ("\n");
+	return (0);
 }

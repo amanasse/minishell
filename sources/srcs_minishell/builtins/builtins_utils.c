@@ -6,13 +6,30 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 10:34:10 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/03 11:40:04 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/10 13:55:01 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 #include "../../../includes/builtins.h"
 
+char	*ft_strcat_mini(char *dest, char *src)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (dest[i] != '\0')
+		i++;
+	while (src[j] != '\0')
+	{
+		dest[i + j] = src[j];
+		j++;
+	}
+	dest[i + j] = '\0';
+	return (dest);
+}
 
 int	ft_str_is_numeric(char *str)
 {
@@ -81,7 +98,7 @@ int	ft_atoi(const char *nptr)
 
 int	ft_strcmp(char *s1, char *s2)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s1[i] == s2[i] && (s1[i] != '\0' || s2[i] != '\0'))

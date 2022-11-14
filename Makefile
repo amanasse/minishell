@@ -12,7 +12,11 @@ SRCS    = 	parsing/main.c\
 		builtins/builtins_cmd_pwd.c\
 		builtins/builtins_cmd_cd.c\
 		builtins/builtins_cmd_echo.c\
-		builtins/builtins_cmd_exit.c
+		builtins/builtins_cmd_exit.c\
+		builtins/builtins_utils2.c\
+		builtins/builtins_cmd_env.c\
+		builtins/builtins_cmd_export.c\
+		builtins/builtins_cmd_unset.c
 
 DIR_SRC_MINISHELL = ./sources/srcs_minishell/
 
@@ -50,7 +54,7 @@ fclean:		clean
 
 re:			fclean all
 
-$(DIR_OBJ)%.o: $(DIR_SRC_MINISHELL)%.c 
+$(DIR_OBJ)%.o: $(DIR_SRC_MINISHELL)%.c
 	${CC} ${CFLAGS} -c $< ${HEADERS} -o $@
 
 
