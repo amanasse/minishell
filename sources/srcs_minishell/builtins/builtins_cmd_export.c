@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 14:29:14 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/10 18:25:02 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/14 10:30:22 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,33 @@
 //               2 - export PWD= doit remplacer la suite par du vide.
 //               3 - export JEMAPPELLE=Adrian doit creer la variable dans l'env
 
-// char	**print_sort_env(t_shell *shell, char **tab)
-// {
+char	**print_sort_env(char **tab, int size)
+{
+	char	*tmp;
+	int		i;
+	int		is_ok;
 
-
-
-// 	return (tab);
-// }
+	i = 0;
+	is_ok = 0;
+	while (tab && !is_ok)
+	{
+		is_ok = 1;
+		i = 0;
+		while (i < size - 1)
+		{
+			if (ft_strcmp(tab[i], tab[i + 1]) > 0)
+			{
+				tmp = tab[i];
+				tab[i] = tab[i + 1];
+				tab[i + 1] = tmp;
+				is_ok = 0;
+			}
+			i++;
+		}
+		size--;
+	}
+	return (tab);
+}
 
 
 char	**env_in_tab(t_shell *shell)
@@ -47,7 +67,6 @@ char	**env_in_tab(t_shell *shell)
 		tmp = tmp->next;
 		i++;
 	}
-	printf("i = %d\n", i);
 	tab = malloc(sizeof(char*) * (i + 1));
 	if (tab == NULL)
 		return (NULL);
@@ -58,6 +77,7 @@ char	**env_in_tab(t_shell *shell)
 		tmp2 = tmp2->next;
 		i++;
 	}
+	tab[i] = NULL;
 	i = 0;
 	return (tab);	
 }
@@ -67,21 +87,52 @@ int cmd_export(char **cmd, t_shell *shell)
 {
 	char **tab;
 	int i;
+	int j;
 
 	i = 0;
+	j = 0;
 	if (!cmd[1])
 	{	
 		tab = env_in_tab(shell);
 		while (tab[i])
+			i++;
+		print_sort_env(tab, i);
+		i = 0;
+		while (tab[i])
 		{
-			printf("[%d] = %s\n", i, tab[i]);
+			j = 0;
+			write (1, "declare -x ", 11);
+			while(tab[i][j])
+			{
+				ft_putchar_fd(tab[i][j], 1);
+				if(tab[i][j] == '=')
+					write (1, "\"", 1);
+				j++;
+			}
+			write (1, "\"", 1);
+			write (1, "\n", 1);
 			i++;
 		}
-		// print_sort_env(shell, tab);
+		free (tab);
 		return (0);
-	} 
+	}
+	else
+	{
+		while (cmd[i])
+		{
+			ft_lstadd_back_env(&shell->environ, ft_lstnew_env(cmd[i]));
+			i++;
+		}
 
-	printf("DEBUG\n");
+
+
+
+
+
+
+		
+	}
+
 
 	return (0);
 

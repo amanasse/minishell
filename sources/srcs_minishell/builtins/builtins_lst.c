@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:38:05 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/10 18:06:05 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/14 10:38:41 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	ft_view_env(t_env *lst)
 		lst = lst->next;
 		i++;
 	}
-	printf("[%d]%s\n", i, lst->str);
+	if(lst->printable == 1)
+		printf("[%d]%s\n", i, lst->str);
 }
 
 void	ft_lstclear_env(t_env *lst)
@@ -51,11 +52,21 @@ t_env	*ft_lstnew_env(void *content)
 	if (element == NULL)
 		return (NULL);
 	element->next = NULL;
-	element->printable = 1;
 	element->str = (char*)malloc(sizeof(char) * i + 1);
 	if (element->str == NULL)
 		return (NULL);
 	element->str = ft_strcpy(element->str, content);
+	i = 0;
+	while (element->str[i])
+	{
+		if (element->str[i] == '=')
+		{
+			element->printable = 1;
+			break ;
+		}			
+		i++;
+		element->printable = 0;
+	}
 	return (element);
 }
 

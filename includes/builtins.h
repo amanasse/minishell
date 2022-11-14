@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:21:36 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/10 18:23:17 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/14 09:36:55 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_echo
 void	builtins(char **cmd, t_shell *shell);
 
 int		cmd_export(char **cmd, t_shell *shell);
-char	**print_sort_env(t_shell *shell, char **tab);
+char	**print_sort_env(char **tab, int size);
 char	**env_in_tab(t_shell *shell);
 
 
