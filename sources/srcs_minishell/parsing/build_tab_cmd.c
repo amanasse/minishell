@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:29:36 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/14 17:13:11 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/14 17:30:18 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,6 @@
 #include "../../../includes/minishell.h"
 
 //norminette ok
-
-void	ft_print_struc_parse(t_parse *parse, int k) // a supprimer
-{
-	int i;
-	int	j;
-
-	i = 0;
-	while (i < k)
-	{
-		j = 0;
-		while (parse[i].tab_cmd[j] != NULL)
-		{
-			printf("parse[%d]->tab_cmd[%d] = [%s]\n", i, j, parse[i].tab_cmd[j]);
-			// printf("parse[%d]->type = %d\n", i, parse[i].type);
-			// printf("parse[%d]->file_in = %s\n", i, parse[i].file_in);
-			j++;
-		}
-		i++;
-	}	
-}
 
 int	ft_count_cmd(t_ms *lex)
 {
@@ -99,26 +79,6 @@ void	ft_fill_tab_cmd(t_ms *temp, t_parse *parse)
 	parse[++j].tab_cmd = NULL;
 }
 
-// void	ft_free_tab_cmd(t_parse *parse) // a supprimer
-// {
-// 	int i;
-// 	int j;
-
-// 	i = 0;
-// 	while (parse[i].tab_cmd != NULL)
-// 	{
-// 		j = 0;
-// 		while (parse[i].tab_cmd[j] != NULL)
-// 		{
-// 			free(parse[i].tab_cmd[j]);
-// 			j++;
-// 		}
-// 		free(parse[i].tab_cmd);
-// 		i++;
-// 	}
-// 	free (parse);
-// }
-
 void	ft_build_struc_parse(t_ms **lex, int count, t_shell *shell)
 {
 	t_ms	*temp;
@@ -146,3 +106,44 @@ void	ft_build_struc_parse(t_ms **lex, int count, t_shell *shell)
 	free(parse->tab_cmd);
 	free(parse);
 }
+
+// void	ft_print_struc_parse(t_parse *parse, int k) // a supprimer
+// {
+// 	int i;
+// 	int	j;
+
+// 	i = 0;
+// 	while (i < k)
+// 	{
+// 		j = 0;
+// 		while (parse[i].tab_cmd[j] != NULL)
+// 		{
+// 			printf("parse[%d]->tab_cmd[%d] = [%s]\n", i, j, parse[i].tab_cmd[j]);
+// 			// printf("parse[%d]->type = %d\n", i, parse[i].type);
+// 			// printf("parse[%d]->file_in = %s\n", i, parse[i].file_in);
+// 			j++;
+// 		}
+// 		i++;
+// 	}	
+// }
+
+
+// void	ft_free_tab_cmd(t_parse *parse) // a supprimer
+// {
+// 	int i;
+// 	int j;
+
+// 	i = 0;
+// 	while (parse[i].tab_cmd != NULL)
+// 	{
+// 		j = 0;
+// 		while (parse[i].tab_cmd[j] != NULL)
+// 		{
+// 			free(parse[i].tab_cmd[j]);
+// 			j++;
+// 		}
+// 		free(parse[i].tab_cmd);
+// 		i++;
+// 	}
+// 	free (parse);
+// }
