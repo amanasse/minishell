@@ -6,14 +6,14 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 14:03:50 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/10 14:21:13 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/14 17:20:49 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 #include "../../../includes/builtins.h"
 
-void	cmd_env(char **cmd, t_shell *shell)
+int cmd_env(char **cmd, t_shell *shell)
 {
     t_env   *tmp;
 
@@ -21,5 +21,9 @@ void	cmd_env(char **cmd, t_shell *shell)
 	if (cmd[1] == NULL)
        ft_view_env(tmp);
 	else
+    {
 		printf("env: '%s': No such file or directory\n", cmd[1]);
+        return (127);
+    }
+    return (0);
 }

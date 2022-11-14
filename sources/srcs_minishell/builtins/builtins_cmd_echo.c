@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:41:38 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/10 13:52:16 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/14 17:10:35 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	cmd_echo2(t_echo *e, char **cmd)
 	return (0);
 }
 
-void	cmd_echo(char **cmd)
+int	cmd_echo(char **cmd)
 {
 	t_echo	echo;
 
@@ -89,4 +89,5 @@ void	cmd_echo(char **cmd)
 	}
 	else
 		printf ("\n");
+	return (0);
 }

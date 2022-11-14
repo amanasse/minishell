@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:41:42 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/14 15:05:17 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/14 17:34:25 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,9 +127,6 @@ int	cmd_cd(char **cmd, t_shell *shell)
 		free(dir);
 	}
 	else
-	{
-		printf("\nError : Directory change failed.\n");
-		return (1);
-	}
+		return (printf("Error : Directory change failed.\n"), 1);
 	return (0);
 }

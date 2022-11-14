@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/14 14:59:34 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/14 17:33:51 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ int main(int argc, char **argv, char **env)
 	if (cmd == NULL)
 		return (0);
 	memset(cmd, 0, 4);
-	cmd[0] = "exit";
+	cmd[0] = "cd";
 	cmd[1] = "-5654";
-	// cmd[4] = "les garsn";
+	cmd[2] = NULL;
 	// cmd[2] = NULL;
 	// cmd[1] = "pwd";
 
