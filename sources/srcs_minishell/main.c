@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/14 10:29:38 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/14 12:11:14 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int main(int argc, char **argv, char **env)
 		return (0);
 	memset(cmd, 0, 4);
 	cmd[0] = "export";
-	cmd[1] = "jdowjkdo";
-	cmd[2] = "-nnnnnnnn";
-	cmd[3] = "-nnnnnnnnnnnnnn";
+	cmd[1] = "lol=AHAHAH";
+	cmd[2] = "COUCOU=MDR";
+	cmd[3] = "PAGER=LOL";
 	cmd[4] = NULL;
 	// cmd[4] = "les garsn";
 	// cmd[2] = NULL;

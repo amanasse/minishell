@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 14:29:14 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/14 10:30:22 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/14 12:11:07 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,15 +82,57 @@ char	**env_in_tab(t_shell *shell)
 	return (tab);	
 }
 
+int	replace_var_env(t_shell *shell, char *str)
+{
+	t_env	*tmp;
+	int		count;
+	int		i;
+	char	*compare;
+	int 	is_ok;
+	
+	i = 0;
+	is_ok = 0;
+	count = 0;
+	tmp = shell->environ;
+	while (str[i] != '=')
+		i++;
+	while (str[count] != '\0')
+		count++;
+	compare = malloc(sizeof(char) * (i + 1));
+	if (compare == NULL)
+		return (-1);
+	compare = ft_strcpy_egal(compare, str);
+	while (tmp)
+	{
+		if (ft_strnstr(tmp->str, compare, i + 1) == 0)
+		{
+			free(tmp->str);
+			tmp->str = malloc(sizeof(char) * (count + 1));
+			if (tmp->str == NULL)
+				return (-1);
+			tmp->str = ft_strcpy(tmp->str, str);
+			is_ok = 1;
+		}
+		tmp = tmp->next;
+	}
+	if(is_ok == 0)
+	{
+		ft_lstadd_back_env(&shell->environ, ft_lstnew_env(str));
+		return (0);
+	}
+	return (0);	
+}
 
 int cmd_export(char **cmd, t_shell *shell)
 {
 	char **tab;
 	int i;
 	int j;
+	int var_env;
 
 	i = 0;
 	j = 0;
+	var_env = 0;
 	if (!cmd[1])
 	{	
 		tab = env_in_tab(shell);
@@ -118,9 +160,20 @@ int cmd_export(char **cmd, t_shell *shell)
 	}
 	else
 	{
+		i = 1;
 		while (cmd[i])
 		{
-			ft_lstadd_back_env(&shell->environ, ft_lstnew_env(cmd[i]));
+			j = 0;
+			while (cmd[i][j])
+			{
+				if (cmd[i][j] == '=')
+					var_env = 1;	
+				j++;
+			}
+			if (var_env == 0)
+				ft_lstadd_back_env(&shell->environ, ft_lstnew_env(cmd[i]));
+			else
+				replace_var_env(shell, cmd[i]);
 			i++;
 		}
 

@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:21:36 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/14 09:36:55 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/14 11:43:57 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	builtins(char **cmd, t_shell *shell);
 int		cmd_export(char **cmd, t_shell *shell);
 char	**print_sort_env(char **tab, int size);
 char	**env_in_tab(t_shell *shell);
+int		replace_var_env(t_shell *shell, char *str);
 
 
 
@@ -69,6 +70,7 @@ int		cmd_echo2(t_echo *echo, char **cmd);
 
 /*UTILS*/
 char	*ft_strcpy(char *dest, char *src);
+char	*ft_strcpy_egal(char *dest, char *src);
 char	*ft_strcat_mini(char *dest, char *src);
 int		ft_strcmp(char *s1, char *s2);
 int     ft_str_is_numeric(char *str);
