@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 11:19:20 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/14 12:02:54 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/14 13:29:00 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*ft_clean_simple_quotes(char *str)
 		j++;
 	}
 	new_str[j] = '\0';
-	return (new_str);
+	return (free(str), new_str);
 }
 
 char	*ft_stock_str(char *old_str, char c)
@@ -116,5 +116,5 @@ char	*ft_clean_if_quotes(char *str)
 	}
 	if (new_str == NULL)
 		new_str = ft_malloc(1);
-	return (new_str);
+	return (free(str), new_str);
 }

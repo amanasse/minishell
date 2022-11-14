@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 15:33:42 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/10/28 14:52:08 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/14 13:09:58 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ char	*ft_strncpy(char *src, unsigned int n)
 		i++;
 	}
 	dest[i] = '\0';
+	printf("dest[%d] = [%c]\n", i, dest[i]);
 	return (dest);
 }

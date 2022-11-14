@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 14:47:35 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/14 12:08:38 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/14 13:21:06 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,10 @@ void	ft_lstclear_ms(t_ms *lst)
 	while (lst != NULL)
 	{
 		tmp = lst;
+		printf("free %p\n", tmp);
 		lst = lst->next;
+		if (tmp->str)
+			free(tmp->str);
 		free(tmp);
 	}
 	free (lst);
