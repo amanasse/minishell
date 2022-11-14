@@ -38,3 +38,9 @@ III.CODER BUILTINS
 	◦ unset sans aucune option
 	◦ env sans aucune option ni argument
 	◦ exit sans aucune option
+	compteur 
+	i = 0
+
+
+
+		

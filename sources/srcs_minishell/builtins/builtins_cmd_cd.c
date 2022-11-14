@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:41:42 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/10 16:26:22 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/14 15:05:17 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ char	*go_home(t_env *tmp)
 }
 
 // PENSER A FREE EN CAS DERREUR ENV + CMD SI JAMAIS ON EXIT LE PROGRAMME
-int	*cmd_cd(char **cmd, t_shell *shell)
+int	cmd_cd(char **cmd, t_shell *shell)
 {
 	int		t;
 	int		i;
@@ -127,6 +127,9 @@ int	*cmd_cd(char **cmd, t_shell *shell)
 		free(dir);
 	}
 	else
+	{
 		printf("\nError : Directory change failed.\n");
+		return (1);
+	}
 	return (0);
 }

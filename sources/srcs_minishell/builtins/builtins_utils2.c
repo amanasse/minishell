@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 13:54:52 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/14 11:43:38 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/14 13:40:01 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ char	*ft_strcpy_egal(char *dest, char *src)
 		i++;
 	}
 	dest[i] = '=';
+	i++;
+	dest[i] = '\0';
 	return (dest);
 }
 

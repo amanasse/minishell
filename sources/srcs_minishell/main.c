@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/14 12:11:14 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/14 14:59:34 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,12 @@ int main(int argc, char **argv, char **env)
 	shell.environ = NULL;
 	copy_of_env(env, &shell);
 	cmd = NULL;
-	cmd = malloc(sizeof(char *) * 5);
+	cmd = malloc(sizeof(char *) * 2);
 	if (cmd == NULL)
 		return (0);
 	memset(cmd, 0, 4);
-	cmd[0] = "export";
-	cmd[1] = "lol=AHAHAH";
-	cmd[2] = "COUCOU=MDR";
-	cmd[3] = "PAGER=LOL";
-	cmd[4] = NULL;
+	cmd[0] = "exit";
+	cmd[1] = "-5654";
 	// cmd[4] = "les garsn";
 	// cmd[2] = NULL;
 	// cmd[1] = "pwd";
@@ -41,7 +38,7 @@ int main(int argc, char **argv, char **env)
 
 
 	builtins(cmd, &shell);
-	ft_view_env(shell.environ);
+	// ft_view_env(shell.environ);
 	ft_lstclear_env(shell.environ);
 	
 	

@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 14:29:14 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/14 12:11:07 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/14 15:08:52 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,15 @@ int	replace_var_env(t_shell *shell, char *str)
 	is_ok = 0;
 	count = 0;
 	tmp = shell->environ;
-	while (str[i] != '=')
+	while (str && str[i] != '=')
 		i++;
-	while (str[count] != '\0')
+	while (str && str[count] != '\0')
 		count++;
-	compare = malloc(sizeof(char) * (i + 1));
+	compare = malloc(sizeof(char) * (i + 2));
 	if (compare == NULL)
 		return (-1);
 	compare = ft_strcpy_egal(compare, str);
+	printf ("compare = %s", compare);
 	while (tmp)
 	{
 		if (ft_strnstr(tmp->str, compare, i + 1) == 0)
@@ -109,17 +110,15 @@ int	replace_var_env(t_shell *shell, char *str)
 			free(tmp->str);
 			tmp->str = malloc(sizeof(char) * (count + 1));
 			if (tmp->str == NULL)
-				return (-1);
+				return (free(compare), -1);
 			tmp->str = ft_strcpy(tmp->str, str);
 			is_ok = 1;
+			free(compare);
 		}
 		tmp = tmp->next;
 	}
 	if(is_ok == 0)
-	{
 		ft_lstadd_back_env(&shell->environ, ft_lstnew_env(str));
-		return (0);
-	}
 	return (0);	
 }
 
@@ -136,6 +135,8 @@ int cmd_export(char **cmd, t_shell *shell)
 	if (!cmd[1])
 	{	
 		tab = env_in_tab(shell);
+		if (tab == NULL)
+			return (1);
 		while (tab[i])
 			i++;
 		print_sort_env(tab, i);
@@ -147,7 +148,7 @@ int cmd_export(char **cmd, t_shell *shell)
 			while(tab[i][j])
 			{
 				ft_putchar_fd(tab[i][j], 1);
-				if(tab[i][j] == '=')
+				if(tab[i][j] == '=' && tab[i][j + 1] != '\0')
 					write (1, "\"", 1);
 				j++;
 			}
@@ -173,7 +174,10 @@ int cmd_export(char **cmd, t_shell *shell)
 			if (var_env == 0)
 				ft_lstadd_back_env(&shell->environ, ft_lstnew_env(cmd[i]));
 			else
-				replace_var_env(shell, cmd[i]);
+			{
+				if(replace_var_env(shell, cmd[i]) == -1)
+					return (1);
+			}
 			i++;
 		}
 
