@@ -9,6 +9,7 @@ SRCS    = 	main.c\
 		builtins/builtins_cmd_cd.c\
 		builtins/builtins_cmd_echo.c\
 		builtins/builtins_cmd_export.c\
+		builtins/builtins_cmd_export2.c\
 		builtins/builtins_cmd_unset.c\
 		builtins/builtins_cmd_exit.c\
 
