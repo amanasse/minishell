@@ -1,10 +1,11 @@
 sources/objs/parsing/main.o: sources/srcs_minishell/parsing/main.c \
- sources/srcs_minishell/parsing/../../../includes/minishell.h \
- sources/srcs_minishell/parsing/../../../includes/../includes/builtins.h \
- sources/srcs_minishell/parsing/../../../includes/../includes/../includes/minishell.h \
- sources/srcs_minishell/parsing/../../../includes/../includes/parsing.h \
- sources/srcs_minishell/parsing/../../../includes/../includes/../includes/builtins.h \
- sources/srcs_minishell/parsing/../../../includes/../includes/../sources/libft/includes/libft.h \
- sources/srcs_minishell/parsing/../../../includes/../sources/libft/includes/libft.h \
- sources/srcs_minishell/parsing/../../../includes/builtins.h \
- sources/srcs_minishell/parsing/../../../includes/parsing.h
+ includes/../includes/minishell.h \
+ includes/../includes/../includes/parsing.h \
+ includes/../includes/../includes/../includes/minishell.h \
+ includes/../includes/../includes/../includes/builtins.h \
+ includes/../includes/../includes/../includes/../includes/minishell.h \
+ includes/../includes/../includes/../sources/libft/includes/libft.h \
+ includes/../includes/../includes/builtins.h \
+ includes/../includes/../includes/execution.h \
+ includes/../includes/../includes/../includes/parsing.h \
+ includes/../includes/../sources/libft/includes/libft.h

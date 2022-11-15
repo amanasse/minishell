@@ -6,11 +6,10 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/14 17:41:52 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/15 11:18:45 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/parsing.h"
 #include "../../../includes/minishell.h"
 
 /*prio ' ' et " " : verifier si fermes, sinon erreur

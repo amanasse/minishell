@@ -6,11 +6,10 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 11:19:20 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/14 17:49:00 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/15 11:18:49 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/parsing.h"
 #include "../../../includes/minishell.h"
 
 char	*ft_clean_simple_quotes(char *str)
@@ -24,7 +23,6 @@ char	*ft_clean_simple_quotes(char *str)
 	new_str = malloc(sizeof(char) * (ft_strlen(str) + 1));
 	if (new_str == NULL)
 		return (NULL);
-	printf("str = %s\n", str);
 	while (str[i])
 	{
 		if (str[i] == '\'')
@@ -45,7 +43,7 @@ char	*ft_stock_str(char *old_str, char c)
 	int		i;
 
 	i = 0;
-	new_str = malloc (ft_strlen(old_str) + 2);
+	new_str = malloc(sizeof(char) *(ft_strlen(old_str) + 2));
 	if (new_str == NULL)
 		return (NULL);
 	while (old_str && old_str[i])

@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:21:36 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/14 16:14:42 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/15 11:20:44 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct s_env
 typedef struct s_shell
 {
 	t_env	        *environ;
-	// char			**cmd;
     char            *pwd;
     char            *old_pwd;
 	int				status;

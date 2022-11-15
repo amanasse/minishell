@@ -6,11 +6,10 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/14 17:37:17 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/15 11:18:52 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/parsing.h"
 #include "../../../includes/minishell.h"
 
 /*
@@ -42,7 +41,7 @@ char	*ft_replace_dollar(char *str, char *new_str)
 		tmp2 = ft_strjoin(new_str, ft_strncpy(tmp, ft_strlen(tmp)));
 	else
 		tmp2 = ft_strncpy(tmp, ft_strlen(tmp));
-	return (free(new_str), tmp2);
+	return (free(new_str), free(tmp), tmp2);
 }
 
 char	*ft_replace_var(char *str)
@@ -56,7 +55,7 @@ char	*ft_replace_var(char *str)
 	tmp_str = NULL;
 	if (str[i] == '$')
 	{
-		while (str[i] != ' ' && str[i] != '\0' && str[i] != '"')
+		while (str[i] != ' ' && str[i] != '\0' && str[i] != '"' && str[i] != '\'')
 			i++;
 		to_replace = ft_substr(str, 1, i - 1);
 		if (to_replace == NULL)
