@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:21:36 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/15 12:37:52 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/15 15:03:56 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ typedef struct s_shell
 	t_env	        *environ;
 	char			**tab_env;
 	char			**cmd;
+	int				i;
+	int				j;
     char            *pwd;
     char            *old_pwd;
 	int				status;
@@ -49,6 +51,7 @@ typedef struct s_export
 	t_env			*element;
 	int				count;
 	int				i;
+	int				var_env;
 	char			*compare;
 	int				is_ok;
 }					t_export;
@@ -60,15 +63,16 @@ typedef struct s_export
 void	builtins(char **cmd, t_shell *shell);
 
 int		cmd_export(char **cmd, t_shell *shell);
-void    init_export(t_export *export, t_shell *shell);
+void	print_export(t_shell *shell);
+void    init_export(t_export *export);
 
 
 
 
 char	**sort_env(char **tab, int size);
 char	**env_in_tab(t_shell *shell);
-int		replace_var_env(t_shell *shell, char *str);
-
+int		check_var_env(t_export *export, t_shell *shell, char **cmd);
+int		replace_var_env(t_shell *shell, char *str, t_export *export);
 
 
 int		cmd_env(char **cmd, t_shell *shell);

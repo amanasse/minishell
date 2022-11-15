@@ -6,73 +6,16 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 14:29:14 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/15 12:42:06 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/15 15:09:02 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 #include "../../../includes/builtins.h"
 
-char	**sort_env(char **tab, int size)
-{
-	char	*tmp;
-	int		i;
-	int		is_ok;
-
-	i = 0;
-	is_ok = 0;
-	while (tab && !is_ok)
-	{
-		is_ok = 1;
-		i = 0;
-		while (i < size - 1)
-		{
-			if (ft_strcmp(tab[i], tab[i + 1]) > 0)
-			{
-				tmp = tab[i];
-				tab[i] = tab[i + 1];
-				tab[i + 1] = tmp;
-				is_ok = 0;
-			}
-			i++;
-		}
-		size--;
-	}
-	return (tab);
-}
-
-char	**env_in_tab(t_shell *shell)
-{
-	int		i;
-	char	**tab;
-	t_env	*tmp;
-	t_env	*tmp2;
-
-	i = 0;
-	tmp = shell->environ;
-	tmp2 = shell->environ;
-	while (tmp)
-	{
-		tmp = tmp->next;
-		i++;
-	}
-	tab = malloc(sizeof(char *) * (i + 1));
-	if (tab == NULL)
-		return (NULL);
-	i = 0;
-	while (tmp2)
-	{
-		tab[i] = tmp2->str;
-		tmp2 = tmp2->next;
-		i++;
-	}
-	tab[i] = NULL;
-	return (tab);
-}
-
 int	replace_or_create_var(t_shell *shell, t_export *export, char *str)
 {
-	while (export->tmp)
+	while (export->tmp != NULL)
 	{
 		if (ft_strnstr(export->tmp->str, export->compare, export->i + 1) == 0)
 		{
@@ -93,84 +36,99 @@ int	replace_or_create_var(t_shell *shell, t_export *export, char *str)
 			return (-1);
 		ft_lstadd_back_env(&shell->environ, export->element);
 	}
+	export->is_ok = 0;
 	return (0);
 }
 
-int	replace_var_env(t_shell *shell, char *str)
+int	replace_var_env(t_shell *shell, char *str, t_export *export)
 {
-	t_export	export;
+	while (str && str[export->i] != '=')
+		export->i++;
+	while (str && str[export->count] != '\0')
+		export->count++;
+	export->compare = malloc(sizeof(char) * (export->i + 2));
+	if (export->compare == NULL)
+		return (-1);
+	export->compare = ft_strcpy_egal(export->compare, str);
+	if (replace_or_create_var(shell, export, str) == -1)
+		return (-1);
+	return (0);
+}
 
-	init_export(&export, shell);
-	while (str && str[export.i] != '=')
-		export.i++;
-	while (str && str[export.count] != '\0')
-		export.count++;
-	export.compare = malloc(sizeof(char) * (export.i + 2));
-	if (export.compare == NULL)
-		return (-1);
-	export.compare = ft_strcpy_egal(export.compare, str);
-	if (replace_or_create_var(shell, &export, str) == -1)
-		return (-1);
+void	print_export(t_shell *shell)
+{
+	shell->i = 0;
+	while (shell->tab_env[shell->i])
+	{
+		shell->j = 0;
+		write (1, "declare -x ", 11);
+		while (shell->tab_env[shell->i][shell->j])
+		{
+			ft_putchar_fd(shell->tab_env[shell->i][shell->j], 1);
+			if (shell->tab_env[shell->i][shell->j] == '='
+			&& shell->tab_env[shell->i][shell->j + 1] != '\0')
+				write (1, "\"", 1);
+			shell->j++;
+		}
+		write (1, "\"", 1);
+		write (1, "\n", 1);
+		shell->i++;
+	}	
+}
+
+int	check_var_env(t_export *export, t_shell *shell, char **cmd)
+{
+	while (cmd[shell->i])
+	{
+		export->tmp = shell->environ;
+		shell->j = 0;
+		while (cmd[shell->i][shell->j])
+		{
+			if (cmd[shell->i][shell->j] == '=')
+				export->var_env = 1;
+			shell->j++;
+		}
+		if (export->var_env == 0)
+		{
+			export->element = ft_lstnew_env(cmd[shell->i]);
+			if (export->element == NULL)
+				return (1);
+			ft_lstadd_back_env(&shell->environ, export->element);
+		}
+		else
+		{
+			if (replace_var_env(shell, cmd[shell->i], export) == -1)
+				return (1);
+		}
+		shell->i++;
+	}
 	return (0);
 }
 
 int	cmd_export(char **cmd, t_shell *shell)
 {
-	int		i;
-	int		j;
-	int		var_env;
+	t_export	export;
 
-	i = 0;
-	j = 0;
-	var_env = 0;
+	shell->i = 0;
+	shell->j = 0;
+	init_export(&export);
 	if (!cmd[1])
 	{	
 		shell->tab_env = env_in_tab(shell);
 		if (shell->tab_env == NULL)
 			return (1);
-		while (shell->tab_env[i])
-			i++;
-		sort_env(shell->tab_env, i);
-		i = 0;
-		while (shell->tab_env[i])
-		{
-			j = 0;
-			write (1, "declare -x ", 11);
-			while (shell->tab_env[i][j])
-			{
-				ft_putchar_fd(shell->tab_env[i][j], 1);
-				if (shell->tab_env[i][j] == '=' && shell->tab_env[i][j + 1] != '\0')
-					write (1, "\"", 1);
-				j++;
-			}
-			write (1, "\"", 1);
-			write (1, "\n", 1);
-			i++;
-		}
+		while (shell->tab_env[shell->i])
+			shell->i++;
+		sort_env(shell->tab_env, shell->i);
+		print_export(shell);
 		free (shell->tab_env);
 		return (0);
 	}
 	else
 	{
-		i = 1;
-		while (cmd[i])
-		{
-			j = 0;
-			while (cmd[i][j])
-			{
-				if (cmd[i][j] == '=')
-					var_env = 1;
-				j++;
-			}
-			if (var_env == 0)
-				ft_lstadd_back_env(&shell->environ, ft_lstnew_env(cmd[i]));
-			else
-			{
-				if (replace_var_env(shell, cmd[i]) == -1)
-					return (1);
-			}
-			i++;
-		}
+		shell->i = 1;
+		if (check_var_env(&export, shell, cmd) == 1)
+			return (1);
 	}
 	return (0);
 }
