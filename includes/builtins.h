@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:21:36 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/15 15:03:56 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/15 17:34:20 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,17 @@ typedef struct s_export
 	char			*compare;
 	int				is_ok;
 }					t_export;
+
+typedef struct s_unset
+{
+	t_env			*tmp;
+	t_env			*element;
+	int				count;
+	int				i;
+	int				var_env;
+	char			*compare;
+	int				is_ok;
+}					t_unset;
 
 
 

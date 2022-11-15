@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/15 14:57:32 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/15 17:17:55 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,14 @@ int main(int argc, char **argv, char **env)
 	shell.environ = NULL;
 	copy_of_env(env, &shell);
 	cmd = NULL;
-	cmd = malloc(sizeof(char *) * 8);
+	cmd = malloc(sizeof(char *) * 3);
 	if (cmd == NULL)
 		return (0);
 	memset(cmd, 0, 4);
-	cmd[0] = "export";
-	cmd[1] = "SHELL=smw";
-	cmd[2] = "-5654";
-	cmd[3] = "LOL=DKWOKDW";
-	cmd[4] = "hdh=DKWOKDW";
-	cmd[5] = "dpwld=";
-	cmd[6] = "dqmdqmd";
-	cmd[7] = NULL;
+	cmd[0] = "exit";
+	cmd[1] = ",doek";
+
+	cmd[2] = NULL;
 
 
 
