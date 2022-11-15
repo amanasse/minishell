@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/15 12:29:42 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/15 13:35:03 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,10 @@ int	ft_fork1(t_shell *shell, char **cmd, int *pipefd, t_parse *parse)
 {
 	pid_t	pid;
 	char	*path;
+	char	**env;
 	
 	pid = fork();
+	env = env_in_tab(shell);
 	if (pid == 0)
 	{
 		if ((path = get_path(shell, parse)) == NULL)
@@ -107,7 +109,7 @@ int	ft_fork1(t_shell *shell, char **cmd, int *pipefd, t_parse *parse)
 		dup2(pipefd[1], 1);
 		close(pipefd[0]);
 		close(pipefd[1]);
-		execve(path, cmd, shell->environ);
+		execve(path, cmd, env);
 	}
 	return (1);
 }
@@ -117,8 +119,10 @@ int	ft_fork2(t_shell *shell, char **cmd, int *pipefd, t_parse *parse)
 {
 	pid_t	pid;
 	char	*path;
+	char	**env;
 	
 	pid = fork();
+	env = env_in_tab(shell);
 	if (pid == 0)
 	{
 		if ((path = get_path(shell, parse)) == NULL)
@@ -129,7 +133,7 @@ int	ft_fork2(t_shell *shell, char **cmd, int *pipefd, t_parse *parse)
 		dup2(pipefd[0], 0);
 		close(pipefd[1]);
 		close(pipefd[0]);
-		execve(path, cmd, shell->environ);
+		execve(path, cmd, env);
 	}
 	return (1);
 }

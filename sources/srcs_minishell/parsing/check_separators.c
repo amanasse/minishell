@@ -6,13 +6,13 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 17:26:05 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/15 11:18:57 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/15 16:33:16 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-int	ft_append(t_ms **lex, char *str)
+int	ft_append(t_lstms *lex, char *str)
 {
 	char	*temp;
 	int		i;
@@ -26,14 +26,16 @@ int	ft_append(t_ms **lex, char *str)
 		&& (str[i] != '>'))
 		i++;
 	temp = ft_substr(str, j, i - j);
+	if (temp == NULL)
+		return (0);
 	if (str[1] == '<')
-		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 5));
+		ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, 5));
 	else if (str[1] == '>')
-		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 6));
+		ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, 6));
 	return (i);
 }
 
-int	ft_chevron(t_ms **lex, char *str, char c)
+int	ft_chevron(t_lstms *lex, char *str, char c)
 {
 	int		i;
 	int		j;
@@ -54,10 +56,12 @@ int	ft_chevron(t_ms **lex, char *str, char c)
 		&& (str[i] != '>'))
 		i++;
 	temp = ft_substr(str, j, i - j);
+	if (temp == NULL)
+		return (-1);
 	if (c == '<') 
-		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 3));
+		ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, 3));
 	else if (c == '>')
-		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 4));
+		ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, 4));
 	return (i);
 }
 

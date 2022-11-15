@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/15 11:18:45 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/15 16:43:48 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	check_if_quotes_are_closed(char *str)
 	return (0);
 }
 
-int	ft_lexer_quotes(int i, char *str, t_ms **lex)
+int	ft_lexer_quotes(int i, char *str, t_minishell *mini)
 {
 	char	*temp;
 	int		j;
@@ -62,13 +62,13 @@ int	ft_lexer_quotes(int i, char *str, t_ms **lex)
 	if (temp == NULL)
 		return (free(temp), 0);
 	if (str[i] == '"')
-		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 0));
+		ft_lstadd_back_ms(&mini->lstms, ft_lstnew_ms(temp, 0));
 	else
-		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 8));
+		ft_lstadd_back_ms(&mini->lstms, ft_lstnew_ms(temp, 8));
 	return (j);
 }
 
-int	ft_lexer_others(int i, char *str, t_ms **lex)
+int	ft_lexer_others(int i, char *str, t_minishell *mini)
 {
 	char	*temp;
 	int		j;
@@ -80,15 +80,15 @@ int	ft_lexer_others(int i, char *str, t_ms **lex)
 	temp = ft_substr(str + i, 0, j - i);
 	if (temp == NULL)
 		return (free(temp), 0);
-	ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 1));
+	ft_lstadd_back_ms(&mini->lstms, ft_lstnew_ms(temp, 1));
 	return (j);
 }
 
-int	ft_lexer_redirection(int i, char *str, t_ms **lex)
+int	ft_lexer_redirection(int i, char *str, t_minishell *mini)
 {
 	int	res;
 	
-	res = ft_chevron(lex, str + i, str[i]);
+	res = ft_chevron(mini->lstms, str + i, str[i]);
 	i += res;
 	if (res == 0)
 		i++;
@@ -97,7 +97,7 @@ int	ft_lexer_redirection(int i, char *str, t_ms **lex)
 	return (i);
 }
 
-int	ft_lexer(t_ms *lex, char *str, t_shell *shell)
+int	ft_lexer(t_minishell *minishell, char *str)
 {
 	int		i;
 
@@ -107,25 +107,23 @@ int	ft_lexer(t_ms *lex, char *str, t_shell *shell)
 	while (str[i] != '\0')
 	{
 		if (str[i] == '"' || str[i] == '\'')	
-			i = ft_lexer_quotes(i, str, &lex);
+			i = ft_lexer_quotes(i, str, minishell);
 		else if (str[i] == '<' || str[i] == '>')
 		{
-			i = ft_lexer_redirection(i, str, &lex);
+			i = ft_lexer_redirection(i, str, minishell);
 			if (i == -1)	
 				return (printf("%s '%c'\n", ERR_CHEVRON, str[i]), 0);
 		}
 		else if (str[i] == '|')
 		{
-			ft_lstadd_back_ms(&lex, ft_lstnew_ms("|", 2));
+			ft_lstadd_back_ms(&minishell->lstms, ft_lstnew_ms("|", 2));
 			i++;
 		}
 		else if (str[i] == ' ')
 			i++;
 		else
-			i = ft_lexer_others(i, str, &lex);
+			i = ft_lexer_others(i, str, minishell);
 	}
-	ft_view_lst(lex); // a supprimer
-	ft_clean_lst(&lex, shell);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:29:36 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/15 11:44:22 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/15 17:06:22 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 //norminette ok
 
-int	ft_count_cmd(t_ms *lex)
+int	ft_count_cmd(t_lstms *lex)
 {
 	int count;
 
@@ -38,7 +38,7 @@ void	ft_init_struc_parse(t_parse *parse, int i)
 	parse[i].if_pipe = 0;
 }
 
-void	ft_fill_parse(t_parse *parse, t_ms *temp, int j, int i)
+void	ft_fill_parse(t_parse *parse, t_lstms *temp, int j, int i)
 {
 	parse[j].tab_cmd[i] = temp->str;
 	if (temp->type == 3 || temp->type == 4 
@@ -49,7 +49,7 @@ void	ft_fill_parse(t_parse *parse, t_ms *temp, int j, int i)
 		parse[j].if_pipe = 1;
 }
 
-void	ft_fill_tab_cmd(t_ms *temp, t_parse *parse)
+void	ft_fill_tab_cmd(t_lstms *temp, t_parse *parse)
 {
 	int		j;
 	int		i;
@@ -98,53 +98,29 @@ void	ft_print_struc_parse(t_parse *parse, int k) // a supprimer
 	}	
 }
 
-void	ft_build_struc_parse(t_ms **lex, int count, t_shell *shell)
+void	ft_build_struc_parse(t_minishell *minishell, int count)
 {
-	t_ms	*temp;
-	t_parse	*parse;
+	t_lstms	*temp;
 	int		i;
 
-	temp = *lex;
+	temp = minishell->lstms;
 	i = 0;
-	parse = malloc(sizeof(t_parse) * (count + 2));
-	if (parse == NULL)
+	minishell->parse = malloc(sizeof(t_parse) * (count + 2));
+	if (minishell->parse  == NULL)
 		return ;
-	while (parse && i < (count + 2))
+	while (minishell->parse && i < (count + 2))
 	{	
-		ft_init_struc_parse(parse, i);
+		ft_init_struc_parse(minishell->parse, i);
 		i++;
 	}
-	ft_fill_tab_cmd(temp, parse);
+	ft_fill_tab_cmd(temp, minishell->parse);
 	i = 0;
-	while (parse[i].tab_cmd != NULL)
-	{
-		builtins(parse[i].tab_cmd, shell);
-		
-		i++;
-	}
-	ft_print_struc_parse(parse, count + 1);
-	ft_lstclear_ms(*lex);
-	free(parse->tab_cmd);
-	free(parse);
+	// while (minishell->parse[i].tab_cmd != NULL)
+	// {
+	// 	builtins(minishell->parse[i].tab_cmd, minishell->shell);
+	// 	i++;
+	// }
+	ft_print_struc_parse(minishell->parse, count + 1);
+	// free(parse->tab_cmd);
+	// free(parse);
 }
-
-
-// void	ft_free_tab_cmd(t_parse *parse) // a supprimer
-// {
-// 	int i;
-// 	int j;
-
-// 	i = 0;
-// 	while (parse[i].tab_cmd != NULL)
-// 	{
-// 		j = 0;
-// 		while (parse[i].tab_cmd[j] != NULL)
-// 		{
-// 			free(parse[i].tab_cmd[j]);
-// 			j++;
-// 		}
-// 		free(parse[i].tab_cmd);
-// 		i++;
-// 	}
-// 	free (parse);
-// }

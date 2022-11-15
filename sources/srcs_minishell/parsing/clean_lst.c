@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/15 11:18:52 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/15 17:05:22 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,12 @@ char	*ft_replace_var(char *str)
 	return (free(to_replace), tmp_str);
 }
 
-int	ft_clean_lst(t_ms **lex, t_shell *shell)
+int	ft_clean_lst(t_minishell *minishell)
 {
-	t_ms	*temp;
+	t_lstms	*temp;
 	int		count;
 
-	temp = *lex;
+	temp = minishell->lstms;
 	count = 0;
 	while (temp != NULL)
 	{
@@ -93,7 +93,5 @@ int	ft_clean_lst(t_ms **lex, t_shell *shell)
 			count++;
 		temp = temp->next;
 	}
-	ft_view_lst(*lex);
-	ft_build_struc_parse(lex, count, shell);
 	return (count);
 }
