@@ -6,13 +6,13 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/15 13:35:03 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/16 11:44:13 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-char *get_path(t_shell *shell, t_parse *parse)
+char *get_path(t_env *environ, t_parse *parse)
 {
 	char  *path;
 	int   i;
@@ -20,13 +20,13 @@ char *get_path(t_shell *shell, t_parse *parse)
 	char  **split_paths;
 	
 	i = 0;
-	while (shell->environ)
+	while (environ)
 	{
-		if (ft_strncmp(shell->environ->str, "PATH", 4) == 0)
+		if (ft_strncmp(environ->str, "PATH", 4) == 0)
 			break ;
-		shell->environ = shell->environ->next;
+		environ = environ->next;
 	}
-	split_paths = ft_split(shell->environ->str + 5, ':');
+	split_paths = ft_split(environ->str + 5, ':');
 	if (split_paths == NULL)
 		return (NULL);
 	while (split_paths[i])
@@ -91,49 +91,48 @@ char *get_path(t_shell *shell, t_parse *parse)
 // 	return (NULL);
 // }
 
-int	ft_fork1(t_shell *shell, char **cmd, int *pipefd, t_parse *parse)
+int	ft_fork1(t_minishell *minishell, int *pipefd)
 {
 	pid_t	pid;
 	char	*path;
 	char	**env;
 	
 	pid = fork();
-	env = env_in_tab(shell);
+	env = env_in_tab(minishell);
 	if (pid == 0)
 	{
-		if ((path = get_path(shell, parse)) == NULL)
+		if ((path = get_path(minishell->environ, minishell->parse)) == NULL)
 		{
-			printf("%s: command not found\n", cmd[0]);
+			printf("%s: command not found\n", minishell->parse[0].tab_cmd[0]);
 			return (0);
 		}
 		dup2(pipefd[1], 1);
 		close(pipefd[0]);
 		close(pipefd[1]);
-		execve(path, cmd, env);
+		execve(path, minishell->parse[0].tab_cmd, env);
 	}
 	return (1);
 }
 
-
-int	ft_fork2(t_shell *shell, char **cmd, int *pipefd, t_parse *parse)
+int	ft_fork2(t_minishell *minishell, int *pipefd)
 {
 	pid_t	pid;
 	char	*path;
 	char	**env;
 	
 	pid = fork();
-	env = env_in_tab(shell);
+	env = env_in_tab(minishell);
 	if (pid == 0)
 	{
-		if ((path = get_path(shell, parse)) == NULL)
+		if ((path = get_path(minishell->environ, minishell->parse)) == NULL)
 		{
-			printf("%s: command not found\n", cmd[0]);
+			printf("%s: command not found\n", minishell->parse[0].tab_cmd[0]);
 			return (0);
 		}
 		dup2(pipefd[0], 0);
 		close(pipefd[1]);
 		close(pipefd[0]);
-		execve(path, cmd, env);
+		execve(path, minishell->parse[0].tab_cmd, env);
 	}
 	return (1);
 }

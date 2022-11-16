@@ -3,82 +3,86 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 11:57:06 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/10 16:19:03 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/16 11:23:46 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 #include "../../../includes/builtins.h"
 
-// int	get_old_pwd(t_shell *shell)
-// {
-// 	int	i;
-
-// 	i = ft_strlen(shell->environ->str);
-// 	shell->old_pwd = malloc(sizeof(char) * i + 1);
-// 	if (shell->old_pwd == NULL)
-// 		return (-1);
-// 	ft_strlcpy(shell->old_pwd, shell->environ->str, i + 1);
-// 	shell->environ->str = shell->old_pwd;
-// 	return (0);
-// }
-
-// int	get_pwd(t_shell *shell)
-// {
-// 	int	j;
-
-// 	j = ft_strlen(shell->environ->str);
-// 	shell->pwd = malloc(sizeof(char) * j + 1);
-// 	if (shell->pwd == NULL)
-// 		return (-1);
-// 	ft_strlcpy(shell->pwd, shell->environ->str, j + 1);
-// 	shell->environ->str = shell->pwd;
-// 	return (0);
-// }
-
-// int	get_home(t_shell *shell)
-// {
-// 	t_env	*tmp;
-
-// 	tmp = shell->environ;
-// 	while (shell->environ != NULL)
-// 	{
-// 		if (ft_strnstr(shell->environ->str, "OLDPWD=", 7) == 0)
-// 		{
-// 			if (get_old_pwd(shell) == -1)
-// 				return (-1);
-// 			break ;
-// 		}		
-// 		shell->environ = shell->environ->next;
-// 	}
-// 	shell->environ = tmp;
-// 	while (shell->environ != NULL)
-// 	{
-// 		if (ft_strnstr(shell->environ->str, "PWD=", 4) == 0)
-// 		{
-// 			if (get_pwd(shell) == -1)
-// 				return (-1);
-// 		}		
-// 		shell->environ = shell->environ->next;
-// 	}
-// 	shell->environ = tmp;
-// 	return (0);
-// }
-
-int	copy_of_env(char **env, t_shell *shell)
+char	**sort_env(char **tab, int size)
 {
-	int	i;
+	char	*tmp;
+	int		i;
+	int		is_ok;
+
+	i = 0;
+	is_ok = 0;
+	while (tab && !is_ok)
+	{
+		is_ok = 1;
+		i = 0;
+		while (i < size - 1)
+		{
+			if (ft_strcmp(tab[i], tab[i + 1]) > 0)
+			{
+				tmp = tab[i];
+				tab[i] = tab[i + 1];
+				tab[i + 1] = tmp;
+				is_ok = 0;
+			}
+			i++;
+		}
+		size--;
+	}
+	return (tab);
+}
+
+char	**env_in_tab(t_minishell *minishell)
+{
+	int		i;
+	char	**tab;
+	t_env	*tmp;
+	t_env	*tmp2;
+
+	i = 0;
+	tmp = minishell->environ;
+	tmp2 = minishell->environ;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		i++;
+	}
+	tab = malloc(sizeof(char *) * (i + 1));
+	if (tab == NULL)
+		return (NULL);
+	i = 0;
+	while (tmp2)
+	{
+		tab[i] = tmp2->str;
+		tmp2 = tmp2->next;
+		i++;
+	}
+	tab[i] = NULL;
+	return (tab);
+}
+
+int	copy_of_env(char **env, t_minishell *minishell)
+{
+	int		i;
+	t_env	*tmp;
 
 	i = 0;
 	while (env[i])
 	{
-		ft_lstadd_back_env(&shell->environ, ft_lstnew_env(env[i]));
+		tmp = ft_lstnew_env(env[i]);
+		if (tmp == NULL)
+			return (-1);
+		ft_lstadd_back_env(&minishell->environ, tmp);
 		i++;
 	}
-	// if (get_home(shell) == -1)
-	// 	return (-1);
 	return (0);
 }

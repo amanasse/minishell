@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:21:36 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/15 11:20:44 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/16 11:43:30 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,30 +35,44 @@ typedef struct s_env
 
 typedef struct s_shell
 {
-	t_env	        *environ;
+	char			**tab_env;
+	int				i;
+	int				j;
     char            *pwd;
     char            *old_pwd;
 	int				status;
 }					t_shell;
 
+typedef struct s_export
+{
+	t_env			*tmp;
+	t_env			*element;
+	int				count;
+	int				i;
+	int				var_env;
+	char			*compare;
+	int				is_ok;
+}					t_export;
+
+typedef struct s_unset
+{
+	t_env			*tmp;
+	t_env			*element;
+	int				count;
+	int				i;
+	int				var_env;
+	char			*compare;
+	int				is_ok;
+}					t_unset;
+
 
 /*BUILTINS*/
 
-void	builtins(char **cmd, t_shell *shell);
-
-int		cmd_export(char **cmd, t_shell *shell);
+void	init_export(t_export *export);
 char	**print_sort_env(char **tab, int size);
-char	**env_in_tab(t_shell *shell);
-int		replace_var_env(t_shell *shell, char *str);
+int		replace_var_env(t_env *environ, char *str, t_export *export);
 
-
-
-int		cmd_env(char **cmd, t_shell *shell);
-int		cmd_cd(char **cmd, t_shell *shell);
-int 	new_pwd(t_shell *shell, char *dir);
 int		cmd_exit(char **cmd);
-int		cmd_pwd(char **cmd, t_shell *shell);
-
 
 void	count_cmd(t_echo *echo, char **cmd);
 void 	init_echo(t_echo *echo);
@@ -84,7 +98,8 @@ void	ft_lstclear_env(t_env *lst);
 int		get_home(t_shell *shell);
 int		get_old_pwd(t_shell *shell);
 int		get_pwd(t_shell *shell);
-int		copy_of_env(char **env, t_shell *shell);
+char	**sort_env(char **tab, int size);
+
 
 t_env	*ft_lstnew_env(void *content);
 void	ft_lstadd_back_env(t_env **lst, t_env *new);

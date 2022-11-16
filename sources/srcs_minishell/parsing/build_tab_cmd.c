@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:29:36 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/15 17:06:22 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/16 12:20:51 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ void	ft_fill_tab_cmd(t_lstms *temp, t_parse *parse)
 	int		i;
 	int		nb_cmd;
 
-	j = -1;
+	j = 0;
 	while (temp != NULL)
 	{
 		i = 0;
 		nb_cmd = ft_count_cmd(temp);
-		parse[++j].tab_cmd = malloc(sizeof(char *) * (nb_cmd + 1));
+		parse[j].tab_cmd = malloc(sizeof(char *) * (nb_cmd + 1));
 		if (parse[j].tab_cmd == NULL)
 			return ;
 		while (temp->type != 2 && temp != NULL)
@@ -74,8 +74,9 @@ void	ft_fill_tab_cmd(t_lstms *temp, t_parse *parse)
 		parse[j].tab_cmd[i] = NULL;
 		if (temp != NULL)
 			temp = temp->next;
+		j++;
 	}
-	parse[++j].tab_cmd = NULL;
+	parse[j].tab_cmd = NULL;
 }
 
 void	ft_print_struc_parse(t_parse *parse, int k) // a supprimer
@@ -95,7 +96,7 @@ void	ft_print_struc_parse(t_parse *parse, int k) // a supprimer
 			j++;
 		}
 		i++;
-	}	
+	}
 }
 
 void	ft_build_struc_parse(t_minishell *minishell, int count)
@@ -115,12 +116,14 @@ void	ft_build_struc_parse(t_minishell *minishell, int count)
 	}
 	ft_fill_tab_cmd(temp, minishell->parse);
 	i = 0;
-	// while (minishell->parse[i].tab_cmd != NULL)
-	// {
-	// 	builtins(minishell->parse[i].tab_cmd, minishell->shell);
-	// 	i++;
-	// }
 	ft_print_struc_parse(minishell->parse, count + 1);
+	while (i < count + 1)
+	{
+		printf("******ok\n");
+		// printf("minishell->parse[i] = %p\n", minishell->parse[i]);
+		builtins(minishell->parse[i].tab_cmd, minishell);
+		i++;
+	}
 	// free(parse->tab_cmd);
 	// free(parse);
 }

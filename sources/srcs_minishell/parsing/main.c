@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/15 17:04:05 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/16 12:08:33 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,16 @@
 
 void	ft_init_all(t_minishell *minishell)
 {
-	minishell->shell = NULL;
+	t_parse		parse;
+	t_env		*environ;
+	t_shell		shell;
+	
+	environ = NULL;
+	ft_memset(&shell, 0, sizeof(t_shell));
+	ft_memset(&parse, 0, sizeof(t_parse));
+	minishell->parse = &parse;
+	minishell->environ = environ;
+	minishell->shell = &shell;
 }
 
 void	ft_init_parsing(t_minishell *minishell)
@@ -38,26 +47,25 @@ int main(int argc, char **argv, char **env)
 	// if (pipefd == NULL)
 	// 	return (0);
 	ft_init_all(&minishell);
-	// copy_of_env(env, minishell.shell);
+	copy_of_env(env, &minishell);
 	while (1)
 	{
 		ft_init_parsing(&minishell);
 		str = readline(prompt);
 		ft_lexer(&minishell, str);
-		ft_view_lst(minishell.lstms);
+		// ft_view_lst(minishell.lstms);
 		count = ft_clean_lst(&minishell);
-		printf("count = %d\n", count);
-		ft_view_lst(minishell.lstms);
+		// ft_view_lst(minishell.lstms);
 		ft_build_struc_parse(&minishell, count);
 		// if (pipe(pipefd) == -1)
 		// 	return (0);
-		// printf("parse = [%p]\n", parse);
-		// ft_fork1(&shell, parse[0].tab_cmd, pipefd, parse);
-		// ft_fork2(&shell, parse[1].tab_cmd, pipefd, parse);
+		// ft_fork1(&minishell, pipefd);
+		// ft_fork2(&minishell, pipefd);
 		// close(pipefd[1]);
 		// close(pipefd[0]);
 		// wait(NULL);
 		// wait(NULL);
+
 		ft_lstclear_ms(minishell.lstms);
 		add_history(str);
 		if (str == NULL)
