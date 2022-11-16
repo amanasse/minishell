@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_cmd_unset.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 14:29:17 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/16 17:11:40 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/16 18:16:26 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	pop(t_env **environ)
 	free(first);
 }
 
-int	var_disepear(char *str, t_env *environ, t_unset *unset)
+int	var_disappear(char *str, t_env *environ, t_unset *unset)
 {
 	unset->tmp = environ;
 	unset->tmp_before = NULL;
@@ -35,7 +35,7 @@ int	var_disepear(char *str, t_env *environ, t_unset *unset)
 			if (environ->str[unset->i] == '=')
 			{
 				if (!unset->tmp_before)
-					return (pop(&environ), 0);
+					return (pop(&environ), free(str), 0);
 				unset->tmp2 = environ;
 				free(environ->str);
 				unset->tmp_next = environ->next;
@@ -47,8 +47,7 @@ int	var_disepear(char *str, t_env *environ, t_unset *unset)
 			}
 		}
 		unset->tmp_before = environ;
-		if (environ->next)
-			environ = environ->next;
+		environ = environ->next;
 	}
 	return (free(str), 0);
 }
@@ -63,7 +62,7 @@ int	unset_cmd(char *str, t_env *environ, t_unset *unset)
 	if (unset->compare == NULL)
 		return (-1);
 	unset->compare = ft_strcpy(unset->compare, str);
-	var_disepear(unset->compare, environ, unset);
+	var_disappear(unset->compare, environ, unset);
 	return (0);
 }
 

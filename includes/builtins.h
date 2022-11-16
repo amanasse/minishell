@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:21:36 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/16 16:40:26 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/16 17:42:40 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ typedef struct s_unset
 	int				is_ok;
 }					t_unset;
 
-
 /*BUILTINS*/
 
 void	init_unset(t_unset *unset);
@@ -108,7 +107,5 @@ char	**sort_env(char **tab, int size);
 
 t_env	*ft_lstnew_env(void *content);
 void	ft_lstadd_back_env(t_env **lst, t_env *new);
-
-
 
 #endif
