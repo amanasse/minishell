@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:41:42 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/16 12:03:07 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/16 15:32:20 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ char	*search_old_pwd(t_minishell *minishell)
 	char	*srch_old_pwd;
 
 	tmp = minishell->environ;
+	srch_old_pwd = NULL;
 	while (tmp != NULL)
 	{
 		if (ft_strnstr(tmp->str, "PWD=", 4) == 0)

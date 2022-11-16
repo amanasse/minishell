@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 14:29:14 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/16 12:07:54 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/16 15:28:51 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,7 @@ int	cmd_export(char **cmd, t_minishell *minishell)
 			minishell->shell->i++;
 		sort_env(minishell->shell->tab_env, minishell->shell->i);
 		print_export(minishell->shell);
-		free (minishell->shell->tab_env);
-		return (0);
+		free(minishell->shell->tab_env);
 	}
 	else
 	{

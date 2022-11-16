@@ -33,7 +33,7 @@ DEPS = $(addprefix $(DIR_OBJ), $(DEP))
 NAME = minishell
 
 HEADERS	= -I includes
-CC		= gcc
+CC		= cc
 CFLAGS	= -MMD -Wall -Wextra -Werror -g
 
 

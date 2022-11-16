@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:29:36 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/16 12:20:51 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/16 15:12:00 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,15 +115,7 @@ void	ft_build_struc_parse(t_minishell *minishell, int count)
 		i++;
 	}
 	ft_fill_tab_cmd(temp, minishell->parse);
-	i = 0;
-	ft_print_struc_parse(minishell->parse, count + 1);
-	while (i < count + 1)
-	{
-		printf("******ok\n");
-		// printf("minishell->parse[i] = %p\n", minishell->parse[i]);
-		builtins(minishell->parse[i].tab_cmd, minishell);
-		i++;
-	}
+	// ft_print_struc_parse(minishell->parse, count + 1);
 	// free(parse->tab_cmd);
 	// free(parse);
 }

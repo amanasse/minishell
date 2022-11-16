@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/16 12:08:33 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/16 15:27:25 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int main(int argc, char **argv, char **env)
 {
 	char		prompt[3] = "$>";
 	char		*str;
+	int			i;
 	t_minishell	minishell;
 	int			count;
 	// int		*pipefd;
@@ -50,6 +51,7 @@ int main(int argc, char **argv, char **env)
 	copy_of_env(env, &minishell);
 	while (1)
 	{
+		i = 0;
 		ft_init_parsing(&minishell);
 		str = readline(prompt);
 		ft_lexer(&minishell, str);
@@ -65,7 +67,12 @@ int main(int argc, char **argv, char **env)
 		// close(pipefd[0]);
 		// wait(NULL);
 		// wait(NULL);
-
+		while (minishell.parse[i].tab_cmd)
+		{
+			printf("parse[%d]->tab_cmd[0] = [%s]\n", i, minishell.parse[i].tab_cmd[0]);
+			builtins(minishell.parse[i].tab_cmd, &minishell);
+			i++;
+		}
 		ft_lstclear_ms(minishell.lstms);
 		add_history(str);
 		if (str == NULL)
