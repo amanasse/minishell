@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:41:42 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/14 17:34:25 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/16 16:22:34 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ char	*search_old_pwd(t_shell *shell)
 	char	*srch_old_pwd;
 
 	tmp = shell->environ;
+	srch_old_pwd = NULL;
 	while (tmp != NULL)
 	{
 		if (ft_strnstr(tmp->str, "PWD=", 4) == 0)

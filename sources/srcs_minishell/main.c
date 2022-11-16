@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/15 17:17:55 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/16 16:10:17 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,14 @@ int main(int argc, char **argv, char **env)
 	if (cmd == NULL)
 		return (0);
 	memset(cmd, 0, 4);
-	cmd[0] = "exit";
-	cmd[1] = ",doek";
-
+	cmd[0] = "unset";
+	cmd[1] = "CHROME_DESKTOP";
 	cmd[2] = NULL;
+	// cmd[0] = "export";
+	// cmd[1] = NULL;
+	// cmd[1] = "USER_ZDOTDIR";
+	// cmd[1] = ",doek";
+
 
 
 
