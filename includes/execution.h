@@ -1,36 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins_cmd_pwd.c                                 :+:      :+:    :+:   */
+/*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/03 10:41:08 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/16 11:33:44 by mede-sou         ###   ########.fr       */
+/*   Created: 2022/11/15 11:16:02 by mede-sou          #+#    #+#             */
+/*   Updated: 2022/11/16 10:51:21 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
-#include "../../../includes/builtins.h"
+#ifndef EXECUTION_H
+# define EXECUTION_H
 
-int	cmd_pwd(char **cmd, t_minishell *minishell)
-{
-	t_env	*tmp;
+# include "../includes/minishell.h"
+# include "../includes/parsing.h"
+# include "../includes/builtins.h"
 
-	if (cmd[1])
-	{
-		printf("pwd: too many arguments.\n");
-		return (1);
-	}
-	else
-	{
-		tmp = minishell->environ;
-		while (tmp != NULL)
-		{
-			if (ft_strnstr(tmp->str, "PWD=", 4) == 0)
-				printf("%s\n", tmp->str + 4);
-			tmp = tmp->next;
-		}
-		return (0);
-	}
-}
+char	*get_path(t_env *environ, t_parse *parse);
+
+
+#endif

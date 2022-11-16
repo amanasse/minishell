@@ -1,36 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins_cmd_pwd.c                                 :+:      :+:    :+:   */
+/*   builtins_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/03 10:41:08 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/16 11:33:44 by mede-sou         ###   ########.fr       */
+/*   Created: 2022/11/10 13:54:52 by amanasse          #+#    #+#             */
+/*   Updated: 2022/11/14 13:40:01 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 #include "../../../includes/builtins.h"
 
-int	cmd_pwd(char **cmd, t_minishell *minishell)
+char	*ft_strcpy_egal(char *dest, char *src)
 {
-	t_env	*tmp;
+	int	i;
 
-	if (cmd[1])
+	i = 0;
+	while (src[i] != '=')
 	{
-		printf("pwd: too many arguments.\n");
-		return (1);
+		dest[i] = src[i];
+		i++;
 	}
-	else
+	dest[i] = '=';
+	i++;
+	dest[i] = '\0';
+	return (dest);
+}
+
+char	*ft_strcpy(char *dest, char *src)
+{
+	int	i;
+
+	i = 0;
+	while (src[i] != '\0')
 	{
-		tmp = minishell->environ;
-		while (tmp != NULL)
-		{
-			if (ft_strnstr(tmp->str, "PWD=", 4) == 0)
-				printf("%s\n", tmp->str + 4);
-			tmp = tmp->next;
-		}
-		return (0);
+		dest[i] = src[i];
+		i++;
 	}
+	dest[i] = '\0';
+	return (dest);
 }

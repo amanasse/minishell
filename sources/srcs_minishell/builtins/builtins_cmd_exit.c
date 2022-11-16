@@ -6,47 +6,80 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:40:55 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/03 11:50:57 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/15 17:18:38 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 #include "../../../includes/builtins.h"
 
+int	exit_non_numeric(char **cmd)
+{
+	printf("exit\nbash: exit: %s: numeric argument required\n", cmd[1]);
+	return (2);
+}
+
+int	exit_negatif(int i)
+{
+	int	j;
+	int	k;
+
+	k = 0;
+	j = 256;
+	while (k >= i)
+	{
+		if (j == 0)
+			j = 256;
+		j--;
+		k--;
+	}
+	j++;
+	printf("exit\n");
+	return (j);
+}
+
+int	exit_positif(int i)
+{
+	int	k;
+	int	j;
+
+	j = 0;
+	k = 0;
+	while (k <= i)
+	{
+		if (j == 256)
+			j = 0;
+		j++;
+		k++;
+	}
+	j--;
+	printf("exit\n");
+	return (j);
+}
+
 int	cmd_exit(char **cmd)
 {
 	int	i;
 
-	i = 0;
 	if (!cmd[1])
-	{
 		printf("exit\n");
-		// destroy_cmd(cmd);
-		return (0);
-	}
 	else
 	{
 		if (cmd[2])
-		{
-			printf("exit\nbash: exit: too many arguments\n");
-			// destroy_cmd(cmd);
-			return (0);
-		}
+			return (printf("exit\nbash: exit: too many arguments\n"), 1);
 		else
 		{
 			if (ft_atoi_check(cmd[1]) == -1)
-			{
-				printf("exit\nbash: exit: %s: numeric argument required\n", cmd[1]);
-				// destroy_cmd(cmd);
-				return (0);
-			}
+				return (exit_non_numeric(cmd));
 			else
 			{
 				i = ft_atoi(cmd[1]);
-				printf("exit %d\n", i);
-				// destroy_cmd(cmd);
-				return (i);
+				if (i >= 0)
+					return (exit_positif(i));
+				if (i < 0)
+					return (exit_negatif(i));
 			}
 		}
 	}
+	return (0);
 }

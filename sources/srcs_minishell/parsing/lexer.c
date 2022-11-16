@@ -6,11 +6,10 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/07 16:51:03 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/15 16:43:48 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/parsing.h"
 #include "../../../includes/minishell.h"
 
 /*prio ' ' et " " : verifier si fermes, sinon erreur
@@ -27,116 +26,104 @@ types :
 8 = entre '' OK
 */
 
-int	char_is_separator(char c)
-{
-	if (c ==  '<' || c ==  '>' || c == '|' || c == '\0')
-		return (1);
-	return (0);
-}
-
-int	char_is_space(char c)
-{
-	if (c ==  ' ')
-		return (1);
-	return (0);
-}
-
-int	char_is_quote(char *str, char c)
+int	check_if_quotes_are_closed(char *str)
 {
 	int	i;
-	int	check;
-	
+	int	single_quotes;
+	int	double_quotes;
+
 	i = 0;
-	check = 0;
+	single_quotes = 0;
+	double_quotes = 0;
 	while (str[i])
 	{
-		if (c == str[i])
-			check++;
+		if (str[i] == '\'')
+			single_quotes++;
+		if (str[i] == '"')
+			double_quotes++;
 		i++;
 	}
-	return (check);
+	if (single_quotes % 2 == 0 && double_quotes % 2 == 0)
+		return (1);
+	return (0);
 }
 
-int	ft_lexer(t_ms *lex, char *str)
+int	ft_lexer_quotes(int i, char *str, t_minishell *mini)
+{
+	char	*temp;
+	int		j;
+
+	j = i + 1;
+	while (str[j] != str[i])
+		j++;
+	while (char_is_space(str[j]) == 0 && str[j] != '\0')
+		j++;
+	temp = ft_strncpy(str + i, j - i);
+	if (temp == NULL)
+		return (free(temp), 0);
+	if (str[i] == '"')
+		ft_lstadd_back_ms(&mini->lstms, ft_lstnew_ms(temp, 0));
+	else
+		ft_lstadd_back_ms(&mini->lstms, ft_lstnew_ms(temp, 8));
+	return (j);
+}
+
+int	ft_lexer_others(int i, char *str, t_minishell *mini)
+{
+	char	*temp;
+	int		j;
+
+	j = i;
+	while ((char_is_separator(str[j]) == 0) && (char_is_space(str[j]) == 0)
+		&& (str[j] != '\0'))
+		j++;
+	temp = ft_substr(str + i, 0, j - i);
+	if (temp == NULL)
+		return (free(temp), 0);
+	ft_lstadd_back_ms(&mini->lstms, ft_lstnew_ms(temp, 1));
+	return (j);
+}
+
+int	ft_lexer_redirection(int i, char *str, t_minishell *mini)
+{
+	int	res;
+	
+	res = ft_chevron(mini->lstms, str + i, str[i]);
+	i += res;
+	if (res == 0)
+		i++;
+	else if (res == -1)	
+		return (-1);
+	return (i);
+}
+
+int	ft_lexer(t_minishell *minishell, char *str)
 {
 	int		i;
-	int		j;
-	int		res;
-	char	*temp;
-	int	 	closed;
 
 	i = 0;
-	closed = char_is_quote(str, '"');
-	if (closed % 2 != 0)
-		return (-1);
-	closed = char_is_quote(str, '\'');
-	if (closed % 2 != 0)
-		return (-1);
+	if (check_if_quotes_are_closed(str) == 0)
+		return (0);
 	while (str[i] != '\0')
 	{
-		if (str[i] == '"')
-		{			
-			j = i + 1;
-			while (str[j] != '"')
-				j++;
-			while (char_is_space(str[j]) == 0 && str[j] != '\0')
-				j++;
-			temp = ft_strncpy(str + i, j - i);
-			ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, 0));
-			i = j;
-		}
-		else if (str[i] == '\'')
-		{			
-			j = i + 1;
-			while (str[j] != '\'')
-				j++;
-			while (char_is_space(str[j]) == 0 && str[j] != '\0')
-				j++;
-			temp = ft_strncpy(str + i, j - i);
-			ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, 8));
-			i = j;
-		}
-		
+		if (str[i] == '"' || str[i] == '\'')	
+			i = ft_lexer_quotes(i, str, minishell);
 		else if (str[i] == '<' || str[i] == '>')
 		{
-			res = ft_chevron(&lex, str + i, str[i]);
-			i += res + 1;
-			if (res == 0)
-				i++;
-			else if (res == -1)
-			{	
-				printf("syntax error near unexpected token '%c'\n", str[i]);
-				return (0);
-			}
+			i = ft_lexer_redirection(i, str, minishell);
+			if (i == -1)	
+				return (printf("%s '%c'\n", ERR_CHEVRON, str[i]), 0);
 		}
-
-
-		
 		else if (str[i] == '|')
 		{
-			ft_lstadd_back_ms(&lex, ft_lstnew_ms("|", 2));
+			ft_lstadd_back_ms(&minishell->lstms, ft_lstnew_ms("|", 2));
 			i++;
 		}
-
-		
 		else if (str[i] == ' ')
 			i++;
-		
-		
 		else
-		{
-			j = i;
-			while ((char_is_separator(str[j]) == 0) && (char_is_space(str[j]) == 0)
-				&& (str[j] != '\0'))
-				j++;
-			temp = ft_substr(str + i, 0, j - i);
-			ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, 1));
-			i = j;
-		}
+			i = ft_lexer_others(i, str, minishell);
 	}
-	ft_view_lst(lex);
-	ft_clean_lst(&lex);
-	ft_view_lst(lex);
 	return (1);
 }
 

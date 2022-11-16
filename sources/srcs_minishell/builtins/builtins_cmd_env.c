@@ -1,36 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins_cmd_pwd.c                                 :+:      :+:    :+:   */
+/*   builtins_cmd_env.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/03 10:41:08 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/16 11:33:44 by mede-sou         ###   ########.fr       */
+/*   Created: 2022/11/10 14:03:50 by amanasse          #+#    #+#             */
+/*   Updated: 2022/11/16 11:19:29 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 #include "../../../includes/builtins.h"
 
-int	cmd_pwd(char **cmd, t_minishell *minishell)
+int	cmd_env(char **cmd, t_minishell *minishell)
 {
 	t_env	*tmp;
 
-	if (cmd[1])
-	{
-		printf("pwd: too many arguments.\n");
-		return (1);
-	}
+	tmp = minishell->environ;
+	if (cmd[1] == NULL)
+		ft_view_env(tmp);
 	else
 	{
-		tmp = minishell->environ;
-		while (tmp != NULL)
-		{
-			if (ft_strnstr(tmp->str, "PWD=", 4) == 0)
-				printf("%s\n", tmp->str + 4);
-			tmp = tmp->next;
-		}
-		return (0);
+		printf("env: '%s': No such file or directory\n", cmd[1]);
+		return (127);
 	}
+	return (0);
 }

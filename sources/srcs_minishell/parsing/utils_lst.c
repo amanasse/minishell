@@ -6,18 +6,17 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 14:47:35 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/07 16:51:06 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/15 16:44:39 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/parsing.h"
 #include "../../../includes/minishell.h"
 
-t_ms	*ft_lstnew_ms(void *content, int type)
+t_lstms	*ft_lstnew_ms(void *content, int type)
 {
-	t_ms	*element;
+	t_lstms	*element;
 
-	element = malloc(sizeof(t_ms));
+	element = malloc(sizeof(t_lstms));
 	if (element == NULL)
 		return (NULL);
 	element->next = NULL;
@@ -26,9 +25,9 @@ t_ms	*ft_lstnew_ms(void *content, int type)
 	return (element);
 }
 
-void	ft_lstadd_back_ms(t_ms **lst, t_ms *new)
+void	ft_lstadd_back_ms(t_lstms **lst, t_lstms *new)
 {
-	t_ms	*tmp;
+	t_lstms	*tmp;
 
 	if (new == NULL)
 		return ;
@@ -43,68 +42,47 @@ void	ft_lstadd_back_ms(t_ms **lst, t_ms *new)
 		*lst = new;
 }
 
-void    ft_view_lst(t_ms *lst)
+void    ft_view_lst(t_lstms *lst)
 {
     int    i;
 
-    i = 0;
-    while (lst->next != NULL)
+	i = 0;
+    while (lst != NULL)
     {
-        printf("lst[%d] = [%s]\n", i, lst->str);
+        printf("lex[%d] = [%s]\n", i, lst->str);
         printf("type = %d\n", lst->type);
         lst = lst->next;
         i++;
     }
-	printf("lst[%d] = [%s]\n", i, lst->str);
-    printf("type = %d\n", lst->type);
+	printf("lex[%d] = [%p]\n", i, lst);
     printf("-----------------\n");
+	
 }
 
-void	ft_lstclear_ms(t_ms *lst)
+void	ft_lstclear_ms(t_lstms *lst)
 {
-	t_ms	*tmp;
+	t_lstms	*tmp;
 
 	while (lst != NULL)
 	{
 		tmp = lst;
 		lst = lst->next;
+		if (tmp->str)
+			free(tmp->str);
 		free(tmp);
 	}
+	free (lst);
 }
 
-// void	ft_join_maillons(t_ms **lex)
-// {
-// 	t_ms	*temp;
+int	ft_lstsize_ms(t_lstms *lst)
+{
+	int	i;
 
-// 	temp = *lex;
-// 	while (temp->next != NULL)
-// 	{
-// 		if (temp->type == 0)
-// 		{
-// 			if ((temp->next->type == 1 || temp->next->type == 1) && temp->next != NULL)
-// 			{
-// 				temp->str = ft_strcat(temp->str, temp->next->str);
-// 				temp->next = temp->next->next;
-// 				temp->type = 1;
-// 				if (temp->next == NULL)
-// 					break ;
-// 			}
-// 			else
-// 				temp = temp->next;
-// 		}
-// 		else if (temp->type == 1)
-// 		{
-// 			if (temp->next->type == 0 && temp->next != NULL)
-// 			{
-// 				temp->str = ft_strcat(temp->str, temp->next->str);
-// 				temp->next = temp->next->next;
-// 				if (temp->next == NULL)
-// 					break ;
-// 			}
-// 			else
-// 				temp = temp->next;
-// 		}
-// 		else
-// 			temp = temp->next;
-// 	}
-// }
+	i = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		i++;
+	}
+	return (i);
+}

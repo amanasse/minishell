@@ -2,8 +2,9 @@ SRCS    = 	parsing/main.c\
 		parsing/lexer.c\
 		parsing/utils_lst.c\
 		parsing/clean_lst.c\
-		parsing/ft_strcat.c\
+		parsing/clean_quotes.c\
 		parsing/check_separators.c\
+		parsing/build_tab_cmd.c\
 		builtins/init_env.c\
 		builtins/builtins_lst.c\
 		builtins/builtins.c\
@@ -11,7 +12,13 @@ SRCS    = 	parsing/main.c\
 		builtins/builtins_cmd_pwd.c\
 		builtins/builtins_cmd_cd.c\
 		builtins/builtins_cmd_echo.c\
-		builtins/builtins_cmd_exit.c
+		builtins/builtins_cmd_exit.c\
+		builtins/builtins_utils2.c\
+		builtins/builtins_cmd_env.c\
+		builtins/builtins_cmd_export.c\
+		builtins/builtins_cmd_export2.c\
+		exec/pipex.c
+		# builtins/builtins_cmd_unset.c\
 
 DIR_SRC_MINISHELL = ./sources/srcs_minishell/
 
@@ -26,7 +33,7 @@ DEPS = $(addprefix $(DIR_OBJ), $(DEP))
 NAME = minishell
 
 HEADERS	= -I includes
-CC		= gcc
+CC		= cc
 CFLAGS	= -MMD -Wall -Wextra -Werror -g
 
 
@@ -49,7 +56,7 @@ fclean:		clean
 
 re:			fclean all
 
-$(DIR_OBJ)%.o: $(DIR_SRC_MINISHELL)%.c 
+$(DIR_OBJ)%.o: $(DIR_SRC_MINISHELL)%.c
 	${CC} ${CFLAGS} -c $< ${HEADERS} -o $@
 
 
