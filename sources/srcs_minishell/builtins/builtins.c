@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 10:20:05 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/16 15:35:11 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/16 16:16:10 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ void	builtins(char **cmd, t_minishell *minishell)
 		minishell->shell->status = cmd_env(cmd, minishell);
 	if ((ft_strcmp(cmd[0], "export")) == 0)
 		minishell->shell->status = cmd_export(cmd, minishell);
-	// if ((ft_strcmp(cmd[0], "unset")) == 0)
-	// 	minishell->shell->status = cmd_unset(cmd, minishell);
+	if ((ft_strcmp(cmd[0], "unset")) == 0)
+		minishell->shell->status = cmd_unset(cmd, minishell);
 }
