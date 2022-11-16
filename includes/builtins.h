@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:21:36 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/16 11:43:30 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/16 17:42:40 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,9 @@ typedef struct s_export
 typedef struct s_unset
 {
 	t_env			*tmp;
-	t_env			*element;
+	t_env			*tmp2;
+	t_env			*tmp_next;
+	t_env			*tmp_before;
 	int				count;
 	int				i;
 	int				var_env;
@@ -65,8 +67,10 @@ typedef struct s_unset
 	int				is_ok;
 }					t_unset;
 
-
 /*BUILTINS*/
+
+void	init_unset(t_unset *unset);
+int		unset_cmd(char *str, t_env *environ, t_unset *unset);
 
 void	init_export(t_export *export);
 char	**print_sort_env(char **tab, int size);
@@ -103,7 +107,5 @@ char	**sort_env(char **tab, int size);
 
 t_env	*ft_lstnew_env(void *content);
 void	ft_lstadd_back_env(t_env **lst, t_env *new);
-
-
 
 #endif
