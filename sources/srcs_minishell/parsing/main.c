@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/16 15:27:25 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/16 17:21:13 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int main(int argc, char **argv, char **env)
 		// wait(NULL);
 		while (minishell.parse[i].tab_cmd)
 		{
-			printf("parse[%d]->tab_cmd[0] = [%s]\n", i, minishell.parse[i].tab_cmd[0]);
 			builtins(minishell.parse[i].tab_cmd, &minishell);
 			i++;
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:21:36 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/16 11:43:30 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/16 16:40:26 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,8 @@ typedef struct s_unset
 
 /*BUILTINS*/
 
-int		cmd_unset(char **cmd, t_shell *shell);
 void	init_unset(t_unset *unset);
-int		unset_cmd(char *str, t_shell *shell, t_unset *unset);
+int		unset_cmd(char *str, t_env *environ, t_unset *unset);
 
 void	init_export(t_export *export);
 char	**print_sort_env(char **tab, int size);

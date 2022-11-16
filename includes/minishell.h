@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/16 11:40:32 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/16 16:40:07 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ int		copy_of_env(char **env, t_minishell *minishell);
 /*export*/
 int		cmd_export(char **cmd, t_minishell *minishell);
 int		check_var_env(t_export *export, t_minishell *minishell, char **cmd);
+
+/*unset*/
+int		cmd_unset(char **cmd, t_minishell *minishell);
 
 /*PARSING*/
 int		ft_lexer(t_minishell *minishell, char *str);
