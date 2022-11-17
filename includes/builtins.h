@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:21:36 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/16 17:42:40 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/17 14:56:53 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ typedef struct s_env
 
 typedef struct s_shell
 {
-	char			**tab_env;
 	int				i;
 	int				j;
     char            *pwd;
@@ -70,11 +69,9 @@ typedef struct s_unset
 /*BUILTINS*/
 
 void	init_unset(t_unset *unset);
-int		unset_cmd(char *str, t_env *environ, t_unset *unset);
 
 void	init_export(t_export *export);
 char	**print_sort_env(char **tab, int size);
-int		replace_var_env(t_env *environ, char *str, t_export *export);
 
 int		cmd_exit(char **cmd);
 

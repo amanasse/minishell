@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/16 17:43:42 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/17 15:00:24 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ void	ft_init_all(t_minishell *minishell)
 	minishell->parse = &parse;
 	minishell->environ = environ;
 	minishell->shell = &shell;
+	minishell->shell->i = 0;
+	minishell->shell->j = 0;
+	minishell->shell->pwd = NULL;
+	minishell->shell->status = 0;
+	minishell->shell->old_pwd = NULL;
+	minishell->tab_env = NULL;
 }
 
 void	ft_init_parsing(t_minishell *minishell)

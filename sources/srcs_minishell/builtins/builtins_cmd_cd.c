@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:41:42 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/16 15:32:20 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/17 13:55:37 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,12 @@ int	new_pwd(t_minishell *minishell, char *dir)
 	return (0);
 }
 
-char	*go_home(t_env *tmp)
+char	*go_home(t_minishell *minishell)
 {
 	char	*dir;
+	t_env  *tmp;
 
+	tmp = minishell->environ;
 	while (tmp != NULL)
 	{
 		if (ft_strnstr(tmp->str, "HOME=", 5) == 0)
@@ -114,9 +116,9 @@ int	cmd_cd(char **cmd, t_minishell *minishell)
 	while (cmd[i])
 		i++;
 	if (i == 1)
-		dir = go_home(minishell->environ);
+		dir = go_home(minishell);
 	else if (i == 2 && (ft_strcmp(cmd[1], "~")) == 0)
-		dir = go_home(minishell->environ);
+		dir = go_home(minishell);
 	else
 		dir = cmd[1];
 	t = chdir(dir);

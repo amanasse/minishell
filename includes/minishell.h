@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/16 17:43:06 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/17 14:55:54 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ typedef struct s_minishell
 	t_shell		*shell;
 	t_lstms		*lstms;
 	t_parse		*parse;
-	t_env		*environ;	
+	t_env		*environ;
+	char		**tab_env;	
 }				t_minishell;
 
 /*BUILTINS*/
@@ -44,15 +45,20 @@ int		new_pwd(t_minishell *minishell, char *dir);
 int		cmd_pwd(char **cmd, t_minishell *minishell);
 
 /*cd*/
+char	*go_home(t_minishell *minishell);
 int		cmd_cd(char **cmd, t_minishell *minishell);
 
 /*unset*/
 int		cmd_unset(char **cmd, t_minishell *minishell);
+int		var_disappear(char *str, t_minishell *minishell, t_unset *unset);
+int		unset_cmd(char *str, t_minishell *minishell, t_unset *unset);
 
 /*env*/
 int		cmd_env(char **cmd, t_minishell *minishell);
 char	**env_in_tab(t_minishell *minishell);
 int		copy_of_env(char **env, t_minishell *minishell);
+int		replace_var_env(t_minishell *ms, char *str, t_export *export);
+int		check_var_env(t_export *export, t_minishell *ms, char **cmd);
 
 /*export*/
 int		cmd_export(char **cmd, t_minishell *minishell);
