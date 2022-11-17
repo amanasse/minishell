@@ -6,12 +6,12 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 10:34:10 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/17 13:32:44 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/17 17:01:44 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
-#include "../../../includes/builtins.h"
+#include "minishell.h"
+#include "builtins.h"
 
 char	*ft_strcat_mini(char *dest, char *src)
 {

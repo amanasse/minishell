@@ -6,15 +6,15 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/16 10:51:32 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/17 17:01:11 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-# include "../includes/minishell.h"
-# include "../includes/builtins.h"
+# include "minishell.h"
+# include "builtins.h"
 # include "../sources/libft/includes/libft.h"
 
 typedef struct s_lstms

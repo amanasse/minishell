@@ -6,11 +6,11 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/17 15:00:24 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/17 16:37:01 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 void	ft_init_all(t_minishell *minishell)
 {
@@ -29,7 +29,6 @@ void	ft_init_all(t_minishell *minishell)
 	minishell->shell->pwd = NULL;
 	minishell->shell->status = 0;
 	minishell->shell->old_pwd = NULL;
-	minishell->tab_env = NULL;
 }
 
 void	ft_init_parsing(t_minishell *minishell)
@@ -44,15 +43,13 @@ int main(int argc, char **argv, char **env)
 	int			i;
 	t_minishell	minishell;
 	int			count;
-	// int		*pipefd;
+	int		*pipefd;
 		
 	(void)argc;
 	(void)argv;
-	(void)env;
-
-	// pipefd = malloc(sizeof(int) * 2);
-	// if (pipefd == NULL)
-	// 	return (0);
+	pipefd = malloc(sizeof(int) * 2);
+	if (pipefd == NULL)
+		return (0);
 	ft_init_all(&minishell);
 	copy_of_env(env, &minishell);
 	while (1)
@@ -65,20 +62,21 @@ int main(int argc, char **argv, char **env)
 		count = ft_clean_lst(&minishell);
 		// ft_view_lst(minishell.lstms);
 		ft_build_struc_parse(&minishell, count);
-		// if (pipe(pipefd) == -1)
-		// 	return (0);
-		// ft_fork1(&minishell, pipefd);
-		// ft_fork2(&minishell, pipefd);
-		// close(pipefd[1]);
-		// close(pipefd[0]);
-		// wait(NULL);
-		// wait(NULL);
-		while (minishell.parse[i].tab_cmd)
-		{
-			builtins(minishell.parse[i].tab_cmd, &minishell);
+		if (pipe(pipefd) == -1)
+			return (0);
+		// while (minishell.parse[i].tab_cmd)
+		// {
+			ft_fork1(&minishell, pipefd, minishell.parse[i].tab_cmd);
 			i++;
-		}
-		ft_lstclear_ms(minishell.lstms);
+			ft_fork2(&minishell, pipefd, minishell.parse[i].tab_cmd);
+			close(pipefd[1]);
+			close(pipefd[0]);
+			wait(NULL);
+			wait(NULL);
+			// break ;
+			// i++;
+		// }
+		// ft_lstclear_ms(minishell.lstms);
 		add_history(str);
 		if (str == NULL)
 		{

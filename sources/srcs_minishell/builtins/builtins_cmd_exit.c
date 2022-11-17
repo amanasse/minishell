@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_cmd_exit.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:40:55 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/15 17:18:38 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/17 16:38:23 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
-#include "../../../includes/builtins.h"
+#include "minishell.h"
+#include "builtins.h"
 
 int	exit_non_numeric(char **cmd)
 {

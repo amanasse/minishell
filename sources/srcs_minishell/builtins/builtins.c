@@ -6,12 +6,34 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 10:20:05 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/17 14:43:56 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/17 16:36:04 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
-#include "../../../includes/builtins.h"
+#include "minishell.h"
+#include "builtins.h"
+
+int	check_builtins(char **cmd)
+{
+	int	j;
+
+	j = 0;
+	if (ft_strncmp(cmd[0], "echo", 4) == 0)
+		j++;
+	else if (ft_strncmp(cmd[0], "cd", 2) == 0)
+		j++;
+	else if (ft_strncmp(cmd[0], "pwd", 3) == 0)
+		j++;
+	else if (ft_strncmp(cmd[0], "export", 6) == 0)
+		j++;
+	else if (ft_strncmp(cmd[0], "unset", 5) == 0)
+		j++;
+	else if (ft_strncmp(cmd[0], "env", 3) == 0)
+		j++;
+	else if (ft_strncmp(cmd[0], "exit", 4) == 0)
+		j++;
+	return (j);
+}
 
 void	builtins(char **cmd, t_minishell *minishell)
 {

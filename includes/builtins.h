@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:21:36 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/17 14:56:53 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/17 17:00:44 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <sys/types.h>
 # include <dirent.h>
-# include "../includes/minishell.h"
+# include "minishell.h"
 
 typedef struct s_echo
 {
@@ -80,6 +80,8 @@ void 	init_echo(t_echo *echo);
 int		cmd_echo(char **cmd);
 void	parse_cmd_n(t_echo *e, char **cmd);
 int		cmd_echo2(t_echo *echo, char **cmd);
+
+int		check_builtins(char **cmd);
 
 
 /*UTILS*/

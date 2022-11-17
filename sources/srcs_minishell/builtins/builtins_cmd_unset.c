@@ -6,12 +6,12 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 14:29:17 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/17 12:12:00 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/17 17:01:33 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
-#include "../../../includes/builtins.h"
+#include "minishell.h"
+#include "builtins.h"
 
 void	pop(t_env **environ)
 {

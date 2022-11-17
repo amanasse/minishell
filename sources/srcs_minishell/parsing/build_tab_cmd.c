@@ -6,13 +6,11 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:29:36 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/16 15:12:00 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/17 17:02:04 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
-
-//norminette ok
+#include "minishell.h"
 
 int	ft_count_cmd(t_lstms *lex)
 {

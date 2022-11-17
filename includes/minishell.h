@@ -6,16 +6,16 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/17 14:55:54 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/17 17:01:01 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../includes/parsing.h"
-# include "../includes/builtins.h"
-# include "../includes/execution.h"
+# include "parsing.h"
+# include "builtins.h"
+# include "execution.h"
 # include "../sources/libft/includes/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
@@ -70,8 +70,8 @@ void	ft_build_struc_parse(t_minishell *minishell, int count);
 int		ft_clean_lst(t_minishell *minishell);
 
 /*EXEC*/
-int		ft_fork1(t_minishell *minishell, int *pipefd);
-int		ft_fork2(t_minishell *minishell, int *pipefd);
+int		ft_fork1(t_minishell *minishell, int *pipefd, char **cmd);
+int		ft_fork2(t_minishell *minishell, int *pipefd, char **cmd);
 
 
 #endif

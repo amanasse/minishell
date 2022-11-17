@@ -33,8 +33,8 @@ DEPS = $(addprefix $(DIR_OBJ), $(DEP))
 NAME = minishell
 
 HEADERS	= -I includes
-CC		= cc -fsanitize=address
-CFLAGS	= -MMD -Wall -Wextra -Werror -g
+CC		= cc
+CFLAGS	= -MMD -Wall -Wextra -Werror -g3
 
 
 

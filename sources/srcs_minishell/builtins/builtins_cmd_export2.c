@@ -6,12 +6,12 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:00:00 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/17 14:34:20 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/17 17:01:22 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
-#include "../../../includes/builtins.h"
+#include "minishell.h"
+#include "builtins.h"
 
 void	init_export(t_export *export)
 {

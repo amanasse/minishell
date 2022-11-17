@@ -6,11 +6,11 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/15 16:43:48 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/17 16:37:23 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
+#include "minishell.h"
 
 /*prio ' ' et " " : verifier si fermes, sinon erreur
 chaque maillon = 1 mot
@@ -35,7 +35,7 @@ int	check_if_quotes_are_closed(char *str)
 	i = 0;
 	single_quotes = 0;
 	double_quotes = 0;
-	while (str[i])
+	while (str[i] && str)
 	{
 		if (str[i] == '\'')
 			single_quotes++;
