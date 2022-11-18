@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/17 17:01:01 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/18 16:07:34 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,14 @@
 
 typedef struct s_minishell
 {
-	t_shell		*shell;
+	t_exec		exec;
+	t_shell		shell;
 	t_lstms		*lstms;
 	t_parse		*parse;
 	t_env		*environ;
-	char		**tab_env;	
+	char		**tab_env;
+	int			count;
+	int			index_cmd;
 }				t_minishell;
 
 /*BUILTINS*/
@@ -70,7 +73,7 @@ void	ft_build_struc_parse(t_minishell *minishell, int count);
 int		ft_clean_lst(t_minishell *minishell);
 
 /*EXEC*/
-int		ft_fork1(t_minishell *minishell, int *pipefd, char **cmd);
+int		ft_fork1(t_minishell *minishell, int *pipefd, int tmp_fd, char **cmd);
 int		ft_fork2(t_minishell *minishell, int *pipefd, char **cmd);
 
 

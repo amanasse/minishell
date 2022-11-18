@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/17 16:43:09 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/18 16:10:56 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char *get_path(t_env *environ, char **cmd)
 	return (NULL);
 }
 
-int	ft_fork1(t_minishell *minishell, int *pipefd, char **cmd)
+int	ft_fork1(t_minishell *minishell, int *pipefd, int tmp_fd, char **cmd)
 {
 	pid_t	pid;
 	char	*path;
@@ -62,15 +62,23 @@ int	ft_fork1(t_minishell *minishell, int *pipefd, char **cmd)
 	
 	pid = fork();
 	env = env_in_tab(minishell);
+	
 	if (pid == 0)
 	{
+		if (tmp_fd > 0)
+		{
+			dup2(tmp_fd, 0);
+			close(tmp_fd);
+		}
 		if (check_builtins(cmd) == 1)
 		{
-			dup2(pipefd[1], 1);
+			printf("DEBUG\n");
+			if(minishell->index_cmd < minishell->count)
+				dup2(pipefd[1], 1);
 			close(pipefd[0]);
 			close(pipefd[1]);
 			builtins(cmd, minishell);
-			return (1);
+			exit(1);
 		}
 		else
 		{
@@ -79,7 +87,13 @@ int	ft_fork1(t_minishell *minishell, int *pipefd, char **cmd)
 				printf("%s: command not found\n", cmd[0]);
 				return (0);
 			}
-			dup2(pipefd[1], 1);
+			printf("minishell->index_cmd = %d", minishell->index_cmd);
+			printf("minishell->count - 1 = %d", minishell->count);
+			if(minishell->index_cmd < minishell->count)
+			{
+				printf("cmd %s\n", cmd[0]);
+				dup2(pipefd[1], 1);
+			}
 			close(pipefd[0]);
 			close(pipefd[1]);
 			execve(path, cmd, env);
@@ -104,7 +118,7 @@ int	ft_fork2(t_minishell *minishell, int *pipefd, char **cmd)
 			close(pipefd[1]);
 			close(pipefd[0]);
 			builtins(cmd, minishell);
-			return (1);
+			exit (1);
 		}
 		else 
 		{

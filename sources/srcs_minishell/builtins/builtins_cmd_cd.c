@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_cmd_cd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:41:42 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/17 16:37:39 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/18 16:10:01 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	old_pwd(t_minishell *minishell)
 		{
 			tmp_pwd = tmp2->str;
 			tmp2->str = old_pwd;
-			minishell->shell->old_pwd = tmp2->str;
+			minishell->shell.old_pwd = tmp2->str;
 			free (tmp_pwd);
 		}
 		tmp2 = tmp2->next;
@@ -80,7 +80,7 @@ int	new_pwd(t_minishell *minishell, char *dir)
 				return (-1);
 			tmp->str = strcpy(tmp->str, "PWD=");
 			tmp->str = ft_strcat_mini(tmp->str, dir);
-			minishell->shell->pwd = tmp->str;
+			minishell->shell.pwd = tmp->str;
 			free(tmp_pwd);
 			return (0);
 		}
