@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/18 16:10:56 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/21 12:09:22 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,29 @@ char *get_path(t_env *environ, char **cmd)
 	{
 		path_slash = ft_strjoin(split_paths[i], "/");
 		if (path_slash == NULL)
+		{
+			i = 0;
+			while (split_paths[i])
+			{
+				free(split_paths[i]);
+				i++;
+			}
 			return (NULL);
+		}
 		path = ft_strjoin(path_slash, cmd[0]);
 		if (path == NULL)
+		{
+			free(path_slash);
+			i = 0;
+			while (split_paths[i])
+			{
+				free(split_paths[i]);
+				i++;
+			}
 			return (NULL);
+		}
+			
 		free(path_slash);
-		free(split_paths[i]);
 		if (access(path, F_OK) == 0)
 			return (path);
 		free(path);
@@ -85,7 +102,7 @@ int	ft_fork1(t_minishell *minishell, int *pipefd, int tmp_fd, char **cmd)
 			if ((path = get_path(minishell->environ, cmd)) == NULL)
 			{
 				printf("%s: command not found\n", cmd[0]);
-				return (0);
+				exit (1);
 			}
 			printf("minishell->index_cmd = %d", minishell->index_cmd);
 			printf("minishell->count - 1 = %d", minishell->count);
@@ -102,39 +119,39 @@ int	ft_fork1(t_minishell *minishell, int *pipefd, int tmp_fd, char **cmd)
 	return (1);
 }
 
-int	ft_fork2(t_minishell *minishell, int *pipefd, char **cmd)
-{
-	pid_t	pid;
-	char	*path;
-	char	**env;
+// int	ft_fork2(t_minishell *minishell, int *pipefd, char **cmd)
+// {
+// 	pid_t	pid;
+// 	char	*path;
+// 	char	**env;
 	
-	pid = fork();
-	env = env_in_tab(minishell);
-	if (pid == 0)
-	{
-		if (check_builtins(cmd) == 1)
-		{
-			dup2(pipefd[0], 0);
-			close(pipefd[1]);
-			close(pipefd[0]);
-			builtins(cmd, minishell);
-			exit (1);
-		}
-		else 
-		{
-			if ((path = get_path(minishell->environ, cmd)) == NULL)
-			{
-				printf("%s: command not found\n", cmd[0]);
-				return (0);
-			}
-			dup2(pipefd[0], 0);
-			close(pipefd[1]);
-			close(pipefd[0]);
-			execve(path, cmd, env);
-		}
-	}
-	return (1);
-}
+// 	pid = fork();
+// 	env = env_in_tab(minishell);
+// 	if (pid == 0)
+// 	{
+// 		if (check_builtins(cmd) == 1)
+// 		{
+// 			dup2(pipefd[0], 0);
+// 			close(pipefd[1]);
+// 			close(pipefd[0]);
+// 			builtins(cmd, minishell);
+// 			exit (1);
+// 		}
+// 		else 
+// 		{
+// 			if ((path = get_path(minishell->environ, cmd)) == NULL)
+// 			{
+// 				printf("%s: command not found\n", cmd[0]);
+// 				return (0);
+// 			}
+// 			dup2(pipefd[0], 0);
+// 			close(pipefd[1]);
+// 			close(pipefd[0]);
+// 			execve(path, cmd, env);
+// 		}
+// 	}
+// 	return (1);
+// }
 
 /*
   ETAPE 3 LANCER UN PROGRAMME - FORKER

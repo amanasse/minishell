@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/18 16:33:04 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/21 10:50:11 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,42 +46,37 @@ void	ft_init_all(t_minishell *minishell)
 
 int main(int argc, char **argv, char **env)
 {
-	char		prompt[3] = "$>";
-	char		*str;
-	int			i;
-	t_minishell	minishell;
-	int			pipefd[2];
-	int			tmp_pipefd;
-
-	int			var;
+	char			prompt[3] = "$>";
+	char			*str;
+	int				i;
+	t_minishell		minishell;
+	t_lstms			*tmp;
+	int				pipefd[2];
+	int				tmp_pipefd;
 		
 	(void)argc;
 	(void)argv;
 	ft_init_all(&minishell);
-
-	// if (pipe(pipefd2) == -1)
-	// 	return (0);
 	copy_of_env(env, &minishell);
+
+
 	while (1)
 	{
-		minishell.index_cmd = 0;
 		str = readline(prompt);
 		ft_lexer(&minishell, str);
 		// ft_view_lst(minishell.lstms);
-		var = 1;
+		
 		
 		tmp_pipefd = 0;
-		
 		minishell.count = ft_clean_lst(&minishell);
+		printf("minishell.count = %d\n", minishell.count);
 		ft_build_struc_parse(&minishell, minishell.count);
+		minishell.index_cmd = 0;
 		while (minishell.parse[minishell.index_cmd].tab_cmd)
 		{
 			if (pipe(pipefd) == -1)
 				return (0);
-			printf ("minishell.parse[%d].tab_cmd[0] = %s\n", minishell.index_cmd, minishell.parse[minishell.index_cmd].tab_cmd[0]);
-			printf ("minishell.parse[%d].tab_cmd[1] = %s\n", minishell.index_cmd, minishell.parse[minishell.index_cmd].tab_cmd[1]);
 			ft_fork1(&minishell, pipefd, tmp_pipefd, minishell.parse[minishell.index_cmd].tab_cmd);
-			// close(pipefd[0]);
 			close(pipefd[1]);
 			if (tmp_pipefd > 0)
 				close (tmp_pipefd);
@@ -89,13 +84,29 @@ int main(int argc, char **argv, char **env)
 			minishell.index_cmd++;
 		}
 		if (tmp_pipefd > 0)
-				close (tmp_pipefd);
+			close (tmp_pipefd);
 		i = 0;
+		
 		while (i < minishell.count + 1)
 		{	
 			wait(NULL);
 			i++;
 		}
+		minishell.index_cmd = 0;
+		while (minishell.parse[minishell.index_cmd].tab_cmd)
+		{
+			free(minishell.parse[minishell.index_cmd].tab_cmd);
+			minishell.index_cmd++;
+		}
+		free(minishell.parse);
+		while (minishell.lstms)
+		{
+			// free(minishell.lstms->str);
+			tmp = minishell.lstms;
+			minishell.lstms = minishell.lstms->next;
+			free(tmp);
+		}		
+		// printf("minishell.parse[%d].tab_cmd = %s", minishell.index_cmd, minishell.parse[minishell.index_cmd].tab_cmd[0]);
 		// ft_lstclear_ms(minishell.lstms);
 		add_history(str);
 		if (str == NULL)
