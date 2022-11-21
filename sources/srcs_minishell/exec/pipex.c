@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/21 13:29:03 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/21 18:07:48 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,19 @@ char *get_path(t_env *environ, char **cmd)
 	return (NULL);
 }
 
-int	ft_fork1(t_minishell *minishell, int *pipefd, int tmp_fd, char **cmd)
+int	ft_fork1(t_minishell *minishell, int *pipefd, int tmp_fd)
 {
 	pid_t	pid;
 	char	*path;
-	char	**env;
-	
+
+	minishell->fd = minishell->parse[minishell->index_cmd].fd_in;
+	if (check_builtins_env(minishell->parse[minishell->index_cmd].tab_cmd) == 1)
+	{	
+		if (minishell->count == 0)
+			builtins(minishell->parse[minishell->index_cmd].tab_cmd, minishell);
+		return (minishell->shell.status);
+	}
 	pid = fork();
-	env = env_in_tab(minishell);
-	
 	if (pid == 0)
 	{
 		if (tmp_fd > 0)
@@ -87,33 +91,27 @@ int	ft_fork1(t_minishell *minishell, int *pipefd, int tmp_fd, char **cmd)
 			dup2(tmp_fd, 0);
 			close(tmp_fd);
 		}
-		if (check_builtins(cmd) == 1)
+		if (check_builtins(minishell->parse[minishell->index_cmd].tab_cmd) == 1)
 		{
-			printf("DEBUG\n");
-			if(minishell->index_cmd < minishell->count)
+			if (minishell->index_cmd < minishell->count)
 				dup2(pipefd[1], 1);
 			close(pipefd[0]);
 			close(pipefd[1]);
-			builtins(cmd, minishell);
+			builtins(minishell->parse[minishell->index_cmd].tab_cmd, minishell);
 			exit(1);
 		}
 		else
 		{
-			if ((path = get_path(minishell->environ, cmd)) == NULL)
+			if ((path = get_path(minishell->environ, minishell->parse[minishell->index_cmd].tab_cmd)) == NULL)
 			{
-				printf("%s: command not found\n", cmd[0]);
+				printf("%s: command not found\n", minishell->parse[minishell->index_cmd].tab_cmd[0]);
 				exit (1);
 			}
-			printf("minishell->index_cmd = %d", minishell->index_cmd);
-			printf("minishell->count - 1 = %d", minishell->count);
-			if(minishell->index_cmd < minishell->count)
-			{
-				printf("cmd %s\n", cmd[0]);
+			if (minishell->index_cmd < minishell->count)
 				dup2(pipefd[1], 1);
-			}
 			close(pipefd[0]);
 			close(pipefd[1]);
-			execve(path, cmd, env);
+			execve(path, minishell->parse[minishell->index_cmd].tab_cmd, minishell->tab_env);
 		}
 	}
 	return (1);

@@ -41,10 +41,10 @@ char	**sort_env(char **tab, int size)
 	return (tab);
 }
 
-char	**env_in_tab(t_minishell *minishell)
+void	env_in_tab(t_minishell *minishell)
 {
 	int		i;
-	char	**tab;
+	// char	**tab;
 	t_env	*tmp;
 	t_env	*tmp2;
 
@@ -56,18 +56,18 @@ char	**env_in_tab(t_minishell *minishell)
 		tmp = tmp->next;
 		i++;
 	}
-	tab = malloc(sizeof(char *) * (i + 1));
-	if (tab == NULL)
-		return (NULL);
+	minishell->tab_env = malloc(sizeof(char *) * (i + 1));
+	if (minishell->tab_env == NULL)
+		return ;
 	i = 0;
 	while (tmp2)
 	{
-		tab[i] = tmp2->str;
+		minishell->tab_env[i] = tmp2->str;
 		tmp2 = tmp2->next;
 		i++;
 	}
-	tab[i] = NULL;
-	return (tab);
+	minishell->tab_env[i] = NULL;
+	return ;
 }
 
 int	copy_of_env(char **env, t_minishell *minishell)

@@ -67,8 +67,8 @@ void	ft_lstclear_ms(t_lstms *lst)
 	{
 		tmp = lst;
 		lst = lst->next;
-		if (tmp->str)
-			free(tmp->str);
+		// if (tmp->str)
+		// 	free(tmp->str);
 		free(tmp);
 	}
 	free (lst);

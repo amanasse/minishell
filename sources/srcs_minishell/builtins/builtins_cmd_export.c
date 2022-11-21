@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_cmd_export.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 14:29:14 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/21 12:11:20 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/21 18:32:36 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,25 +62,26 @@ void	print_export(t_minishell *ms)
 
 	i = 0;
 	j = 0;
+	printf("ms->fd = %d\n", ms->fd);
 	while (ms->tab_env[i])
 	{
 		equal = 0;
 		j = 0;
-		write (1, "declare -x ", 11);
+		write(ms->fd, "declare -x ", 11);
 		while (ms->tab_env[i][j])
 		{
-			ft_putchar_fd(ms->tab_env[i][j], 1);
+			ft_putchar_fd(ms->tab_env[i][j], ms->fd);
 			if (ms->tab_env[i][j] == '='
 			&& ms->tab_env[i][j + 1] != '\0')
 			{
 				equal = 1;
-				write (1, "\"", 1);
+				write(ms->fd, "\"", 1);
 			}
 			j++;
 		}
 		if (equal == 1)
-			write (1, "\"", 1);
-		write (1, "\n", 1);
+			write(ms->fd, "\"", 1);
+		write(ms->fd, "\n", 1);
 		i++;
 	}
 }
@@ -121,15 +122,17 @@ int	check_var_env(t_export *export, t_minishell *ms, char **cmd)
 int	cmd_export(char **cmd, t_minishell *minishell)
 {
 	t_export	export;
+	int			type;
 
 	int i = 0;
+	type = minishell->parse[minishell->index_cmd].type;
 	init_export(&export);
-	if (!cmd[1])
+	if (type == 3 || type == 4 || type == 6 || !cmd[1])
 	{	
-		minishell->tab_env = NULL;
-		minishell->tab_env = env_in_tab(minishell);
-		if (minishell->tab_env == NULL)
-			return (1);
+		// minishell->tab_env = NULL;
+		// env_in_tab(minishell);
+		// if (minishell->tab_env == NULL)
+		// 	return (1);
 		while (minishell->tab_env[i])
 			i++;
 		sort_env(minishell->tab_env, i);

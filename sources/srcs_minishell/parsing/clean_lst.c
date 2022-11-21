@@ -25,14 +25,14 @@ fonction a faire = check si caractere est valide apres $ // ex : @ - = # *
 8 = entre ''
  */
 
-char	*ft_replace_dollar(char *str, char *new_str)
+char	*ft_replace_dollar(char *str, char *new_str, t_minishell *minishell)
 {
 	int		i;
 	char	*tmp;
 	char	*tmp2;
 
 	i = 0;
-	tmp = ft_replace_var(str);
+	tmp = ft_replace_var(str, minishell);
 	tmp2 = NULL;
 	while (str[i] != ' ' && str[i] != '\0' && str[i] != '"' 
 		&& str[i] != '\'')
@@ -44,7 +44,7 @@ char	*ft_replace_dollar(char *str, char *new_str)
 	return (free(new_str), free(tmp), tmp2);
 }
 
-char	*ft_replace_var(char *str)
+char	*ft_replace_var(char *str, t_minishell *minishell)
 {
 	int		i;
 	char 	*value;
@@ -53,14 +53,23 @@ char	*ft_replace_var(char *str)
 
 	i = 0;
 	tmp_str = NULL;
+	to_replace = NULL;
+	value = NULL;
 	if (str[i] == '$')
 	{
-		while (str[i] != ' ' && str[i] != '\0' && str[i] != '"' && str[i] != '\'')
+		if (str[i + 1] == '?')
+			value = ft_itoa(minishell->shell.status);
+		printf("value = %s\n", value);
+		while (str[i] != ' ' && str[i] != '\0' && str[i] != '"' 
+		&& str[i] != '\'')
 			i++;
-		to_replace = ft_substr(str, 1, i - 1);
-		if (to_replace == NULL)
-			return (NULL);
-		value = getenv(to_replace);
+		if (!value)
+		{
+			to_replace = ft_substr(str, 1, i - 1);
+			if (to_replace == NULL)
+				return (NULL);
+			value = getenv(to_replace);
+		}
 		if (value == NULL)
 			value = "";
 		if (!tmp_str)
@@ -86,7 +95,7 @@ int	ft_clean_lst(t_minishell *minishell)
 	{
 		if (temp->type == 0 || temp->type == 1 || temp->type == 3
 			|| temp->type == 4 || temp->type == 5 || temp->type == 6)
-			temp->str = ft_clean_if_quotes(temp->str);
+			temp->str = ft_clean_if_quotes(temp->str, minishell);
 		else if ( temp->type == 8)
 			temp->str = ft_clean_simple_quotes(temp->str);
 		else if (temp->type == 2)

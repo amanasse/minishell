@@ -61,7 +61,7 @@ int	cmd_echo2(t_echo *e, char **cmd)
 	while (e->i < e->count_cmd)
 	{
 		printf ("%s", cmd[e->i]);
-		if (e->i + 1 != e->count_cmd)
+		if (e->i + 1 != e->count_cmd && cmd[e->i][0] != '\0')
 			printf (" ");
 		e->i++;
 	}

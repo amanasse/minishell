@@ -20,15 +20,23 @@ int	check_builtins(char **cmd)
 	j = 0;
 	if (ft_strncmp(cmd[0], "echo", 4) == 0)
 		j++;
-	else if (ft_strncmp(cmd[0], "cd", 2) == 0)
-		j++;
 	else if (ft_strncmp(cmd[0], "pwd", 3) == 0)
+		j++;
+	else if (ft_strncmp(cmd[0], "env", 3) == 0)
+		j++;
+	return (j);
+}
+
+int	check_builtins_env(char **cmd)
+{
+	int	j;
+
+	j = 0;
+	if (ft_strncmp(cmd[0], "cd", 2) == 0)
 		j++;
 	else if (ft_strncmp(cmd[0], "export", 6) == 0)
 		j++;
 	else if (ft_strncmp(cmd[0], "unset", 5) == 0)
-		j++;
-	else if (ft_strncmp(cmd[0], "env", 3) == 0)
 		j++;
 	else if (ft_strncmp(cmd[0], "exit", 4) == 0)
 		j++;

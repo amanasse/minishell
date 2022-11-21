@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/17 16:37:23 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/21 17:40:07 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ types :
 2 = pipe　OK
 3 = redirection entree < OK
 4 = redirection sortie > OK
-5 = redirection << (append) doit recevoir un delimiteur OK
-6 = redirection sortie append (reecrit dessus) >> OK
+5 = heredoc = redirection << (append) doit recevoir un delimiteur OK
+6 = redirection sortie append (reecrit dessus) >> 
 7 = var environnement $var ??? OK 
 8 = entre '' OK
 */

@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:29:36 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/17 17:02:04 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/21 18:31:55 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,31 @@ void	ft_init_struc_parse(t_parse *parse, int i)
 {
 	parse[i].file_in = NULL;
 	parse[i].tab_cmd = NULL;
-	parse[i].fd_in = 0;
+	parse[i].fd_in = 1;
 	parse[i].if_heredoc = 0;
-	parse[i].fd_out = 1;
 	parse[i].if_pipe = 0;
 }
 
 void	ft_fill_parse(t_parse *parse, t_lstms *temp, int j, int i)
 {
 	parse[j].tab_cmd[i] = temp->str;
-	if (temp->type == 3 || temp->type == 4 
-		|| temp->type == 5 || temp->type == 6)
+	if (temp->type == 3)
+		parse[j].fd_in = open(temp->str, O_RDONLY, S_IRWXU);
+	else if (temp->type == 4)
+	{
 		parse[j].file_in = ft_strncpy(temp->str, ft_strlen(temp->str));
-	parse[j].type = temp->type;
-	if (temp->next != NULL && temp->next->type == 2)
-		parse[j].if_pipe = 1;
+		parse[j].type = temp->type;
+		parse[j].fd_in = open(temp->str, O_CREAT, S_IRWXU);
+		parse[j].tab_cmd[i] = ft_calloc(1, 1);
+	}	
+	else if (temp->type == 5)
+	{
+		parse[j].if_heredoc = 1;
+		parse[j].fd_in = 0;
+	}
+	else if (temp->type == 6)
+		parse[j].fd_in = open(temp->str, O_APPEND, S_IRWXU);
+	printf("fd_in = %d\n", parse[j].fd_in);
 }
 
 void	ft_fill_tab_cmd(t_lstms *temp, t_parse *parse)
@@ -88,9 +98,10 @@ void	ft_print_struc_parse(t_parse *parse, int k) // a supprimer
 		j = 0;
 		while (parse[i].tab_cmd[j] != NULL)
 		{
-			printf("parse[%d]->tab_cmd[%d] = [%s]\n", i, j, parse[i].tab_cmd[j]);
-			// printf("parse[%d]->type = %d\n", i, parse[i].type);
+			// printf("parse[%d]->tab_cmd[%d] = [%s]\n", i, j, parse[i].tab_cmd[j]);
+			printf("parse[%d]->type = %d\n", i, parse[i].type);
 			// printf("parse[%d]->file_in = %s\n", i, parse[i].file_in);
+			// printf("parse[%d]->if_heredoc = %d\n", i, parse[i].if_heredoc);
 			j++;
 		}
 		i++;
@@ -114,6 +125,4 @@ void	ft_build_struc_parse(t_minishell *minishell, int count)
 	}
 	ft_fill_tab_cmd(temp, minishell->parse);
 	// ft_print_struc_parse(minishell->parse, count + 1);
-	// free(parse->tab_cmd);
-	// free(parse);
 }

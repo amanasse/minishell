@@ -68,6 +68,7 @@ typedef struct s_unset
 
 /*BUILTINS*/
 
+
 void	init_unset(t_unset *unset);
 
 void	init_export(t_export *export);
@@ -82,6 +83,7 @@ void	parse_cmd_n(t_echo *e, char **cmd);
 int		cmd_echo2(t_echo *echo, char **cmd);
 
 int		check_builtins(char **cmd);
+int		check_builtins_env(char **cmd);
 
 
 /*UTILS*/

@@ -68,7 +68,7 @@ char	*ft_malloc(int len)
 }
 
 
-char	*ft_clean_if_quotes(char *str)
+char	*ft_clean_if_quotes(char *str, t_minishell *minishell)
 {
 	int		i;
 	int		quote;
@@ -93,7 +93,7 @@ char	*ft_clean_if_quotes(char *str)
 		}
 		else if (str[i] == '$' && str[i + 1] != '$')
 		{
-			new_str = ft_replace_dollar(str + i, new_str);
+			new_str = ft_replace_dollar(str + i, new_str, minishell);
 			while (str[i + 1] != ' ' && str[i + 1] != '\0' 
 				&& str[i + 1] != '"' && str[i + 1] != '\'')
 				i++;
