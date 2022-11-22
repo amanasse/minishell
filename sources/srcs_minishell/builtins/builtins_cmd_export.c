@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 14:29:14 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/21 18:32:36 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/22 12:21:47 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,15 +119,18 @@ int	check_var_env(t_export *export, t_minishell *ms, char **cmd)
 	return (0);
 }
 
-int	cmd_export(char **cmd, t_minishell *minishell)
+int	cmd_export(t_minishell *minishell)
 {
 	t_export	export;
+	int			i;
 	int			type;
 
-	int i = 0;
-	type = minishell->parse[minishell->index_cmd].type;
+	i = 0;
 	init_export(&export);
-	if (type == 3 || type == 4 || type == 6 || !cmd[1])
+	type = minishell->parse[minishell->index_cmd].type;
+	printf("type = %d\n", type);
+	if (type == REDIR_L || type == REDIR_R || type == APPEND ||
+		!minishell->parse[minishell->index_cmd].tab_cmd[1])
 	{	
 		// minishell->tab_env = NULL;
 		// env_in_tab(minishell);
@@ -142,7 +145,8 @@ int	cmd_export(char **cmd, t_minishell *minishell)
 	}
 	else
 	{
-		if (check_var_env(&export, minishell, cmd) == 1)
+		if (check_var_env(&export, minishell, 
+			minishell->parse[minishell->index_cmd].tab_cmd) == 1)
 			return (1);
 	}
 	return (0);

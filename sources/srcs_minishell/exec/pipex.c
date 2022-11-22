@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/21 18:07:48 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/22 15:40:50 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,12 @@ int	ft_fork1(t_minishell *minishell, int *pipefd, int tmp_fd)
 	if (check_builtins_env(minishell->parse[minishell->index_cmd].tab_cmd) == 1)
 	{	
 		if (minishell->count == 0)
-			builtins(minishell->parse[minishell->index_cmd].tab_cmd, minishell);
+			builtins(minishell);
 		return (minishell->shell.status);
 	}
 	pid = fork();
+	printf("pid = %d\n", pid);
+	printf("type = %d\n", minishell->parse[minishell->index_cmd].type);
 	if (pid == 0)
 	{
 		if (tmp_fd > 0)
@@ -91,13 +93,32 @@ int	ft_fork1(t_minishell *minishell, int *pipefd, int tmp_fd)
 			dup2(tmp_fd, 0);
 			close(tmp_fd);
 		}
-		if (check_builtins(minishell->parse[minishell->index_cmd].tab_cmd) == 1)
+		if (minishell->parse[minishell->index_cmd].type == REDIR_R)
+		{
+			printf("> fd in = %d\n", minishell->parse[minishell->index_cmd].fd_in);
+			printf("> fd out = %d\n", minishell->parse[minishell->index_cmd].fd_out);
+			// if (minishell->parse[minishell->index_cmd].fd_out > 0)
+			// {
+			// 	dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT);
+			// 	// execve(path, minishell->parse[minishell->index_cmd].tab_cmd, minishell->tab_env);
+
+			// 	printf("ok\n");
+			// }
+			if (minishell->parse[minishell->index_cmd].fd_in > 0)
+			{
+				printf("dup2 in\n");
+				dup2(minishell->parse[minishell->index_cmd].fd_in, STDIN);
+			}
+			// close(minishell->parse[minishell->index_cmd].fd_in);
+			// close(minishell->parse[minishell->index_cmd].fd_out);
+		}
+		else if (check_builtins(minishell->parse[minishell->index_cmd].tab_cmd) == 1)
 		{
 			if (minishell->index_cmd < minishell->count)
 				dup2(pipefd[1], 1);
 			close(pipefd[0]);
 			close(pipefd[1]);
-			builtins(minishell->parse[minishell->index_cmd].tab_cmd, minishell);
+			builtins(minishell);
 			exit(1);
 		}
 		else
@@ -107,12 +128,17 @@ int	ft_fork1(t_minishell *minishell, int *pipefd, int tmp_fd)
 				printf("%s: command not found\n", minishell->parse[minishell->index_cmd].tab_cmd[0]);
 				exit (1);
 			}
-			if (minishell->index_cmd < minishell->count)
+			printf("ls fd in = %d\n", minishell->parse[minishell->index_cmd].fd_in);
+			printf("ls fd out = %d\n", minishell->parse[minishell->index_cmd].fd_out);
+			if (minishell->parse[minishell->index_cmd].type != REDIR_R && minishell->index_cmd < minishell->count)
 				dup2(pipefd[1], 1);
 			close(pipefd[0]);
 			close(pipefd[1]);
-			execve(path, minishell->parse[minishell->index_cmd].tab_cmd, minishell->tab_env);
 		}
+		printf ("DEBUG\n");
+		printf("tab[0] = %s\n", minishell->parse[minishell->index_cmd].tab_cmd[0]);
+		printf("tab[0] = %s\n", minishell->parse[minishell->index_cmd].tab_cmd[1]);
+		execve(path, minishell->parse[minishell->index_cmd].tab_cmd, minishell->tab_env);
 	}
 	return (1);
 }

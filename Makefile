@@ -1,4 +1,4 @@
-SRCS    = 	parsing/main.c\
+SRCS    = 	main.c\
 		parsing/lexer.c\
 		parsing/utils_lst.c\
 		parsing/clean_lst.c\

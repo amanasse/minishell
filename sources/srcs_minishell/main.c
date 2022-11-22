@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/21 18:33:28 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/22 15:37:07 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,14 @@ int	execution(t_minishell *minishell)
 		free(minishell->tab_env);
 		minishell->tab_env = NULL;
 		close(pipefd[1]);
+		// if (minishell->parse[minishell->index_cmd].fd_in > 0)
+		// 	close(minishell->parse[minishell->index_cmd].fd_out);
 		if (tmp_pipefd > 0)
 			close (tmp_pipefd);
 		tmp_pipefd = pipefd[0];
+		// if (minishell->parse[minishell->index_cmd].fd_in > 0)
+		// 	tmp_pipefd = minishell->parse[minishell->index_cmd].fd_in;
+		printf("tmp_pipefd = %d\n", tmp_pipefd);
 		minishell->index_cmd++;
 	}
 	if (tmp_pipefd > 0)

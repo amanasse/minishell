@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/21 18:07:06 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/22 12:23:07 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,18 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+# define STDIN 0
+# define STDOUT 1
+# define QUOTES 0
+# define STRING 1
+# define PIPE 2
+# define REDIR_L 3
+# define REDIR_R 4
+# define HEREDOC 5
+# define APPEND 6
+# define ENV_VAR 7
+# define S_QUOTES 8
+
 typedef struct s_minishell
 {
 	t_exec		exec;
@@ -42,7 +54,7 @@ typedef struct s_minishell
 }				t_minishell;
 
 /*BUILTINS*/
-void	builtins(char **cmd, t_minishell *minishell);
+void	builtins(t_minishell *minishell);
 
 
 /*pwd*/
@@ -68,7 +80,7 @@ int		replace_var_env(t_minishell *ms, char *str, t_export *export);
 int		check_var_env(t_export *export, t_minishell *ms, char **cmd);
 
 /*export*/
-int		cmd_export(char **cmd, t_minishell *minishell);
+int		cmd_export(t_minishell *minishell);
 int		check_var_env(t_export *export, t_minishell *minishell, char **cmd);
 
 /*PARSING*/
