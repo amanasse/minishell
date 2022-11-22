@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/22 15:40:50 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/22 17:32:30 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,57 @@ char *get_path(t_env *environ, char **cmd)
 	return (NULL);
 }
 
+char	**make_new_tab_cmd(t_minishell *minishell)
+{
+	char	**new_tab_cmd;
+	int		i;
+	int		j;
+	int		k;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	while (minishell->parse[minishell->index_cmd].tab_cmd[i])
+		i++;
+	new_tab_cmd = malloc(sizeof(char *) * i);
+	if (new_tab_cmd == NULL)
+		return (NULL);
+	while (k < i && j < i)
+	{
+		if (minishell->parse[minishell->index_cmd].tab_cmd[k][0] == '\0'
+			&& minishell->parse[minishell->index_cmd].tab_cmd[k] != NULL)
+			k++;
+		new_tab_cmd[j] = ft_strdup(minishell->parse[minishell->index_cmd].tab_cmd[k]);
+		printf("OK\n");
+		// printf("new_tab_cmd[%d] = %s\n", j, new_tab_cmd[j]);
+		if (new_tab_cmd[j] == NULL)
+			return (NULL);
+		k++;
+		j++;
+		// printf("new_tab_cmd[%d] = %s\n", j, new_tab_cmd[j]);
+		// printf("j =%d\n", j);
+
+	}
+	new_tab_cmd[j] = NULL;
+	printf("new_tab_cmd[%d] = %s\n", j, new_tab_cmd[j]);
+
+	i = 0;
+	while (new_tab_cmd[i])
+	{
+		printf("new_tab_cmd[%d] = %s\n", i, new_tab_cmd[i]);
+		i++;
+	}
+	return (new_tab_cmd);
+}
+
+
 int	ft_fork1(t_minishell *minishell, int *pipefd, int tmp_fd)
 {
 	pid_t	pid;
 	char	*path;
+	char	**cmd;
 
+	// cmd = NULL;
 	minishell->fd = minishell->parse[minishell->index_cmd].fd_in;
 	if (check_builtins_env(minishell->parse[minishell->index_cmd].tab_cmd) == 1)
 	{	
@@ -84,8 +130,6 @@ int	ft_fork1(t_minishell *minishell, int *pipefd, int tmp_fd)
 		return (minishell->shell.status);
 	}
 	pid = fork();
-	printf("pid = %d\n", pid);
-	printf("type = %d\n", minishell->parse[minishell->index_cmd].type);
 	if (pid == 0)
 	{
 		if (tmp_fd > 0)
@@ -93,24 +137,22 @@ int	ft_fork1(t_minishell *minishell, int *pipefd, int tmp_fd)
 			dup2(tmp_fd, 0);
 			close(tmp_fd);
 		}
-		if (minishell->parse[minishell->index_cmd].type == REDIR_R)
+		if (minishell->parse[minishell->index_cmd].file_in != NULL)
 		{
-			printf("> fd in = %d\n", minishell->parse[minishell->index_cmd].fd_in);
-			printf("> fd out = %d\n", minishell->parse[minishell->index_cmd].fd_out);
-			// if (minishell->parse[minishell->index_cmd].fd_out > 0)
-			// {
-			// 	dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT);
-			// 	// execve(path, minishell->parse[minishell->index_cmd].tab_cmd, minishell->tab_env);
-
-			// 	printf("ok\n");
-			// }
+			printf("REDIR_R\n");
+			cmd = make_new_tab_cmd(minishell);
+			printf("cmd[0 = %s\n",cmd[0]);
+			if (minishell->parse[minishell->index_cmd].fd_out > 0)
+				dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT);
 			if (minishell->parse[minishell->index_cmd].fd_in > 0)
-			{
-				printf("dup2 in\n");
 				dup2(minishell->parse[minishell->index_cmd].fd_in, STDIN);
+			if ((path = get_path(minishell->environ, cmd)) == NULL)
+			{
+				printf("%s: command not found\n", cmd[0]);
+				exit (1);
 			}
-			// close(minishell->parse[minishell->index_cmd].fd_in);
-			// close(minishell->parse[minishell->index_cmd].fd_out);
+			if (execve(path, cmd, minishell->tab_env) == -1)
+				fprintf(stderr, "Error: execve failed");
 		}
 		else if (check_builtins(minishell->parse[minishell->index_cmd].tab_cmd) == 1)
 		{
@@ -128,17 +170,13 @@ int	ft_fork1(t_minishell *minishell, int *pipefd, int tmp_fd)
 				printf("%s: command not found\n", minishell->parse[minishell->index_cmd].tab_cmd[0]);
 				exit (1);
 			}
-			printf("ls fd in = %d\n", minishell->parse[minishell->index_cmd].fd_in);
-			printf("ls fd out = %d\n", minishell->parse[minishell->index_cmd].fd_out);
 			if (minishell->parse[minishell->index_cmd].type != REDIR_R && minishell->index_cmd < minishell->count)
 				dup2(pipefd[1], 1);
 			close(pipefd[0]);
 			close(pipefd[1]);
 		}
-		printf ("DEBUG\n");
-		printf("tab[0] = %s\n", minishell->parse[minishell->index_cmd].tab_cmd[0]);
-		printf("tab[0] = %s\n", minishell->parse[minishell->index_cmd].tab_cmd[1]);
-		execve(path, minishell->parse[minishell->index_cmd].tab_cmd, minishell->tab_env);
+		if (execve(path, minishell->parse[minishell->index_cmd].tab_cmd, minishell->tab_env) == -1)
+			fprintf(stderr, "Error: execve failed");
 	}
 	return (1);
 }

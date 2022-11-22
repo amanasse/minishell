@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:29:36 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/22 15:39:00 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/22 16:25:34 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	ft_fill_parse(t_parse *parse, t_lstms *temp, int j, int i)
 		parse[j].fd_in = 1;
 		parse[j].fd_out = open(temp->str, O_WRONLY
 			| O_TRUNC | O_CREAT, S_IRWXU, S_IRGRP, S_IROTH);
-		parse[j].tab_cmd[i] = NULL;
+		parse[j].tab_cmd[i] = ft_calloc(1, 1);
 	}	
 	else if (temp->type == HEREDOC)
 	{
