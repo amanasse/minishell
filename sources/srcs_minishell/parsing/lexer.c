@@ -6,25 +6,11 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/23 11:51:56 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/23 11:57:13 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*prio ' ' et " " : verifier si fermes, sinon erreur
-chaque maillon = 1 mot
-types :
-0 = entre guillemets OK
-1 = cmd - str OK
-2 = pipe　OK
-3 = redirection entree < OK
-4 = redirection sortie > OK
-5 = heredoc = redirection << (append) doit recevoir un delimiteur OK
-6 = redirection sortie append (reecrit dessus) >> 
-7 = var environnement $var ??? OK 
-8 = entre '' OK
-*/
 
 int	check_if_quotes_are_closed(char *str)
 {

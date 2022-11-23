@@ -18,7 +18,9 @@ SRCS    = 	main.c\
 		builtins/builtins_cmd_export.c\
 		builtins/builtins_cmd_export2.c\
 		builtins/builtins_cmd_unset.c\
-		exec/pipex.c
+		exec/pipex.c\
+		exec/redirection.c\
+		exec/exec_builtin_pipe.c
 
 DIR_SRC_MINISHELL = ./sources/srcs_minishell/
 

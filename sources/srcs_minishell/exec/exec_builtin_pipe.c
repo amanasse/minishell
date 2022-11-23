@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.h                                        :+:      :+:    :+:   */
+/*   exec_builtin_pipe.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/15 11:16:02 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/23 12:17:22 by mede-sou         ###   ########.fr       */
+/*   Created: 2022/11/23 12:16:25 by mede-sou          #+#    #+#             */
+/*   Updated: 2022/11/23 12:23:01 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTION_H
-# define EXECUTION_H
+#include "minishell.h"
 
-# include "minishell.h"
-# include "parsing.h"
-# include "builtins.h"
-
-
-
-typedef struct s_exec
+void	exec_builtin(t_minishell *minishell, int *pipefd)
 {
-	int				count_pipe;
-}					t_exec;
+	if (minishell->index_cmd < minishell->count)
+		dup2(pipefd[1], 1);
+	close_fd(pipefd);
+	builtins(minishell);
+	exit(1);
+}
 
-char	*get_path(t_env *environ, char **cmd);
-void	close_fd(int *fd);
-
-#endif

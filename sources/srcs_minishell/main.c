@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/22 16:25:07 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/23 12:06:34 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	execution(t_minishell *minishell)
 		env_in_tab(minishell);
 		if (minishell->tab_env == NULL)
 			return (0);
-		ft_fork1(minishell, pipefd, tmp_pipefd);
+		ft_fork(minishell, pipefd, tmp_pipefd);
 		free(minishell->tab_env);
 		minishell->tab_env = NULL;
 		close(pipefd[1]);

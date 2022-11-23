@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/23 11:56:22 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/23 12:19:54 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,11 @@ char	*ft_replace_dollar(char *str, char *new_str, t_minishell *minishell);
 char	*ft_replace_var(char *str, t_minishell *minishell);
 
 /*EXEC*/
-int		ft_fork1(t_minishell *minishell, int *pipefd, int tmp_fd);
+int		ft_fork(t_minishell *minishell, int *pipefd, int tmp_fd);
 void	free_parse(t_minishell *minishell);
 int		execution(t_minishell *minishell);
-
-
+char	**make_new_tab_cmd(t_minishell *minishell);
+void	exec_redirection(t_minishell *minishell);
+void	exec_builtin(t_minishell *minishell, int *pipefd);
 
 #endif
