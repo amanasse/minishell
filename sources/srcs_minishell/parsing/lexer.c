@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/21 17:40:07 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/23 11:51:56 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ int	ft_lexer_quotes(int i, char *str, t_minishell *mini)
 	if (temp == NULL)
 		return (free(temp), 0);
 	if (str[i] == '"')
-		ft_lstadd_back_ms(&mini->lstms, ft_lstnew_ms(temp, 0));
+		ft_lstadd_back_ms(&mini->lstms, ft_lstnew_ms(temp, QUOTES));
 	else
-		ft_lstadd_back_ms(&mini->lstms, ft_lstnew_ms(temp, 8));
+		ft_lstadd_back_ms(&mini->lstms, ft_lstnew_ms(temp, S_QUOTES));
 	return (j);
 }
 
@@ -80,7 +80,7 @@ int	ft_lexer_others(int i, char *str, t_minishell *mini)
 	temp = ft_substr(str + i, 0, j - i);
 	if (temp == NULL)
 		return (free(temp), 0);
-	ft_lstadd_back_ms(&mini->lstms, ft_lstnew_ms(temp, 1));
+	ft_lstadd_back_ms(&mini->lstms, ft_lstnew_ms(temp, STRING));
 	return (j);
 }
 
@@ -116,7 +116,7 @@ int	ft_lexer(t_minishell *minishell, char *str)
 		}
 		else if (str[i] == '|')
 		{
-			ft_lstadd_back_ms(&minishell->lstms, ft_lstnew_ms("|", 2));
+			ft_lstadd_back_ms(&minishell->lstms, ft_lstnew_ms("|", PIPE));
 			i++;
 		}
 		else if (str[i] == ' ')

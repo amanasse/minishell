@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 17:26:05 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/17 17:02:12 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/23 11:52:20 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int	ft_append(t_lstms *lex, char *str)
 	if (temp == NULL)
 		return (0);
 	if (str[1] == '<')
-		ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, 5));
+		ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, HEREDOC));
 	else if (str[1] == '>')
-		ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, 6));
+		ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, APPEND));
 	return (i);
 }
 
@@ -59,9 +59,9 @@ int	ft_chevron(t_lstms *lex, char *str, char c)
 	if (temp == NULL)
 		return (-1);
 	if (c == '<') 
-		ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, 3));
+		ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, REDIR_L));
 	else if (c == '>')
-		ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, 4));
+		ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, REDIR_R));
 	return (i);
 }
 

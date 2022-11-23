@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:29:36 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/22 16:25:34 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/23 11:43:51 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	ft_fill_parse(t_parse *parse, t_lstms *temp, int j, int i)
 	else if (temp->type == HEREDOC)
 	{
 		parse[j].if_heredoc = 1;
-		parse[j].fd_in = 1;
+		parse[j].fd_in = 0;
 		parse[j].fd_out = 1;
 	}
 	else if (temp->type == APPEND)

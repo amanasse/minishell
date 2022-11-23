@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/22 12:23:07 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/23 11:56:22 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 
 # define STDIN 0
 # define STDOUT 1
+
 # define QUOTES 0
 # define STRING 1
 # define PIPE 2

@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/23 11:36:22 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/23 11:47:23 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,10 +129,7 @@ int	ft_fork1(t_minishell *minishell, int *pipefd, int tmp_fd)
 		}
 		if (minishell->parse[minishell->index_cmd].file_in != NULL)
 		{
-			printf("REDIR_R\n");
 			cmd = make_new_tab_cmd(minishell);
-			printf("cmd[0] = %s\n",cmd[0]);
-			printf("cmd[1] = %s\n",cmd[1]);
 			if (minishell->parse[minishell->index_cmd].fd_out > 0)
 				dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT);
 			if (minishell->parse[minishell->index_cmd].fd_in > 0)
