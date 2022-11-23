@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/22 17:32:30 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/23 11:36:22 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,34 +83,24 @@ char	**make_new_tab_cmd(t_minishell *minishell)
 	k = 0;
 	while (minishell->parse[minishell->index_cmd].tab_cmd[i])
 		i++;
-	new_tab_cmd = malloc(sizeof(char *) * i);
+	new_tab_cmd = malloc(sizeof(char *) * i + 1);
 	if (new_tab_cmd == NULL)
 		return (NULL);
 	while (k < i && j < i)
 	{
-		if (minishell->parse[minishell->index_cmd].tab_cmd[k][0] == '\0'
-			&& minishell->parse[minishell->index_cmd].tab_cmd[k] != NULL)
+		if (minishell->parse[minishell->index_cmd].tab_cmd[k][0] == '\0')
 			k++;
-		new_tab_cmd[j] = ft_strdup(minishell->parse[minishell->index_cmd].tab_cmd[k]);
-		printf("OK\n");
-		// printf("new_tab_cmd[%d] = %s\n", j, new_tab_cmd[j]);
-		if (new_tab_cmd[j] == NULL)
-			return (NULL);
-		k++;
-		j++;
-		// printf("new_tab_cmd[%d] = %s\n", j, new_tab_cmd[j]);
-		// printf("j =%d\n", j);
-
+		else
+		{
+			new_tab_cmd[j] = 
+				ft_strdup(minishell->parse[minishell->index_cmd].tab_cmd[k]);
+			if (new_tab_cmd[j] == NULL)
+				return (NULL);
+			k++;
+			j++;
+		}
 	}
 	new_tab_cmd[j] = NULL;
-	printf("new_tab_cmd[%d] = %s\n", j, new_tab_cmd[j]);
-
-	i = 0;
-	while (new_tab_cmd[i])
-	{
-		printf("new_tab_cmd[%d] = %s\n", i, new_tab_cmd[i]);
-		i++;
-	}
 	return (new_tab_cmd);
 }
 
@@ -141,7 +131,8 @@ int	ft_fork1(t_minishell *minishell, int *pipefd, int tmp_fd)
 		{
 			printf("REDIR_R\n");
 			cmd = make_new_tab_cmd(minishell);
-			printf("cmd[0 = %s\n",cmd[0]);
+			printf("cmd[0] = %s\n",cmd[0]);
+			printf("cmd[1] = %s\n",cmd[1]);
 			if (minishell->parse[minishell->index_cmd].fd_out > 0)
 				dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT);
 			if (minishell->parse[minishell->index_cmd].fd_in > 0)
