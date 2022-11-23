@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/23 12:25:19 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/23 14:09:01 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void	close_fd(int *fd)
 int	ft_fork(t_minishell *minishell, int *pipefd, int tmp_fd)
 {
 	pid_t	pid;
-	char	*path;
 
 	minishell->fd = minishell->parse[minishell->index_cmd].fd_in;
 	if (check_builtins_env(minishell->parse[minishell->index_cmd].tab_cmd) == 1)
@@ -97,23 +96,13 @@ int	ft_fork(t_minishell *minishell, int *pipefd, int tmp_fd)
 			dup2(tmp_fd, 0);
 			close(tmp_fd);
 		}
-		if (minishell->parse[minishell->index_cmd].file_in != NULL)
+		if (minishell->parse[minishell->index_cmd].file_in != NULL
+			|| minishell->parse[minishell->index_cmd].delimiter != NULL)
 			exec_redirection(minishell);
 		else if (check_builtins(minishell->parse[minishell->index_cmd].tab_cmd) == 1)
 			exec_builtin(minishell, pipefd);
 		else
-		{
-			if ((path = get_path(minishell->environ, minishell->parse[minishell->index_cmd].tab_cmd)) == NULL)
-			{
-				printf("%s: command not found\n", minishell->parse[minishell->index_cmd].tab_cmd[0]);
-				exit (1);
-			}
-			if (minishell->index_cmd < minishell->count)
-				dup2(pipefd[1], 1);
-			close_fd(pipefd);
-			if (execve(path, minishell->parse[minishell->index_cmd].tab_cmd, minishell->tab_env) == -1)
-				fprintf(stderr, "Error: execve failed");
-		}
+			exec_pipe(minishell, pipefd);
 	}
 	return (1);
 }

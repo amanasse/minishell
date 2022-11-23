@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:29:36 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/23 11:43:51 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/23 14:24:56 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@ void	ft_fill_parse(t_parse *parse, t_lstms *temp, int j, int i)
 	parse[j].tab_cmd[i] = temp->str;
 	if (temp->type == REDIR_L)
 	{
+		parse[j].file_in = ft_strncpy(temp->str, ft_strlen(temp->str));
 		parse[j].fd_in = open(temp->str, O_RDONLY, S_IRWXU);
 		parse[j].fd_out = 1;
+		parse[j].tab_cmd[i] = ft_calloc(1, 1);
 	}
 	else if (temp->type == REDIR_R)
 	{
@@ -57,13 +59,16 @@ void	ft_fill_parse(t_parse *parse, t_lstms *temp, int j, int i)
 		parse[j].if_heredoc = 1;
 		parse[j].fd_in = 0;
 		parse[j].fd_out = 1;
+		parse[j].delimiter = ft_strncpy(temp->str, ft_strlen(temp->str));
+		parse[j].tab_cmd[i] = ft_calloc(1, 1);
 	}
 	else if (temp->type == APPEND)
 	{
-		parse[j].fd_in = 0;
-		parse[j].fd_out = open(temp->str, O_WRONLY
-			| O_TRUNC | O_APPEND, S_IRWXU, S_IRGRP, S_IROTH);
 		parse[j].file_in = ft_strncpy(temp->str, ft_strlen(temp->str));
+		parse[j].fd_in = 1;
+		parse[j].fd_out = open(temp->str, O_WRONLY
+			| O_APPEND | O_CREAT, S_IRWXU, S_IRGRP, S_IROTH);
+		parse[j].tab_cmd[i] = ft_calloc(1, 1);
 	}
 	parse[j].type = temp->type;
 }
