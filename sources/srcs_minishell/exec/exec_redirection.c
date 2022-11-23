@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection.c                                      :+:      :+:    :+:   */
+/*   exec_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:05:50 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/23 14:56:21 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/23 17:00:16 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,5 @@ void	exec_redirection(t_minishell *minishell)
 		printf("%s: command not found\n", cmd[0]);
 		exit(1);
 	}
-	if (execve(path, cmd, minishell->tab_env) == -1)
-		fprintf(stderr, "Error: execve failed");
+	minishell->shell.status = execve(path, cmd, minishell->tab_env);
 }

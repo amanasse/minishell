@@ -19,9 +19,10 @@ SRCS    = 	main.c\
 		builtins/builtins_cmd_export2.c\
 		builtins/builtins_cmd_unset.c\
 		exec/pipex.c\
-		exec/redirection.c\
+		exec/exec_redirection.c\
 		exec/exec_builtin_pipe.c\
-		exec/exec_heredoc.c
+		exec/exec_heredoc.c\
+		free_all.c
 
 DIR_SRC_MINISHELL = ./sources/srcs_minishell/
 
@@ -38,8 +39,6 @@ NAME = minishell
 HEADERS	= -I includes
 CC		= cc
 CFLAGS	= -MMD -Wall -Wextra -Werror -g3
-
-
 
 ${NAME} : minishell
 
@@ -61,8 +60,6 @@ re:			fclean all
 
 $(DIR_OBJ)%.o: $(DIR_SRC_MINISHELL)%.c
 	${CC} ${CFLAGS} -c $< ${HEADERS} -o $@
-
-
 
 -include ${DEPS}
 

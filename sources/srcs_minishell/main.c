@@ -6,76 +6,42 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/23 14:58:39 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/23 16:49:56 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	signal_handler(int signum)
+{
+	if (signum == SIGINT)
+	{
+		write(2, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
+
+void	signals()
+{
+	struct sigaction	sa;
+
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sa.sa_handler = signal_handler;
+	sigaction(SIGINT, &sa, NULL);
+	signal(SIGQUIT,SIG_IGN);
+}
+
 void	ft_init_all(t_minishell *minishell)
 {
-	ft_bzero(minishell, sizeof(t_minishell));
-}
-
-void	free_parse(t_minishell *minishell)
-{
-	int	i;
-
-	minishell->index_cmd = 0;
-	while (minishell->parse[minishell->index_cmd].tab_cmd)
-	{
-		i = 0;
-		while (minishell->parse[minishell->index_cmd].tab_cmd[i])
-		{
-			free(minishell->parse[minishell->index_cmd].tab_cmd[i]);
-			i++;
-		}
-		free(minishell->parse[minishell->index_cmd].tab_cmd);
-		minishell->index_cmd++;
-	}
-	free(minishell->parse);
-	minishell->index_cmd = 0;
-	// free(minishell->tab_env);
-}
-
-int	execution(t_minishell *minishell)
-{
-	int	tmp_pipefd;
-	int	pipefd[2];
-	int	i;
-
-	tmp_pipefd = 0;
-	minishell->index_cmd = 0;
-	while (minishell->parse[minishell->index_cmd].tab_cmd)
-	{
-		if (pipe(pipefd) == -1)
-			return (0);
-		env_in_tab(minishell);
-		if (minishell->tab_env == NULL)
-			return (0);
-		ft_fork(minishell, pipefd, tmp_pipefd);
-		free(minishell->tab_env);
-		minishell->tab_env = NULL;
-		close(pipefd[1]);
-		if (tmp_pipefd > 0)
-			close (tmp_pipefd);
-		tmp_pipefd = pipefd[0];
-		minishell->index_cmd++;
-	}
-	if (tmp_pipefd > 0)
-		close (tmp_pipefd);
-	i = 0;
-	while (i < minishell->count + 1)
-	{	
-		wait(NULL);
-		i++;
-	}
-	return (1);
+	ft_memset(minishell, 0, sizeof(t_minishell));
 }
 
 int main(int argc, char **argv, char **env)
 {
-	char			prompt[3] = "$>";
+	char			prompt[4] = "$> ";
 	char			*str;
 	t_minishell		minishell;
 		
@@ -83,7 +49,7 @@ int main(int argc, char **argv, char **env)
 	(void)argv;
 	ft_init_all(&minishell);
 	copy_of_env(env, &minishell);
-
+	signals();
 	while (1)
 	{
 		minishell.lstms = NULL;
@@ -99,7 +65,10 @@ int main(int argc, char **argv, char **env)
 		add_history(str);
 		if (str == NULL)
 		{
+			write(1, "exit\n", 5);
 			free (str);
+			free_parse(&minishell);
+			ft_lstclear_ms(minishell.lstms);
 			exit (0);
 		}
 		free_parse(&minishell);

@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/23 14:50:40 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/23 15:49:35 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "builtins.h"
 # include "execution.h"
 # include "../sources/libft/includes/libft.h"
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -102,5 +103,6 @@ void	exec_builtin(t_minishell *minishell, int *pipefd);
 void	exec_pipe(t_minishell *minishell, int *pipefd);
 char	**exec_heredoc(t_minishell *minishell, char **cmd);
 int		heredoc(t_minishell *minishell);
+void	signals();
 
 #endif

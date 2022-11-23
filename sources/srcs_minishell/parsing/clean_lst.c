@@ -6,24 +6,11 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/23 11:54:13 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/23 16:55:37 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-0 = entre guillemets "" OK
-1 = cmd - str OK
-2 = pipe　OK
-3 = redirection entree < OK
-4 = redirection sortie > OK
-5 = redirection << (append) doit recevoir un delimiteur OK
-6 = redirection sortie append (reecrit dessus) >> OK
-7 = var environnement $var
-fonction a faire = check si caractere est valide apres $ // ex : @ - = # *
-8 = entre ''
- */
 
 char	*ft_replace_dollar(char *str, char *new_str, t_minishell *minishell)
 {
@@ -59,7 +46,6 @@ char	*ft_replace_var(char *str, t_minishell *minishell)
 	{
 		if (str[i + 1] == '?')
 			value = ft_itoa(minishell->shell.status);
-		printf("value = %s\n", value);
 		while (str[i] != ' ' && str[i] != '\0' && str[i] != '"' 
 		&& str[i] != '\'')
 			i++;

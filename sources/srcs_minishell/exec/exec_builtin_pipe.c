@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:16:25 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/23 13:33:42 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/23 17:00:45 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	exec_pipe(t_minishell *minishell, int *pipefd)
 	if (minishell->index_cmd < minishell->count)
 		dup2(pipefd[1], 1);
 	close_fd(pipefd);
-	if (execve(path, minishell->parse[minishell->index_cmd].tab_cmd,
-		minishell->tab_env) == -1)
-		fprintf(stderr, "Error: execve failed");
+	minishell->shell.status = execve(path,
+		minishell->parse[minishell->index_cmd].tab_cmd,	minishell->tab_env);
 }

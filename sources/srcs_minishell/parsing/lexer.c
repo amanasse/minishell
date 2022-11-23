@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/23 11:57:13 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/23 15:04:34 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,9 @@ int	ft_lexer(t_minishell *minishell, char *str)
 	int		i;
 
 	i = 0;
-	if (check_if_quotes_are_closed(str) == 0)
+	if (str && check_if_quotes_are_closed(str) == 0)
 		return (0);
-	while (str[i] != '\0')
+	while (str && str[i] != '\0')
 	{
 		if (str[i] == '"' || str[i] == '\'')	
 			i = ft_lexer_quotes(i, str, minishell);

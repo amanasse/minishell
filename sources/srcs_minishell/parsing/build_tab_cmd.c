@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:29:36 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/23 14:24:56 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/23 16:17:39 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	ft_count_cmd(t_lstms *lex)
 void	ft_init_struc_parse(t_parse *parse, int i)
 {
 	parse[i].file_in = NULL;
+	parse[i].delimiter = NULL;
 	parse[i].tab_cmd = NULL;
 	parse[i].fd_in = 0;
 	parse[i].fd_out = 1;
