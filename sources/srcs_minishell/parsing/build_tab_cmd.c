@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:29:36 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/23 16:17:39 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/24 17:27:15 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ void	ft_fill_parse(t_parse *parse, t_lstms *temp, int j, int i)
 			| O_APPEND | O_CREAT, S_IRWXU, S_IRGRP, S_IROTH);
 		parse[j].tab_cmd[i] = ft_calloc(1, 1);
 	}
+	printf("heredoc = %d\n", parse[j].if_heredoc);
+	
 	parse[j].type = temp->type;
 }
 

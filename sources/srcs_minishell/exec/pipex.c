@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/24 15:34:59 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/24 17:30:42 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ char *get_path(t_env *environ, char **cmd)
 			break ;
 		environ = environ->next;
 	}
+	if (environ == NULL)
+		return (NULL);
 	split_paths = ft_split(environ->str + 5, ':');
 	if (split_paths == NULL)
 		return (NULL);
@@ -117,6 +119,22 @@ int	execution(t_minishell *minishell)
 
 	tmp_pipefd = 0;
 	minishell->index_cmd = 0;
+	// printf("heredoc = %d\n", minishell->parse[0].if_heredoc);
+	// if (minishell->parse[0].if_heredoc == 1)
+	// {
+	// 	if (pipe(pipefd) == -1)
+	// 		return (0);
+	// 	env_in_tab(minishell);
+	// 	if (minishell->tab_env == NULL)
+	// 		return (0);
+	// 	ft_fork(minishell, pipefd, tmp_pipefd);
+	// 	free(minishell->tab_env);
+	// 	minishell->tab_env = NULL;
+	// 	close(pipefd[1]);
+	// 	if (tmp_pipefd > 0)
+	// 		close (tmp_pipefd);
+	// 	tmp_pipefd = pipefd[0];
+	// }
 	while (minishell->parse[minishell->index_cmd].tab_cmd)
 	{
 		if (pipe(pipefd) == -1)
