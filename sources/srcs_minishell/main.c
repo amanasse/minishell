@@ -6,20 +6,44 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/23 16:49:56 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/24 15:45:29 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	signal_handler(int signum)
+t_minishell	*g_minishell;
+
+void	signal_handler(int signum, siginfo_t *sa, void *context)
 {
+	(void)context;
+	(void)sa;
 	if (signum == SIGINT)
 	{
-		write(2, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		g_minishell->shell.status = 130;
+		if (g_minishell->pid == 0)
+		{
+			rl_replace_line("", 0);
+			rl_on_new_line();
+			write(2, "\n", 1);
+			rl_redisplay();
+		}
+		else
+		{
+			write(2, "", 1);
+			rl_redisplay();
+		}
+	}
+	if (signum == SIGQUIT)
+	{
+		g_minishell->shell.status = 131;
+		if (g_minishell->pid == 0)
+			signal(SIGQUIT, SIG_IGN);
+		else
+		{
+			printf("Quit (core dumped)\n");
+			signal(SIGQUIT, SIG_IGN);
+		}
 	}
 }
 
@@ -28,15 +52,16 @@ void	signals()
 	struct sigaction	sa;
 
 	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sa.sa_handler = signal_handler;
+	sa.sa_flags = SA_RESTART | SA_SIGINFO;
+	sa.sa_sigaction = signal_handler;
 	sigaction(SIGINT, &sa, NULL);
-	signal(SIGQUIT,SIG_IGN);
+	sigaction(SIGQUIT, &sa, NULL);
 }
 
 void	ft_init_all(t_minishell *minishell)
 {
 	ft_memset(minishell, 0, sizeof(t_minishell));
+	g_minishell = minishell;
 }
 
 int main(int argc, char **argv, char **env)
@@ -52,6 +77,7 @@ int main(int argc, char **argv, char **env)
 	signals();
 	while (1)
 	{
+		minishell.pid = 0;
 		minishell.lstms = NULL;
 		str = readline(prompt);
 		ft_lexer(&minishell, str);

@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/23 15:49:35 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/24 14:35:55 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,13 @@ typedef struct s_minishell
 	t_env		*environ;
 	char		**tab_env;
 	int			count;
+	int			bool;
 	int			index_cmd;
 	int			fd;
+	pid_t		pid;
 }				t_minishell;
+
+extern t_minishell	*g_minishell;
 
 /*BUILTINS*/
 void	builtins(t_minishell *minishell);

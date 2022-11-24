@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/23 17:00:22 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/24 15:34:59 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ char *get_path(t_env *environ, char **cmd)
 		if (access(path, F_OK) == 0)
 			return (path);
 		free(path);
+		path = NULL;
 		i++;
 	}
 	i = 0;
@@ -79,8 +80,6 @@ void	close_fd(int *fd)
 
 int	ft_fork(t_minishell *minishell, int *pipefd, int tmp_fd)
 {
-	pid_t	pid;
-
 	minishell->fd = minishell->parse[minishell->index_cmd].fd_in;
 	if (check_builtins_env(minishell->parse[minishell->index_cmd].tab_cmd) == 1)
 	{	
@@ -88,9 +87,10 @@ int	ft_fork(t_minishell *minishell, int *pipefd, int tmp_fd)
 			builtins(minishell);
 		return (minishell->shell.status);
 	}
-	pid = fork();
-	if (pid == 0)
+	minishell->pid = fork();
+	if (minishell->pid == 0)
 	{
+		minishell->pid = 1;
 		if (tmp_fd > 0)
 		{
 			dup2(tmp_fd, 0);

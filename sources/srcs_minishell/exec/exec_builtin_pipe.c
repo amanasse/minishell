@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:16:25 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/23 17:00:45 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/24 15:03:33 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,13 @@ void	exec_pipe(t_minishell *minishell, int *pipefd)
 	if ((path = get_path(minishell->environ,
 		minishell->parse[minishell->index_cmd].tab_cmd)) == NULL)
 	{
+		path = minishell->parse[minishell->index_cmd].tab_cmd[0];
+		if (access(path, F_OK) == 0)
+			execve(path, minishell->parse[minishell->index_cmd].tab_cmd,
+				minishell->tab_env);
 		printf("%s: command not found\n",
 			minishell->parse[minishell->index_cmd].tab_cmd[0]);
-		exit (1);
+		exit(1);
 	}
 	if (minishell->index_cmd < minishell->count)
 		dup2(pipefd[1], 1);
