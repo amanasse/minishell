@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/25 10:38:13 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/25 11:22:36 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ int	execution(t_minishell *minishell)
 	int	i;
 	int loc;
 
+	loc = 0;
 	tmp_pipefd = 0;
 	minishell->index_cmd = 0;
 	// printf("heredoc = %d\n", minishell->parse[0].if_heredoc);
@@ -166,5 +167,5 @@ int	execution(t_minishell *minishell)
 		i++;
 	}
 	// printf("loc = %d", loc);
-	return (loc);
+	return (0);
 }

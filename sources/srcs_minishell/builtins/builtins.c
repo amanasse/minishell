@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 10:20:05 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/25 10:37:08 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/25 11:33:33 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int	check_builtins_env(char **cmd, t_minishell *minishell)
 	char *path;
 
 	j = 0;
+	printf("cmd[0] = %s\n", cmd[0]);
+
 	if (ft_strncmp(cmd[0], "cd", 2) == 0)
 		j++;
 	else if (ft_strncmp(cmd[0], "export", 6) == 0)
