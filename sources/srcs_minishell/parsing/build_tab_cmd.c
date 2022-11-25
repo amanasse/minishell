@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:29:36 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/24 17:27:15 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:41:40 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	ft_fill_parse(t_parse *parse, t_lstms *temp, int j, int i)
 			| O_APPEND | O_CREAT, S_IRWXU, S_IRGRP, S_IROTH);
 		parse[j].tab_cmd[i] = ft_calloc(1, 1);
 	}
-	printf("heredoc = %d\n", parse[j].if_heredoc);
+	// printf("heredoc = %d\n", parse[j].if_heredoc);
 	
 	parse[j].type = temp->type;
 }
@@ -118,7 +118,7 @@ void	ft_print_struc_parse(t_parse *parse, int k) // a supprimer
 		while (parse[i].tab_cmd[j] != NULL)
 		{
 			printf("parse[%d]->tab_cmd[%d] = [%s]\n", i, j, parse[i].tab_cmd[j]);
-			// printf("parse[%d]->type = %d\n", i, parse[i].type);
+			printf("parse[%d]->type = %d\n", i, parse[i].type);
 			// printf("parse[%d]->file_in = %s\n", i, parse[i].file_in);
 			// printf("parse[%d]->if_heredoc = %d\n", i, parse[i].if_heredoc);
 			j++;

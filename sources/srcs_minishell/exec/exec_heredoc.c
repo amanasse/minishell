@@ -6,13 +6,44 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 14:44:12 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/24 17:37:48 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:15:46 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	heredoc(t_minishell *minishell)
+char	*ft_clean_if_quotes_delim(char *str)
+{
+	int		i;
+	int		quote;
+	char	*new_str;
+	
+	i = -1;
+	quote = 0;
+	new_str = NULL;
+	while (str[++i])
+	{
+		if (str[i] == '"')
+		{
+			if (quote == 0)
+				quote = 1;
+			else
+				quote = 0;
+		}
+		else if (str[i] == '\'')
+		{
+			if (quote == 1)
+				new_str = ft_stock_str(new_str, str[i]);
+		}
+		else
+			new_str = ft_stock_str(new_str, str[i]);
+	}
+	if (new_str == NULL)
+		new_str = ft_malloc(1);
+	return (free(str), new_str);
+}
+
+int	heredoc(t_minishell *mini)
 {
 	int		fd;
 	char	line_heredoc[3];
@@ -22,6 +53,8 @@ int	heredoc(t_minishell *minishell)
 	line_heredoc[0] = '>';
 	line_heredoc[1] = ' ';
 	line_heredoc[2] = '\0';
+	mini->parse[mini->index_cmd].delimiter =
+		ft_clean_if_quotes_delim(mini->parse[mini->index_cmd].delimiter);
 	fd = open("heredoc.txt", O_RDWR | O_CREAT | O_TRUNC,
 		S_IRWXU, S_IRGRP, S_IROTH);
 	if (fd == -1)
@@ -32,7 +65,7 @@ int	heredoc(t_minishell *minishell)
 		if (line == NULL)
 			return (-1);
 		if (ft_strcmp(line,
-			minishell->parse[minishell->index_cmd].delimiter) == 0)
+			mini->parse[mini->index_cmd].delimiter) == 0)
 			break ;
 		tmp = ft_strjoin(line, "\n");
 		if (tmp == NULL)

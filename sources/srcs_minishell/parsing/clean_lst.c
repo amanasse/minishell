@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/23 16:55:37 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:28:49 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,21 +74,23 @@ int	ft_clean_lst(t_minishell *minishell)
 {
 	t_lstms	*temp;
 	int		count;
+	int		i;
 
+	i = 0;
 	temp = minishell->lstms;
 	count = 0;
 	while (temp != NULL)
 	{
 		if (temp->type == QUOTES || temp->type == STRING
 			|| temp->type == REDIR_L || temp->type == REDIR_R
-			|| temp->type == HEREDOC
 			|| temp->type == APPEND)
 			temp->str = ft_clean_if_quotes(temp->str, minishell);
-		else if ( temp->type == S_QUOTES)
+		else if (temp->type == S_QUOTES)
 			temp->str = ft_clean_simple_quotes(temp->str);
 		else if (temp->type == PIPE)
 			count++;
 		temp = temp->next;
+		i++;
 	}
 	return (count);
 }

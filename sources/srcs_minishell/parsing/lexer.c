@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/23 15:04:34 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:39:13 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,31 @@
 int	check_if_quotes_are_closed(char *str)
 {
 	int	i;
-	int	single_quotes;
-	int	double_quotes;
+	int	in_s_quotes;
+	int	in_d_quotes;
 
 	i = 0;
-	single_quotes = 0;
-	double_quotes = 0;
+	in_s_quotes = 0;
+	in_d_quotes = 0;
 	while (str[i] && str)
 	{
 		if (str[i] == '\'')
-			single_quotes++;
+		{
+			if ((in_s_quotes == 0 && in_d_quotes == 1) || (in_s_quotes == 1))
+				in_s_quotes = 0;
+			else
+				in_s_quotes = 1;
+		}
 		if (str[i] == '"')
-			double_quotes++;
+		{
+			if ((in_d_quotes == 0 && in_s_quotes == 1) || (in_d_quotes == 1))
+				in_d_quotes = 0;
+			else
+				in_d_quotes = 1;
+		}
 		i++;
 	}
-	if (single_quotes % 2 == 0 && double_quotes % 2 == 0)
+	if (in_s_quotes == 0 && in_d_quotes == 0)
 		return (1);
 	return (0);
 }
@@ -83,12 +93,23 @@ int	ft_lexer_redirection(int i, char *str, t_minishell *mini)
 	return (i);
 }
 
+int	check_errors_before_lexer(char *str)
+{
+	if (str && check_if_quotes_are_closed(str) == 0)
+		return (printf("minishell: syntax error near unexpected token `newline'\n"), -1);
+	else if (str && (str[0] == '|' || str[0] == '>' || str[0] == '<') && str[1] == '\0')
+		return (printf("minishell: syntax error near unexpected token '%c'\n", str[0]), -1);
+	else if (str && (str[0] == '<' && str[1] == '<') && str[2] == '\0')
+		return (printf("minishell: syntax error near unexpected token '%c%c'\n", str[0], str[1]), -1);
+	return (0);
+}
+
 int	ft_lexer(t_minishell *minishell, char *str)
 {
 	int		i;
 
 	i = 0;
-	if (str && check_if_quotes_are_closed(str) == 0)
+	if (str && (check_errors_before_lexer(str) == -1))
 		return (0);
 	while (str && str[i] != '\0')
 	{
@@ -102,8 +123,12 @@ int	ft_lexer(t_minishell *minishell, char *str)
 		}
 		else if (str[i] == '|')
 		{
-			ft_lstadd_back_ms(&minishell->lstms, ft_lstnew_ms("|", PIPE));
 			i++;
+			while (str[i] == ' ')
+				i++;
+			if (str[i] == '|')
+				return (printf("minishell: syntax error near unexpected token `|'\n"), -1);
+			ft_lstadd_back_ms(&minishell->lstms, ft_lstnew_ms("|", PIPE));
 		}
 		else if (str[i] == ' ')
 			i++;

@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 11:19:20 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/17 17:02:18 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 14:13:10 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ char	*ft_clean_simple_quotes(char *str)
 	while (str[i])
 	{
 		if (str[i] == '\'')
+			i++;
+		if (str[i] == '"' && str[i + 1] == '"')
+			i += 2;
+		else if (str[i] == '"')
 			i++;
 		new_str[j] = str[i];
 		if (str[i] == '\0')
@@ -79,12 +83,12 @@ char	*ft_clean_if_quotes(char *str, t_minishell *minishell)
 	new_str = NULL;
 	while (str[++i])
 	{
-		// if (str[i] == '"' || str[i] == '\'')
-		// 	new_str = ft_supp_quotes(str, i, quote, new_str);
 		if (str[i] == '"')
 		{
 			if (quote == 0)
 				quote = 1;
+			else
+				quote = 0;
 		}
 		else if (str[i] == '\'')
 		{

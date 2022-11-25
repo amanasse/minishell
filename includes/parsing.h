@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/23 14:07:48 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:14:32 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_lstms	*ft_lstnew_ms(void *content, int type);
 void	ft_lstadd_back_ms(t_lstms **lst, t_lstms *new);
 void    ft_view_lst(t_lstms *lst);
 void	ft_lstclear_ms(t_lstms *lst);
+char	*ft_malloc(int len);
 
 int		ft_lstsize_ms(t_lstms *lst);
 
