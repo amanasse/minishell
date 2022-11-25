@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_cmd_export.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 14:29:14 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/22 12:21:47 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 13:26:33 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ void	print_export(t_minishell *ms)
 	int		equal;
 
 	i = 0;
-	j = 0;
-	printf("ms->fd = %d\n", ms->fd);
 	while (ms->tab_env[i])
 	{
 		equal = 0;
@@ -71,8 +69,7 @@ void	print_export(t_minishell *ms)
 		while (ms->tab_env[i][j])
 		{
 			ft_putchar_fd(ms->tab_env[i][j], ms->fd);
-			if (ms->tab_env[i][j] == '='
-			&& ms->tab_env[i][j + 1] != '\0')
+			if (ms->tab_env[i][j] == '=' && ms->tab_env[i][j + 1] != '\0')
 			{
 				equal = 1;
 				write(ms->fd, "\"", 1);
@@ -88,38 +85,34 @@ void	print_export(t_minishell *ms)
 
 int	check_var_env(t_export *export, t_minishell *ms, char **cmd)
 {
-	int i;
-	int j;
-	
-	i = 1;
-	while (cmd[i])
+	while (cmd[export->k])
 	{
 		export->tmp = ms->environ;
-		j = 0;
-		while (cmd[i][j])
+		export->j = 0;
+		while (cmd[export->k][export->j])
 		{
-			if (cmd[i][j] == '=')
+			if (cmd[export->k][export->j] == '=')
 				export->var_env = 1;
-			j++;
+			export->j++;
 		}
 		if (export->var_env == 0)
 		{
-			export->element = ft_lstnew_env(cmd[i]);
+			export->element = ft_lstnew_env(cmd[export->k]);
 			if (export->element == NULL)
 				return (1);
 			ft_lstadd_back_env(&ms->environ, export->element);
 		}
 		else
 		{
-			if (replace_var_env(ms, cmd[i], export) == -1)
+			if (replace_var_env(ms, cmd[export->k], export) == -1)
 				return (1);
 		}
-		i++;
+		export->k++;
 	}
 	return (0);
 }
 
-int	cmd_export(t_minishell *minishell)
+int	cmd_export(t_minishell *m)
 {
 	t_export	export;
 	int			i;
@@ -127,26 +120,21 @@ int	cmd_export(t_minishell *minishell)
 
 	i = 0;
 	init_export(&export);
-	type = minishell->parse[minishell->index_cmd].type;
+	type = m->parse[m->index_cmd].type;
 	printf("type = %d\n", type);
-	if (type == REDIR_L || type == REDIR_R || type == APPEND ||
-		!minishell->parse[minishell->index_cmd].tab_cmd[1])
+	if (type == REDIR_L || type == REDIR_R || type == APPEND
+		|| !m->parse[m->index_cmd].tab_cmd[1])
 	{	
-		// minishell->tab_env = NULL;
-		// env_in_tab(minishell);
-		// if (minishell->tab_env == NULL)
-		// 	return (1);
-		while (minishell->tab_env[i])
+		while (m->tab_env[i])
 			i++;
-		sort_env(minishell->tab_env, i);
-		print_export(minishell);
-		free(minishell->tab_env);
-		minishell->tab_env = NULL;
+		sort_env(m->tab_env, i);
+		print_export(m);
+		free(m->tab_env);
+		m->tab_env = NULL;
 	}
 	else
 	{
-		if (check_var_env(&export, minishell, 
-			minishell->parse[minishell->index_cmd].tab_cmd) == 1)
+		if (check_var_env(&export, m, m->parse[m->index_cmd].tab_cmd) == 1)
 			return (1);
 	}
 	return (0);
