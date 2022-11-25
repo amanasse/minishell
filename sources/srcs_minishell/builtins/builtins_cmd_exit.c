@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:40:55 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/17 16:38:23 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 16:59:01 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	exit_non_numeric(char **cmd)
 {
-	printf("exit\nbash: exit: %s: numeric argument required\n", cmd[1]);
+	printf("exit\nminishell: exit: %s: numeric argument required\n", cmd[1]);
 	return (2);
 }
 
@@ -66,7 +66,7 @@ int	cmd_exit(char **cmd)
 	else
 	{
 		if (cmd[2])
-			return (printf("exit\nbash: exit: too many arguments\n"), 1);
+			return (printf("exit\nminishell: exit: too many arguments\n"), 1);
 		else
 		{
 			if (ft_atoi_check(cmd[1]) == -1)

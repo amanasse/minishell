@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/25 12:00:51 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/25 16:50:28 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,9 @@ int		check_var_env(t_export *export, t_minishell *minishell, char **cmd);
 
 /*PARSING*/
 int		ft_lexer(t_minishell *minishell, char *str);
+int		ft_lexer_redirection(int i, char *str, t_minishell *mini);
 void	ft_build_struc_parse(t_minishell *minishell, int count);
+void	ft_fill_tab_cmd(t_lstms *temp, t_minishell *ms);
 int		ft_clean_lst(t_minishell *minishell);
 char	*ft_clean_if_quotes(char *str, t_minishell *minishell);
 char	*ft_replace_dollar(char *str, char *new_str, t_minishell *minishell);

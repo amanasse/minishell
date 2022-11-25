@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 14:47:35 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/25 14:59:38 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 16:12:11 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void    ft_view_lst(t_lstms *lst)
         i++;
     }
 	printf("lex[%d] = [%p]\n", i, lst);
+    // printf("type = %d\n", lst->type);
     printf("-----------------\n");
 	
 }

@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:29:36 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/25 15:41:40 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 16:55:17 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,10 @@ void	ft_fill_parse(t_parse *parse, t_lstms *temp, int j, int i)
 			| O_APPEND | O_CREAT, S_IRWXU, S_IRGRP, S_IROTH);
 		parse[j].tab_cmd[i] = ft_calloc(1, 1);
 	}
-	// printf("heredoc = %d\n", parse[j].if_heredoc);
-	
 	parse[j].type = temp->type;
 }
 
-void	ft_fill_tab_cmd(t_lstms *temp, t_parse *parse)
+void	ft_fill_tab_cmd(t_lstms *temp, t_minishell *ms)
 {
 	int		j;
 	int		i;
@@ -87,45 +85,45 @@ void	ft_fill_tab_cmd(t_lstms *temp, t_parse *parse)
 	{
 		i = 0;
 		nb_cmd = ft_count_cmd(temp);
-		parse[j].tab_cmd = malloc(sizeof(char *) * (nb_cmd + 1));
-		if (parse[j].tab_cmd == NULL)
+		ms->parse[j].tab_cmd = malloc(sizeof(char *) * (nb_cmd + 1));
+		if (ms->parse[j].tab_cmd == NULL)
 			return ;
 		while (temp->type != PIPE && temp != NULL)
 		{
-			ft_fill_parse(parse, temp, j, i);
+			ft_fill_parse(ms->parse, temp, j, i);
 			i++;
 			temp = temp->next;
 			if (temp == NULL)
 				break ;
 		}
-		parse[j].tab_cmd[i] = NULL;
+		ms->parse[j].tab_cmd[i] = NULL;
 		if (temp != NULL)
 			temp = temp->next;
 		j++;
 	}
-	parse[j].tab_cmd = NULL;
+	ms->parse[j].tab_cmd = NULL;
 }
 
-void	ft_print_struc_parse(t_parse *parse, int k) // a supprimer
-{
-	int i;
-	int	j;
+// void	ft_print_struc_parse(t_parse *parse, int k) // a supprimer
+// {
+// 	int i;
+// 	int	j;
 
-	i = 0;
-	while (i < k)
-	{
-		j = 0;
-		while (parse[i].tab_cmd[j] != NULL)
-		{
-			printf("parse[%d]->tab_cmd[%d] = [%s]\n", i, j, parse[i].tab_cmd[j]);
-			printf("parse[%d]->type = %d\n", i, parse[i].type);
-			// printf("parse[%d]->file_in = %s\n", i, parse[i].file_in);
-			// printf("parse[%d]->if_heredoc = %d\n", i, parse[i].if_heredoc);
-			j++;
-		}
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (i < k)
+// 	{
+// 		j = 0;
+// 		while (parse[i].tab_cmd[j] != NULL)
+// 		{
+// 			printf("parse[%d]->tab_cmd[%d] = [%s]\n", i, j, parse[i].tab_cmd[j]);
+// 			printf("parse[%d]->type = %d\n", i, parse[i].type);
+// 			// printf("parse[%d]->file_in = %s\n", i, parse[i].file_in);
+// 			// printf("parse[%d]->if_heredoc = %d\n", i, parse[i].if_heredoc);
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// }
 
 void	ft_build_struc_parse(t_minishell *minishell, int count)
 {
@@ -142,6 +140,6 @@ void	ft_build_struc_parse(t_minishell *minishell, int count)
 		ft_init_struc_parse(minishell->parse, i);
 		i++;
 	}
-	ft_fill_tab_cmd(temp, minishell->parse);
+	ft_fill_tab_cmd(temp, minishell);
 	// ft_print_struc_parse(minishell->parse, count + 1);
 }

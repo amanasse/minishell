@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 14:44:12 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/25 15:15:46 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 17:02:28 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	heredoc(t_minishell *mini)
 		free(tmp);
 		free(line);
 	}
-	printf("fd = %d\n", fd);
+	// printf("fd = %d\n", fd);
 	return (fd);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/25 15:39:13 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 16:54:25 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,19 +80,6 @@ int	ft_lexer_others(int i, char *str, t_minishell *mini)
 	return (j);
 }
 
-int	ft_lexer_redirection(int i, char *str, t_minishell *mini)
-{
-	int	res;
-	
-	res = ft_chevron(mini->lstms, str + i, str[i]);
-	i += res;
-	if (res == 0)
-		i++;
-	else if (res == -1)	
-		return (-1);
-	return (i);
-}
-
 int	check_errors_before_lexer(char *str)
 {
 	if (str && check_if_quotes_are_closed(str) == 0)
@@ -119,7 +106,7 @@ int	ft_lexer(t_minishell *minishell, char *str)
 		{
 			i = ft_lexer_redirection(i, str, minishell);
 			if (i == -1)	
-				return (printf("%s '%c'\n", ERR_CHEVRON, str[i]), 0);
+				return (printf("%s '%c'\n", ERR_CHEVRON, str[i]), 0);			
 		}
 		else if (str[i] == '|')
 		{

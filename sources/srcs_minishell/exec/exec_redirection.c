@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:05:50 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/25 09:37:28 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/25 16:59:11 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,12 @@ void	exec_redirection(t_minishell *minishell)
 	char	*path;
 	
 	cmd = make_new_tab_cmd(minishell);
-	printf("delim = %s\n", minishell->parse[minishell->index_cmd].delimiter);
 	if (minishell->parse[minishell->index_cmd].delimiter != NULL)
 		cmd = exec_heredoc(minishell, cmd);
 	if (minishell->parse[minishell->index_cmd].fd_out == - 1
 		|| minishell->parse[minishell->index_cmd].fd_in == - 1)
 	{
-		printf("bash: %s: No such file or directory\n",
+		printf("minishell: %s: No such file or directory\n",
 		minishell->parse[minishell->index_cmd].file_in);
 		exit(1);
 	}

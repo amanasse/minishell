@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/25 15:14:32 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 16:53:14 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,7 @@ int		ft_lstsize_ms(t_lstms *lst);
 char	*ft_strcat(char *dest, char *src);
 char	**ft_split(char const *s, char sep);
 
-int		ft_append(t_lstms *lex, char *str);
 int		ft_check_quotes(char *str, char c);
-int		ft_chevron(t_lstms *lex, char *str, char c);
 
 int		char_is_space(char c);
 int		char_is_separator(char c);
