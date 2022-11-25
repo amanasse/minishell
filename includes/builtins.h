@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:21:36 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/17 17:00:44 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 09:10:40 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,6 @@ void	parse_cmd_n(t_echo *e, char **cmd);
 int		cmd_echo2(t_echo *echo, char **cmd);
 
 int		check_builtins(char **cmd);
-int		check_builtins_env(char **cmd);
-
 
 /*UTILS*/
 char	*ft_strcpy(char *dest, char *src);

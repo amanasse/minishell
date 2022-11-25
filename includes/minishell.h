@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/24 14:35:55 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 09:24:20 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ extern t_minishell	*g_minishell;
 
 /*BUILTINS*/
 void	builtins(t_minishell *minishell);
+int		check_builtins_env(char **cmd, t_minishell *minishell);
 
 
 /*pwd*/
@@ -98,6 +99,7 @@ char	*ft_replace_dollar(char *str, char *new_str, t_minishell *minishell);
 char	*ft_replace_var(char *str, t_minishell *minishell);
 
 /*EXEC*/
+char	*get_path(t_env *environ, char **cmd, t_minishell *minishell);
 int		ft_fork(t_minishell *minishell, int *pipefd, int tmp_fd);
 void	free_parse(t_minishell *minishell);
 int		execution(t_minishell *minishell);

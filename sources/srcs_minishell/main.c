@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/24 17:17:36 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 10:15:44 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,9 @@ int main(int argc, char **argv, char **env)
 		minishell.count = ft_clean_lst(&minishell);
 		// ft_view_lst(minishell.lstms);
 		ft_build_struc_parse(&minishell, minishell.count);
-		if (execution(&minishell) == 0)
+		if (execution(&minishell) == -1)
 			return (0);
+		// minishell->shell.status = WEXITSTATUS(loc);
 		if (open("heredoc.txt", O_RDONLY) != -1)
 			unlink("heredoc.txt");
 		add_history(str);

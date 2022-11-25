@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 11:16:02 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/23 12:17:22 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 09:24:12 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ typedef struct s_exec
 	int				count_pipe;
 }					t_exec;
 
-char	*get_path(t_env *environ, char **cmd);
 void	close_fd(int *fd);
 
 #endif

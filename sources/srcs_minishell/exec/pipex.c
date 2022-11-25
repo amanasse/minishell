@@ -3,22 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/24 17:30:42 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 10:38:13 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *get_path(t_env *environ, char **cmd)
+char *get_path(t_env *environ, char **cmd, t_minishell *minishell)
 {
 	char  *path;
 	int   i;
 	char  *path_slash;
 	char  **split_paths;
 	
+	minishell->shell.status = 1;
 	i = 0;
 	while (environ)
 	{
@@ -59,7 +60,10 @@ char *get_path(t_env *environ, char **cmd)
 			
 		free(path_slash);
 		if (access(path, F_OK) == 0)
+		{
+			minishell->shell.status = 0;
 			return (path);
+		}
 		free(path);
 		path = NULL;
 		i++;
@@ -83,7 +87,7 @@ void	close_fd(int *fd)
 int	ft_fork(t_minishell *minishell, int *pipefd, int tmp_fd)
 {
 	minishell->fd = minishell->parse[minishell->index_cmd].fd_in;
-	if (check_builtins_env(minishell->parse[minishell->index_cmd].tab_cmd) == 1)
+	if (check_builtins_env(minishell->parse[minishell->index_cmd].tab_cmd, minishell) == 1)
 	{	
 		if (minishell->count == 0)
 			builtins(minishell);
@@ -116,6 +120,7 @@ int	execution(t_minishell *minishell)
 	int	tmp_pipefd;
 	int	pipefd[2];
 	int	i;
+	int loc;
 
 	tmp_pipefd = 0;
 	minishell->index_cmd = 0;
@@ -138,10 +143,10 @@ int	execution(t_minishell *minishell)
 	while (minishell->parse[minishell->index_cmd].tab_cmd)
 	{
 		if (pipe(pipefd) == -1)
-			return (0);
+			return (-1);
 		env_in_tab(minishell);
 		if (minishell->tab_env == NULL)
-			return (0);
+			return (-1);
 		ft_fork(minishell, pipefd, tmp_pipefd);
 		free(minishell->tab_env);
 		minishell->tab_env = NULL;
@@ -156,8 +161,10 @@ int	execution(t_minishell *minishell)
 	i = 0;
 	while (i < minishell->count + 1)
 	{	
-		wait(NULL);
+		wait(&loc);
+			minishell->shell.status = loc / 256;
 		i++;
 	}
-	return (1);
+	// printf("loc = %d", loc);
+	return (loc);
 }

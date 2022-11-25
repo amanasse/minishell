@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:05:50 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/24 17:34:42 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 09:37:28 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	exec_redirection(t_minishell *minishell)
 		minishell->parse[minishell->index_cmd].file_in);
 		exit(1);
 	}
-	if ((path = get_path(minishell->environ, cmd)) == NULL)
+	if ((path = get_path(minishell->environ, cmd, minishell)) == NULL)
 	{
 		printf("%s: command not found\n", cmd[0]);
 		exit(1);
