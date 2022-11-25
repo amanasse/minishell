@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 11:16:02 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/25 09:24:12 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/25 17:44:02 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 # include "minishell.h"
 # include "parsing.h"
 # include "builtins.h"
-
-
 
 typedef struct s_exec
 {

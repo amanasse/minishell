@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:05:50 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/25 16:59:11 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 18:03:30 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ char	**make_new_tab_cmd(t_minishell *minishell)
 			k++;
 		else
 		{
-			new_tab_cmd[j] = 
-				ft_strdup(minishell->parse[minishell->index_cmd].tab_cmd[k]);
+			new_tab_cmd[j]
+				= ft_strdup(minishell->parse[minishell->index_cmd].tab_cmd[k]);
 			if (new_tab_cmd[j] == NULL)
 				return (NULL);
 			k++;
@@ -49,18 +49,19 @@ void	exec_redirection(t_minishell *minishell)
 {
 	char	**cmd;
 	char	*path;
-	
+
+	path = get_path(minishell->environ, cmd, minishell);
 	cmd = make_new_tab_cmd(minishell);
 	if (minishell->parse[minishell->index_cmd].delimiter != NULL)
 		cmd = exec_heredoc(minishell, cmd);
-	if (minishell->parse[minishell->index_cmd].fd_out == - 1
-		|| minishell->parse[minishell->index_cmd].fd_in == - 1)
+	if (minishell->parse[minishell->index_cmd].fd_out == -1
+		|| minishell->parse[minishell->index_cmd].fd_in == -1)
 	{
 		printf("minishell: %s: No such file or directory\n",
-		minishell->parse[minishell->index_cmd].file_in);
+			minishell->parse[minishell->index_cmd].file_in);
 		exit(1);
 	}
-	if ((path = get_path(minishell->environ, cmd, minishell)) == NULL)
+	if (path == NULL)
 	{
 		printf("%s: command not found\n", cmd[0]);
 		exit(1);

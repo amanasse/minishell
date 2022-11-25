@@ -6,24 +6,12 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 14:29:17 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/17 17:01:33 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 17:56:43 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "builtins.h"
-
-void	pop(t_env **environ)
-{
-	t_env	*first;
-	// t_env	*tmp;
-
-	first = *environ;
-	// tmp = first;
-	free(first->str);
-	*environ = first->next;
-	free(first);
-}
 
 int	var_disappear(char *str, t_minishell *minishell, t_unset *unset)
 {

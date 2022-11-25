@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 14:44:12 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/25 17:02:28 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 17:58:41 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_clean_if_quotes_delim(char *str)
 	int		i;
 	int		quote;
 	char	*new_str;
-	
+
 	i = -1;
 	quote = 0;
 	new_str = NULL;
@@ -53,10 +53,10 @@ int	heredoc(t_minishell *mini)
 	line_heredoc[0] = '>';
 	line_heredoc[1] = ' ';
 	line_heredoc[2] = '\0';
-	mini->parse[mini->index_cmd].delimiter =
-		ft_clean_if_quotes_delim(mini->parse[mini->index_cmd].delimiter);
+	mini->parse[mini->index_cmd].delimiter
+		= ft_clean_if_quotes_delim(mini->parse[mini->index_cmd].delimiter);
 	fd = open("heredoc.txt", O_RDWR | O_CREAT | O_TRUNC,
-		S_IRWXU, S_IRGRP, S_IROTH);
+			S_IRWXU, S_IRGRP, S_IROTH);
 	if (fd == -1)
 		return (-1);
 	while (1)
@@ -64,8 +64,7 @@ int	heredoc(t_minishell *mini)
 		line = readline(line_heredoc);
 		if (line == NULL)
 			return (-1);
-		if (ft_strcmp(line,
-			mini->parse[mini->index_cmd].delimiter) == 0)
+		if (ft_strcmp(line, mini->parse[mini->index_cmd].delimiter) == 0)
 			break ;
 		tmp = ft_strjoin(line, "\n");
 		if (tmp == NULL)
@@ -74,7 +73,6 @@ int	heredoc(t_minishell *mini)
 		free(tmp);
 		free(line);
 	}
-	// printf("fd = %d\n", fd);
 	return (fd);
 }
 
@@ -102,11 +100,19 @@ char	**exec_heredoc(t_minishell *minishell, char **cmd)
 			return (NULL);
 		i++;
 	}
-	new_cmd[i] = ft_strdup("heredoc.txt");
-	if (new_cmd[i] == NULL)
-		return (NULL);
-	i++;
-	new_cmd[i] = NULL;
+	// if (isatty(fd) == 1)
+	// {
+		new_cmd[i] = ft_strdup("heredoc.txt");
+		if (new_cmd[i] == NULL)
+			return (NULL);
+		i++;
+		new_cmd[i] = NULL;
+	// }
+	// else
+	// {
+	// 	i++;
+	// 	new_cmd[i] = NULL;
+	// }
 	free(cmd);
 	return (new_cmd);
 }

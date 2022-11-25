@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 11:19:20 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/25 14:13:10 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 17:51:35 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,12 @@ char	*ft_malloc(int len)
 	return (s);
 }
 
-
 char	*ft_clean_if_quotes(char *str, t_minishell *minishell)
 {
 	int		i;
 	int		quote;
 	char	*new_str;
-	
+
 	i = -1;
 	quote = 0;
 	new_str = NULL;
@@ -98,7 +97,7 @@ char	*ft_clean_if_quotes(char *str, t_minishell *minishell)
 		else if (str[i] == '$' && str[i + 1] != '$')
 		{
 			new_str = ft_replace_dollar(str + i, new_str, minishell);
-			while (str[i + 1] != ' ' && str[i + 1] != '\0' 
+			while (str[i + 1] != ' ' && str[i + 1] != '\0'
 				&& str[i + 1] != '"' && str[i + 1] != '\'')
 				i++;
 		}

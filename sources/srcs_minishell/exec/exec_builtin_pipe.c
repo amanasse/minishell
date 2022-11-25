@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin_pipe.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:16:25 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/25 09:38:37 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/25 18:01:30 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@ void	exec_builtin(t_minishell *minishell, int *pipefd)
 void	exec_pipe(t_minishell *minishell, int *pipefd)
 {
 	char	*path;
-	
-	if ((path = get_path(minishell->environ,
-		minishell->parse[minishell->index_cmd].tab_cmd, minishell)) == NULL)
+
+	path = get_path(minishell->environ,
+			minishell->parse[minishell->index_cmd].tab_cmd, minishell);
+	if (path == NULL)
 	{
 		path = minishell->parse[minishell->index_cmd].tab_cmd[0];
 		if (access(path, F_OK) == 0)
@@ -40,5 +41,5 @@ void	exec_pipe(t_minishell *minishell, int *pipefd)
 		dup2(pipefd[1], 1);
 	close_fd(pipefd);
 	minishell->shell.status = execve(path,
-		minishell->parse[minishell->index_cmd].tab_cmd,	minishell->tab_env);
+			minishell->parse[minishell->index_cmd].tab_cmd, minishell->tab_env);
 }

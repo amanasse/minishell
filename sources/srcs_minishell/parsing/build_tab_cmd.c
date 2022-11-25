@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:29:36 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/25 16:55:17 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 17:52:18 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_count_cmd(t_lstms *lex)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (lex != NULL)
@@ -52,7 +52,7 @@ void	ft_fill_parse(t_parse *parse, t_lstms *temp, int j, int i)
 		parse[j].file_in = ft_strncpy(temp->str, ft_strlen(temp->str));
 		parse[j].fd_in = 1;
 		parse[j].fd_out = open(temp->str, O_WRONLY
-			| O_TRUNC | O_CREAT, S_IRWXU, S_IRGRP, S_IROTH);
+				| O_TRUNC | O_CREAT, S_IRWXU, S_IRGRP, S_IROTH);
 		parse[j].tab_cmd[i] = ft_calloc(1, 1);
 	}	
 	else if (temp->type == HEREDOC)
@@ -68,7 +68,7 @@ void	ft_fill_parse(t_parse *parse, t_lstms *temp, int j, int i)
 		parse[j].file_in = ft_strncpy(temp->str, ft_strlen(temp->str));
 		parse[j].fd_in = 1;
 		parse[j].fd_out = open(temp->str, O_WRONLY
-			| O_APPEND | O_CREAT, S_IRWXU, S_IRGRP, S_IROTH);
+				| O_APPEND | O_CREAT, S_IRWXU, S_IRGRP, S_IROTH);
 		parse[j].tab_cmd[i] = ft_calloc(1, 1);
 	}
 	parse[j].type = temp->type;
@@ -104,27 +104,6 @@ void	ft_fill_tab_cmd(t_lstms *temp, t_minishell *ms)
 	ms->parse[j].tab_cmd = NULL;
 }
 
-// void	ft_print_struc_parse(t_parse *parse, int k) // a supprimer
-// {
-// 	int i;
-// 	int	j;
-
-// 	i = 0;
-// 	while (i < k)
-// 	{
-// 		j = 0;
-// 		while (parse[i].tab_cmd[j] != NULL)
-// 		{
-// 			printf("parse[%d]->tab_cmd[%d] = [%s]\n", i, j, parse[i].tab_cmd[j]);
-// 			printf("parse[%d]->type = %d\n", i, parse[i].type);
-// 			// printf("parse[%d]->file_in = %s\n", i, parse[i].file_in);
-// 			// printf("parse[%d]->if_heredoc = %d\n", i, parse[i].if_heredoc);
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }
-
 void	ft_build_struc_parse(t_minishell *minishell, int count)
 {
 	t_lstms	*temp;
@@ -133,7 +112,7 @@ void	ft_build_struc_parse(t_minishell *minishell, int count)
 	temp = minishell->lstms;
 	i = 0;
 	minishell->parse = malloc(sizeof(t_parse) * (count + 2));
-	if (minishell->parse  == NULL)
+	if (minishell->parse == NULL)
 		return ;
 	while (minishell->parse && i < (count + 2))
 	{	
@@ -141,5 +120,4 @@ void	ft_build_struc_parse(t_minishell *minishell, int count)
 		i++;
 	}
 	ft_fill_tab_cmd(temp, minishell);
-	// ft_print_struc_parse(minishell->parse, count + 1);
 }
