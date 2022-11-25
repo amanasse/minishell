@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/25 09:24:20 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/25 12:00:51 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ char	*ft_replace_var(char *str, t_minishell *minishell);
 char	*get_path(t_env *environ, char **cmd, t_minishell *minishell);
 int		ft_fork(t_minishell *minishell, int *pipefd, int tmp_fd);
 void	free_parse(t_minishell *minishell);
+void	control_d_or_clear(char *str, t_minishell *minishell);
 int		execution(t_minishell *minishell);
 char	**make_new_tab_cmd(t_minishell *minishell);
 void	exec_redirection(t_minishell *minishell);

@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/25 11:13:15 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/25 12:04:17 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_minishell	*g_minishell;
 
-void	replace_prompt()
+void	replace_prompt(void)
 {
 	rl_replace_line("", 0);
 	rl_on_new_line();
@@ -50,7 +50,7 @@ void	signal_handler(int signum, siginfo_t *sa, void *context)
 	}
 }
 
-void	signals()
+void	signals(void)
 {
 	struct sigaction	sa;
 
@@ -61,33 +61,27 @@ void	signals()
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
-void	ft_init_all(t_minishell *minishell, char **env)
+void	ft_init_all(t_minishell *minishell, char **env, char *prompt)
 {
+	prompt[0] = '$';
+	prompt[1] = '>';
+	prompt[2] = ' ';
+	prompt[3] = '\0';
 	ft_memset(minishell, 0, sizeof(t_minishell));
 	g_minishell = minishell;
 	copy_of_env(env, minishell);
 	signals();
 }
 
-void	exit_control_d(char *str, t_minishell *minishell)
+int	main(int argc, char **argv, char **env)
 {
-	write(1, "exit\n", 5);
-	free (str);
-	free_parse(minishell);
-	ft_lstclear_ms(minishell->lstms);
-	ft_lstclear_env(minishell->environ); 
-	exit (0);
-}
-
-int main(int argc, char **argv, char **env)
-{
-	char			prompt[4] = "$> ";
+	char			prompt[4];
 	char			*str;
 	t_minishell		minishell;
-		
+
 	(void)argc;
 	(void)argv;
-	ft_init_all(&minishell, env);
+	ft_init_all(&minishell, env, prompt);
 	while (1)
 	{
 		minishell.pid = 0;
@@ -101,11 +95,7 @@ int main(int argc, char **argv, char **env)
 		if (open("heredoc.txt", O_RDONLY) != -1)
 			unlink("heredoc.txt");
 		add_history(str);
-		if (str == NULL)
-			exit_control_d(str, &minishell);
-		free_parse(&minishell);
-		ft_lstclear_ms(minishell.lstms);
-		free(str);
+		control_d_or_clear(str, &minishell);
 	}
 	return (0);
 }

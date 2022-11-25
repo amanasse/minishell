@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_cmd_cd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:41:42 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/24 13:33:53 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 12:11:31 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,9 @@ int	new_pwd(t_minishell *minishell, char *dir)
 char	*go_home(t_minishell *minishell)
 {
 	char	*dir;
-	t_env  *tmp;
+	t_env	*tmp;
 
+	dir = NULL;
 	tmp = minishell->environ;
 	while (tmp != NULL)
 	{
@@ -130,6 +131,6 @@ int	cmd_cd(char **cmd, t_minishell *minishell)
 		free(dir);
 	}
 	else
-		return(printf("Error: Directory change failed.\n"), 1);
+		return (printf("Error: Directory change failed.\n"), 1);
 	return (0);
 }
