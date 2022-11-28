@@ -6,21 +6,17 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:05:50 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/28 16:54:52 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/28 18:10:34 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**make_new_tab_cmd(t_minishell *minishell)
+char	**make_new_tab_cmd(t_minishell *minishell, int i, int j)
 {
 	char	**new_tab_cmd;
-	int		i;
-	int		j;
 	int		k;
 
-	i = 0;
-	j = 0;
 	k = 0;
 	while (minishell->parse[minishell->index_cmd].tab_cmd[i])
 		i++;
@@ -33,8 +29,8 @@ char	**make_new_tab_cmd(t_minishell *minishell)
 			k++;
 		else
 		{
-			new_tab_cmd[j] = 
-				ft_strdup(minishell->parse[minishell->index_cmd].tab_cmd[k]);
+			new_tab_cmd[j]
+				= ft_strdup(minishell->parse[minishell->index_cmd].tab_cmd[k]);
 			if (new_tab_cmd[j] == NULL)
 				return (NULL);
 			k++;
@@ -45,44 +41,65 @@ char	**make_new_tab_cmd(t_minishell *minishell)
 	return (new_tab_cmd);
 }
 
-void	exec_redirection(t_minishell *minishell, int *pipefd)
+void	exec_redir_right(t_minishell *minishell)
 {
-	char	**cmd;
-	char	*path;
-	
-	cmd = make_new_tab_cmd(minishell);
-	if (minishell->parse[minishell->index_cmd].delimiter != NULL)
-		cmd = exec_heredoc(minishell, cmd);
-	if (minishell->parse[minishell->index_cmd].fd_out == - 1
-		|| minishell->parse[minishell->index_cmd].fd_in == - 1)
-	{
-		printf("minishell: %s: No such file or directory\n",
-		minishell->parse[minishell->index_cmd].file_in);
-		exit(1);
-	}
-	if ((path = get_path(minishell->environ, cmd, minishell)) == NULL)
-	{
-		printf("%s: command not found\n", cmd[0]);
-		exit(1);
-	}
-	if (minishell->parse[minishell->index_cmd].type == REDIR_R)
+	if (minishell->parse[minishell->index_cmd].fd_out > 0)
+		dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT);
+	if (minishell->parse[minishell->index_cmd].fd_in > 0)
+		dup2(0, STDIN);
+}
+
+void	exec_redir_left(t_minishell *minishell, int *pipefd)
+{
+	if (minishell->index_cmd < minishell->count)
+		dup2(pipefd[1], STDOUT);
+	else
 	{
 		if (minishell->parse[minishell->index_cmd].fd_out > 0)
 			dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT);
 		if (minishell->parse[minishell->index_cmd].fd_in > 0)
-			dup2(0, STDIN);
+			dup2(minishell->parse[minishell->index_cmd].fd_in, STDIN);
 	}
-	else if (minishell->parse[minishell->index_cmd].type == REDIR_L)
+}
+
+void	exec_heredoc(t_minishell *minishell, int *pipefd)
+{
+	(void)pipefd;
+	printf("fd out = %d\n", minishell->parse[minishell->index_cmd].fd_out);
+	printf("fd in = %d\n", minishell->parse[minishell->index_cmd].fd_in);
+	if (minishell->parse[minishell->index_cmd].fd_out > 0)
+		dup2(1, STDOUT);
+	if (minishell->parse[minishell->index_cmd].fd_in > 0)
+		dup2(minishell->parse[minishell->index_cmd].fd_in, STDIN);
+}
+
+void	exec_redirection(t_minishell *minishell, int *pipefd)
+{
+	char	**cmd;
+	char	*path;
+
+	cmd = make_new_tab_cmd(minishell, 0, 0);
+	if (minishell->parse[minishell->index_cmd].delim != NULL)
+		cmd = new_cmd_heredoc(minishell, cmd);
+	if (minishell->parse[minishell->index_cmd].fd_out == -1
+		|| minishell->parse[minishell->index_cmd].fd_in == -1)
 	{
-		if (minishell->index_cmd < minishell->count)
-			dup2(pipefd[1], STDOUT);
-		else
-		{
-			if (minishell->parse[minishell->index_cmd].fd_out > 0)
-				dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT);
-			if (minishell->parse[minishell->index_cmd].fd_in > 0)
-				dup2(minishell->parse[minishell->index_cmd].fd_in, STDIN);
-		}
+		printf("minishell: %s: No such file or directory\n",
+			minishell->parse[minishell->index_cmd].file_in);
+		exit(1);
 	}
+	path = get_path(minishell->environ, cmd, minishell);
+	if (path == NULL)
+	{
+		printf("%s: command not found\n", cmd[0]);
+		exit(1);
+	}
+	printf("cmd[0] = %s\n", cmd[0]);
+	if (minishell->parse[minishell->index_cmd].type == REDIR_R)
+		exec_redir_right(minishell);
+	else if (minishell->parse[minishell->index_cmd].type == HEREDOC)
+		exec_heredoc(minishell, pipefd);
+	else if (minishell->parse[minishell->index_cmd].type == REDIR_L)
+		exec_redir_left(minishell, pipefd);
 	minishell->shell.status = execve(path, cmd, minishell->tab_env);
 }

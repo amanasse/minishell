@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/28 16:38:35 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/28 17:19:57 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_fork(t_minishell *m, int *pipefd, int tmp_fd)
 			close(tmp_fd);
 		}
 		if (m->parse[m->index_cmd].file_in != NULL
-			|| m->parse[m->index_cmd].delimiter != NULL)
+			|| m->parse[m->index_cmd].delim != NULL)
 			exec_redirection(m, pipefd);
 		else if (check_builtins(m->parse[m->index_cmd].tab_cmd) == 1)
 			exec_builtin(m, pipefd);

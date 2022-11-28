@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/28 16:38:55 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/28 18:09:49 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_minishell
 	t_parse		*parse;
 	t_env		*environ;
 	char		**tab_env;
+	char		line_heredoc[3];
 	int			count;
 	int			bool;
 	int			index_cmd;
@@ -110,11 +111,12 @@ int		ft_fork(t_minishell *minishell, int *pipefd, int tmp_fd);
 void	free_parse(t_minishell *minishell);
 void	control_d_or_clear(char *str, t_minishell *minishell);
 int		execution(t_minishell *minishell);
-char	**make_new_tab_cmd(t_minishell *minishell);
+char	**make_new_tab_cmd(t_minishell *minishell, int i, int j);
 void	exec_redirection(t_minishell *minishell, int *pipefd);
+void	exec_redir_left(t_minishell *minishell, int *pipefd);
 void	exec_builtin(t_minishell *minishell, int *pipefd);
 void	exec_pipe(t_minishell *minishell, int *pipefd);
-char	**exec_heredoc(t_minishell *minishell, char **cmd);
+char	**new_cmd_heredoc(t_minishell *minishell, char **cmd);
 int		heredoc(t_minishell *minishell);
 void	signals(void);
 

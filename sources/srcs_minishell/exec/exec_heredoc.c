@@ -3,22 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 14:44:12 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/28 14:09:00 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/28 18:10:20 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_clean_if_quotes_delim(char *str)
+char	*ft_clean_if_quotes_delim(char *str, int i)
 {
-	int		i;
 	int		quote;
 	char	*new_str;
 
-	i = -1;
 	quote = 0;
 	new_str = NULL;
 	while (str[++i])
@@ -46,26 +44,21 @@ char	*ft_clean_if_quotes_delim(char *str)
 int	heredoc(t_minishell *mini)
 {
 	int		fd;
-	char	line_heredoc[3];
 	char	*line;
 	char	*tmp;
 
-	line_heredoc[0] = '>';
-	line_heredoc[1] = ' ';
-	line_heredoc[2] = '\0';
-	mini->parse[mini->index_cmd].delimiter =
-		ft_clean_if_quotes_delim(mini->parse[mini->index_cmd].delimiter);
-	fd = open("heredoc.txt", O_RDWR | O_CREAT | O_TRUNC,
-		S_IRWXU, S_IRGRP, S_IROTH);
+	mini->parse[mini->index_cmd].delim
+		= ft_clean_if_quotes_delim(mini->parse[mini->index_cmd].delim, -1);
+	fd = open("heredoc.txt", O_RDWR | O_CREAT | O_TRUNC, S_IRWXU);
 	if (fd == -1)
 		return (-1);
 	while (1)
 	{
-		line = readline(line_heredoc);
+		line = readline(mini->line_heredoc);
 		if (line == NULL)
 			return (-1);
 		if (ft_strcmp(line,
-			mini->parse[mini->index_cmd].delimiter) == 0)
+				mini->parse[mini->index_cmd].delim) == 0)
 			break ;
 		tmp = ft_strjoin(line, "\n");
 		if (tmp == NULL)
@@ -74,11 +67,10 @@ int	heredoc(t_minishell *mini)
 		free(tmp);
 		free(line);
 	}
-	// printf("fd = %d\n", fd);
 	return (fd);
 }
 
-char	**exec_heredoc(t_minishell *minishell, char **cmd)
+char	**new_cmd_heredoc(t_minishell *minishell, char **cmd)
 {
 	int		fd;
 	int		i;
@@ -102,10 +94,6 @@ char	**exec_heredoc(t_minishell *minishell, char **cmd)
 			return (NULL);
 		i++;
 	}
-	new_cmd[i] = ft_strdup("heredoc.txt");
-	if (new_cmd[i] == NULL)
-		return (NULL);
-	i++;
 	new_cmd[i] = NULL;
 	free(cmd);
 	return (new_cmd);

@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/28 14:59:54 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/28 17:19:34 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_parse
 {
 	char	**tab_cmd;
 	char	*file_in;
-	char	*delimiter;
+	char	*delim;
 	int		fd_in;
 	int		fd_out;
 	int		type;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/28 14:17:02 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/28 17:24:55 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,9 @@ void	ft_init_all(t_minishell *minishell, char **env, char *prompt)
 	g_minishell = minishell;
 	copy_of_env(env, minishell);
 	signals();
+	minishell->line_heredoc[0] = '>';
+	minishell->line_heredoc[1] = ' ';
+	minishell->line_heredoc[2] = '\0';
 }
 
 int	main(int argc, char **argv, char **env)
