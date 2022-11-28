@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/25 17:44:22 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 16:53:14 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,13 @@ typedef struct s_parse
 }			t_parse;
 
 /*ERRORS*/
-# define ERR_SYNTAX "minishell: syntax error near unexpected token"
-# define ERR_QUOTES "minishell: syntax error near unexpected token 'newline'"
+# define ERR_CHEVRON "syntax error near unexpected token"
 
 /*LEXER*/
 
 t_lstms	*ft_lstnew_ms(void *content, int type);
 void	ft_lstadd_back_ms(t_lstms **lst, t_lstms *new);
-void	ft_view_lst(t_lstms *lst);
+void    ft_view_lst(t_lstms *lst);
 void	ft_lstclear_ms(t_lstms *lst);
 char	*ft_malloc(int len);
 
@@ -63,5 +62,6 @@ char	*ft_clean_simple_quotes(char *str);
 char	*ft_stock_str(char *old_str, char c);
 
 void	ft_print_struc_parse(t_parse *parse, int count);
+
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_cmd_export.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 14:29:14 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/25 17:41:44 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 13:26:33 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ int	cmd_export(t_minishell *m)
 	i = 0;
 	init_export(&export);
 	type = m->parse[m->index_cmd].type;
+	printf("type = %d\n", type);
 	if (type == REDIR_L || type == REDIR_R || type == APPEND
 		|| !m->parse[m->index_cmd].tab_cmd[1])
 	{	

@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/25 17:51:03 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 16:40:53 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_replace_dollar(char *str, char *new_str, t_minishell *minishell)
 	i = 0;
 	tmp = ft_replace_var(str, minishell);
 	tmp2 = NULL;
-	while (str[i] != ' ' && str[i] != '\0' && str[i] != '"'
+	while (str[i] != ' ' && str[i] != '\0' && str[i] != '"' 
 		&& str[i] != '\'')
 		i++;
 	if (new_str != NULL)
@@ -34,7 +34,7 @@ char	*ft_replace_dollar(char *str, char *new_str, t_minishell *minishell)
 char	*ft_replace_var(char *str, t_minishell *minishell)
 {
 	int		i;
-	char	*value;
+	char 	*value;
 	char	*to_replace;
 	char	*tmp_str;
 
@@ -46,8 +46,8 @@ char	*ft_replace_var(char *str, t_minishell *minishell)
 	{
 		if (str[i + 1] == '?')
 			value = ft_itoa(minishell->shell.status);
-		while (str[i] != ' ' && str[i] != '\0' && str[i] != '"'
-			&& str[i] != '\'')
+		while (str[i] != ' ' && str[i] != '\0' && str[i] != '"' 
+		&& str[i] != '\'')
 			i++;
 		if (!value)
 		{
@@ -79,6 +79,13 @@ int	ft_clean_lst(t_minishell *minishell)
 	i = 0;
 	temp = minishell->lstms;
 	count = 0;
+	// printf("temp = %p\n", temp);
+
+	// if (temp->type == HEREDOC)
+	// {
+	// 	minishell->heredoc = 1;
+	// printf("ms->heredoc = %d\n", minishell->heredoc);
+	// }
 	while (temp != NULL)
 	{
 		if (temp->type == QUOTES || temp->type == STRING

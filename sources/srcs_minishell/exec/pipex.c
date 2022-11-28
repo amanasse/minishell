@@ -6,19 +6,19 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/25 18:04:43 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:58:34 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_path(t_env *environ, char **cmd, t_minishell *minishell)
+char *get_path(t_env *environ, char **cmd, t_minishell *minishell)
 {
-	char	*path;
-	int		i;
-	char	*path_slash;
-	char	**split_paths;
-
+	char  *path;
+	int   i;
+	char  *path_slash;
+	char  **split_paths;
+	
 	minishell->shell.status = 1;
 	i = 0;
 	while (environ)
@@ -57,6 +57,7 @@ char	*get_path(t_env *environ, char **cmd, t_minishell *minishell)
 			}
 			return (NULL);
 		}
+			
 		free(path_slash);
 		if (access(path, F_OK) == 0)
 		{
@@ -119,11 +120,27 @@ int	execution(t_minishell *minishell)
 	int	tmp_pipefd;
 	int	pipefd[2];
 	int	i;
-	int	loc;
+	int loc;
 
 	loc = 0;
 	tmp_pipefd = 0;
 	minishell->index_cmd = 0;
+	// printf("heredoc = %d\n", minishell->parse[0].if_heredoc);
+	// if (minishell->parse[0].if_heredoc == 1)
+	// {
+	// 	if (pipe(pipefd) == -1)
+	// 		return (0);
+	// 	env_in_tab(minishell);
+	// 	if (minishell->tab_env == NULL)
+	// 		return (0);
+	// 	ft_fork(minishell, pipefd, tmp_pipefd);
+	// 	free(minishell->tab_env);
+	// 	minishell->tab_env = NULL;
+	// 	close(pipefd[1]);
+	// 	if (tmp_pipefd > 0)
+	// 		close (tmp_pipefd);
+	// 	tmp_pipefd = pipefd[0];
+	// }
 	while (minishell->parse[minishell->index_cmd].tab_cmd)
 	{
 		if (pipe(pipefd) == -1)
@@ -149,5 +166,6 @@ int	execution(t_minishell *minishell)
 			minishell->shell.status = loc / 256;
 		i++;
 	}
+	// printf("loc = %d", loc);
 	return (0);
 }

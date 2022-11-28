@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/25 17:47:58 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/25 16:50:28 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ extern t_minishell	*g_minishell;
 void	builtins(t_minishell *minishell);
 int		check_builtins_env(char **cmd, t_minishell *minishell);
 
+
 /*pwd*/
 char	*search_old_pwd(t_minishell *minishell);
 int		old_pwd(t_minishell *minishell);
@@ -111,6 +112,6 @@ void	exec_builtin(t_minishell *minishell, int *pipefd);
 void	exec_pipe(t_minishell *minishell, int *pipefd);
 char	**exec_heredoc(t_minishell *minishell, char **cmd);
 int		heredoc(t_minishell *minishell);
-void	signals(void);
+void	signals();
 
 #endif
