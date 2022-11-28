@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/25 16:29:24 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/28 11:52:50 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	main(int argc, char **argv, char **env)
 		minishell.pid = 0;
 		minishell.lstms = NULL;
 		str = readline(prompt);
-		ft_lexer(&minishell, str);
+		ft_lexer(&minishell, str, 0);
 		minishell.count = ft_clean_lst(&minishell);
 		ft_build_struc_parse(&minishell, minishell.count);
 		if (execution(&minishell) == -1)

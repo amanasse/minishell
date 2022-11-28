@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/28 10:39:45 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/28 13:19:14 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ typedef struct s_minishell
 	int			count;
 	int			bool;
 	int			index_cmd;
+	int			i_parse;
 	int			fd;
+	int			i;
+	int			quote;
 	pid_t		pid;
 }				t_minishell;
 
@@ -91,12 +94,12 @@ int		cmd_export(t_minishell *minishell);
 int		check_var_env(t_export *export, t_minishell *minishell, char **cmd);
 
 /*PARSING*/
-int		ft_lexer(t_minishell *minishell, char *str);
+int		ft_lexer(t_minishell *minishell, char *str, int i);
 int		ft_lexer_redirection(int i, char *str, t_minishell *mini);
 void	ft_build_struc_parse(t_minishell *minishell, int count);
 void	ft_fill_tab_cmd(t_lstms *temp, t_minishell *ms);
 int		ft_clean_lst(t_minishell *minishell);
-char	*ft_clean_if_quotes(char *str, t_minishell *minishell);
+char	*ft_clean_temp_str(char *str, t_minishell *minishell, int i);
 char	*ft_replace_dollar(char *str, char *new_str, t_minishell *minishell);
 char	*ft_replace_var(char *str, t_minishell *minishell);
 

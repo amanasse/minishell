@@ -6,11 +6,20 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 11:19:20 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/25 14:13:10 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/28 13:34:35 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	in_a_quote(t_minishell *minishell)
+{
+	if (minishell->quote == 0)
+		minishell->quote = 1;
+	else
+		minishell->quote = 0;
+	return (minishell->quote);
+}
 
 char	*ft_clean_simple_quotes(char *str)
 {
@@ -29,8 +38,8 @@ char	*ft_clean_simple_quotes(char *str)
 			i++;
 		if (str[i] == '"' && str[i + 1] == '"')
 			i += 2;
-		else if (str[i] == '"')
-			i++;
+		// else if (str[i] == '"' && minishell->quote == 0)
+		// 	i++;
 		new_str[j] = str[i];
 		if (str[i] == '\0')
 			break ;
@@ -71,39 +80,28 @@ char	*ft_malloc(int len)
 	return (s);
 }
 
-
-char	*ft_clean_if_quotes(char *str, t_minishell *minishell)
+char	*ft_clean_temp_str(char *str, t_minishell *minishell, int i)
 {
-	int		i;
-	int		quote;
 	char	*new_str;
-	
-	i = -1;
-	quote = 0;
+
 	new_str = NULL;
-	while (str[++i])
+	while (str[i])
 	{
 		if (str[i] == '"')
-		{
-			if (quote == 0)
-				quote = 1;
-			else
-				quote = 0;
-		}
+			minishell->quote = in_a_quote(minishell);
 		else if (str[i] == '\'')
 		{
-			if (quote == 1)
+			if (minishell->quote == 1)
 				new_str = ft_stock_str(new_str, str[i]);
 		}
 		else if (str[i] == '$' && str[i + 1] != '$')
 		{
 			new_str = ft_replace_dollar(str + i, new_str, minishell);
-			while (str[i + 1] != ' ' && str[i + 1] != '\0' 
-				&& str[i + 1] != '"' && str[i + 1] != '\'')
-				i++;
+			i = while_char_is_caract(str, i);
 		}
 		else
 			new_str = ft_stock_str(new_str, str[i]);
+		i++;
 	}
 	if (new_str == NULL)
 		new_str = ft_malloc(1);

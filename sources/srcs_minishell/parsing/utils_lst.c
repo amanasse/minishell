@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 14:47:35 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/25 16:12:11 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/28 13:37:30 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,20 @@ void	ft_lstadd_back_ms(t_lstms **lst, t_lstms *new)
 		*lst = new;
 }
 
-void    ft_view_lst(t_lstms *lst)
+void	ft_view_lst(t_lstms *lst)
 {
-    int    i;
+	int	i;
 
 	i = 0;
-    while (lst != NULL)
-    {
-        printf("lex[%d] = [%s]\n", i, lst->str);
-        printf("type = %d\n", lst->type);
-        lst = lst->next;
-        i++;
-    }
+	while (lst != NULL)
+	{
+		printf("lex[%d] = [%s]\n", i, lst->str);
+		printf("type = %d\n", lst->type);
+		lst = lst->next;
+		i++;
+	}
 	printf("lex[%d] = [%p]\n", i, lst);
-    // printf("type = %d\n", lst->type);
-    printf("-----------------\n");
-	
+	printf("-----------------\n");
 }
 
 void	ft_lstclear_ms(t_lstms *lst)
@@ -68,8 +66,6 @@ void	ft_lstclear_ms(t_lstms *lst)
 	{
 		tmp = lst;
 		lst = lst->next;
-		// if (tmp->str)
-		// 	free(tmp->str);
 		free(tmp);
 	}
 	free (lst);

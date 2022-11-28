@@ -6,43 +6,11 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/25 16:54:25 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/28 11:57:11 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	check_if_quotes_are_closed(char *str)
-{
-	int	i;
-	int	in_s_quotes;
-	int	in_d_quotes;
-
-	i = 0;
-	in_s_quotes = 0;
-	in_d_quotes = 0;
-	while (str[i] && str)
-	{
-		if (str[i] == '\'')
-		{
-			if ((in_s_quotes == 0 && in_d_quotes == 1) || (in_s_quotes == 1))
-				in_s_quotes = 0;
-			else
-				in_s_quotes = 1;
-		}
-		if (str[i] == '"')
-		{
-			if ((in_d_quotes == 0 && in_s_quotes == 1) || (in_d_quotes == 1))
-				in_d_quotes = 0;
-			else
-				in_d_quotes = 1;
-		}
-		i++;
-	}
-	if (in_s_quotes == 0 && in_d_quotes == 0)
-		return (1);
-	return (0);
-}
 
 int	ft_lexer_quotes(int i, char *str, t_minishell *mini)
 {
@@ -82,41 +50,43 @@ int	ft_lexer_others(int i, char *str, t_minishell *mini)
 
 int	check_errors_before_lexer(char *str)
 {
-	if (str && check_if_quotes_are_closed(str) == 0)
-		return (printf("minishell: syntax error near unexpected token `newline'\n"), -1);
-	else if (str && (str[0] == '|' || str[0] == '>' || str[0] == '<') && str[1] == '\0')
-		return (printf("minishell: syntax error near unexpected token '%c'\n", str[0]), -1);
+	if (str && check_if_quotes_are_closed(str, -1) == 0)
+		return (printf("%s\n", ERR_SYNTAX), -1);
+	else if (str && (str[0] == '|' || str[0] == '>' || str[0] == '<')
+		&& str[1] == '\0')
+		return (printf("%s '%c'\n", ERR_SY_TOK, str[0]), -1);
 	else if (str && (str[0] == '<' && str[1] == '<') && str[2] == '\0')
-		return (printf("minishell: syntax error near unexpected token '%c%c'\n", str[0], str[1]), -1);
+		return (printf("%s '%c%c'\n", ERR_SY_TOK, str[0], str[1]), -1);
 	return (0);
 }
 
-int	ft_lexer(t_minishell *minishell, char *str)
+static int	ft_lexer_pipe(t_minishell *mini, char *str, int i)
 {
-	int		i;
+	i++;
+	while (str[i] == ' ')
+		i++;
+	if (str[i] == '|')
+		return (printf("%s '|'\n", ERR_SY_TOK), -1);
+	ft_lstadd_back_ms(&mini->lstms, ft_lstnew_ms("|", PIPE));
+	return (i);
+}
 
-	i = 0;
+int	ft_lexer(t_minishell *minishell, char *str, int i)
+{
 	if (str && (check_errors_before_lexer(str) == -1))
 		return (0);
 	while (str && str[i] != '\0')
 	{
-		if (str[i] == '"' || str[i] == '\'')	
+		if (str[i] == '"' || str[i] == '\'')
 			i = ft_lexer_quotes(i, str, minishell);
 		else if (str[i] == '<' || str[i] == '>')
 		{
 			i = ft_lexer_redirection(i, str, minishell);
-			if (i == -1)	
-				return (printf("%s '%c'\n", ERR_CHEVRON, str[i]), 0);			
+			if (i == -1)
+				return (printf("%s '%c'\n", ERR_CHEVRON, str[i]), 0);
 		}
 		else if (str[i] == '|')
-		{
-			i++;
-			while (str[i] == ' ')
-				i++;
-			if (str[i] == '|')
-				return (printf("minishell: syntax error near unexpected token `|'\n"), -1);
-			ft_lstadd_back_ms(&minishell->lstms, ft_lstnew_ms("|", PIPE));
-		}
+			i = ft_lexer_pipe(minishell, str, i);
 		else if (str[i] == ' ')
 			i++;
 		else
@@ -124,4 +94,3 @@ int	ft_lexer(t_minishell *minishell, char *str)
 	}
 	return (1);
 }
-
