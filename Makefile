@@ -24,6 +24,7 @@ SRCS    = 	main.c\
 		exec/exec_redirection.c\
 		exec/exec_builtin_pipe.c\
 		exec/exec_heredoc.c\
+		exec/exec_get_path.c\
 		free_all.c
 
 DIR_SRC_MINISHELL = ./sources/srcs_minishell/

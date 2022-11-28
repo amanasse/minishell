@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 11:57:06 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/17 17:01:51 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/28 11:25:46 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ char	**sort_env(char **tab, int size)
 void	env_in_tab(t_minishell *minishell)
 {
 	int		i;
-	// char	**tab;
 	t_env	*tmp;
 	t_env	*tmp2;
 

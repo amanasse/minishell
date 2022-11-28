@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:16:25 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/25 09:38:37 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/28 14:06:20 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,27 @@ void	exec_builtin(t_minishell *minishell, int *pipefd)
 		dup2(pipefd[1], 1);
 	close_fd(pipefd);
 	builtins(minishell);
-	exit(1);
+	exit(minishell->shell.status);
 }
 
-void	exec_pipe(t_minishell *minishell, int *pipefd)
+void	exec_pipe(t_minishell *m, int *pipefd)
 {
 	char	*path;
-	
-	if ((path = get_path(minishell->environ,
-		minishell->parse[minishell->index_cmd].tab_cmd, minishell)) == NULL)
+
+	path = get_path(m->environ, m->parse[m->index_cmd].tab_cmd, m);
+	if (path == NULL)
 	{
-		path = minishell->parse[minishell->index_cmd].tab_cmd[0];
+		path = m->parse[m->index_cmd].tab_cmd[0];
 		if (access(path, F_OK) == 0)
-			execve(path, minishell->parse[minishell->index_cmd].tab_cmd,
-				minishell->tab_env);
+			execve(path, m->parse[m->index_cmd].tab_cmd,
+				m->tab_env);
 		printf("%s: command not found\n",
-			minishell->parse[minishell->index_cmd].tab_cmd[0]);
-		exit(127);
+			m->parse[m->index_cmd].tab_cmd[0]);
+		m->shell.status = 127;
+		exit(m->shell.status);
 	}
-	if (minishell->index_cmd < minishell->count)
+	if (m->index_cmd < m->count)
 		dup2(pipefd[1], 1);
 	close_fd(pipefd);
-	minishell->shell.status = execve(path,
-		minishell->parse[minishell->index_cmd].tab_cmd,	minishell->tab_env);
+	m->shell.status = execve(path, m->parse[m->index_cmd].tab_cmd, m->tab_env);
 }

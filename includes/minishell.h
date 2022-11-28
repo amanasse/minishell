@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/28 13:19:14 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/28 14:16:52 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ typedef struct s_minishell
 	int			count;
 	int			bool;
 	int			index_cmd;
-	int			i_parse;
 	int			fd;
 	int			i;
+	int			i_parse;
 	int			quote;
 	pid_t		pid;
 }				t_minishell;
@@ -65,7 +65,6 @@ extern t_minishell	*g_minishell;
 /*BUILTINS*/
 void	builtins(t_minishell *minishell);
 int		check_builtins_env(char **cmd, t_minishell *minishell);
-
 
 /*pwd*/
 char	*search_old_pwd(t_minishell *minishell);
@@ -80,6 +79,7 @@ int		cmd_cd(char **cmd, t_minishell *minishell);
 /*unset*/
 int		cmd_unset(char **cmd, t_minishell *minishell);
 int		var_disappear(char *str, t_minishell *minishell, t_unset *unset);
+int		var_disappear2(t_minishell *minishell, t_unset *unset);
 int		unset_cmd(char *str, t_minishell *minishell, t_unset *unset);
 
 /*env*/
@@ -110,11 +110,11 @@ void	free_parse(t_minishell *minishell);
 void	control_d_or_clear(char *str, t_minishell *minishell);
 int		execution(t_minishell *minishell);
 char	**make_new_tab_cmd(t_minishell *minishell);
-void	exec_redirection(t_minishell *minishell, int *pipefd);
+void	exec_redirection(t_minishell *minishell);
 void	exec_builtin(t_minishell *minishell, int *pipefd);
 void	exec_pipe(t_minishell *minishell, int *pipefd);
 char	**exec_heredoc(t_minishell *minishell, char **cmd);
 int		heredoc(t_minishell *minishell);
-void	signals();
+void	signals(void);
 
 #endif
