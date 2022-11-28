@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/28 13:59:21 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/28 16:38:35 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_fork(t_minishell *m, int *pipefd, int tmp_fd)
 		}
 		if (m->parse[m->index_cmd].file_in != NULL
 			|| m->parse[m->index_cmd].delimiter != NULL)
-			exec_redirection(m);
+			exec_redirection(m, pipefd);
 		else if (check_builtins(m->parse[m->index_cmd].tab_cmd) == 1)
 			exec_builtin(m, pipefd);
 		else

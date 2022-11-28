@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:05:50 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/25 16:59:11 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/28 16:54:52 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	**make_new_tab_cmd(t_minishell *minishell)
 	return (new_tab_cmd);
 }
 
-void	exec_redirection(t_minishell *minishell)
+void	exec_redirection(t_minishell *minishell, int *pipefd)
 {
 	char	**cmd;
 	char	*path;
@@ -65,9 +65,24 @@ void	exec_redirection(t_minishell *minishell)
 		printf("%s: command not found\n", cmd[0]);
 		exit(1);
 	}
-	if (minishell->parse[minishell->index_cmd].fd_out > 0)
-		dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT);
-	if (minishell->parse[minishell->index_cmd].fd_in > 0)
-		dup2(minishell->parse[minishell->index_cmd].fd_in, STDIN);
+	if (minishell->parse[minishell->index_cmd].type == REDIR_R)
+	{
+		if (minishell->parse[minishell->index_cmd].fd_out > 0)
+			dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT);
+		if (minishell->parse[minishell->index_cmd].fd_in > 0)
+			dup2(0, STDIN);
+	}
+	else if (minishell->parse[minishell->index_cmd].type == REDIR_L)
+	{
+		if (minishell->index_cmd < minishell->count)
+			dup2(pipefd[1], STDOUT);
+		else
+		{
+			if (minishell->parse[minishell->index_cmd].fd_out > 0)
+				dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT);
+			if (minishell->parse[minishell->index_cmd].fd_in > 0)
+				dup2(minishell->parse[minishell->index_cmd].fd_in, STDIN);
+		}
+	}
 	minishell->shell.status = execve(path, cmd, minishell->tab_env);
 }

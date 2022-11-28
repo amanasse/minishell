@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/28 15:04:31 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/28 16:38:55 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	free_parse(t_minishell *minishell);
 void	control_d_or_clear(char *str, t_minishell *minishell);
 int		execution(t_minishell *minishell);
 char	**make_new_tab_cmd(t_minishell *minishell);
-void	exec_redirection(t_minishell *minishell);
+void	exec_redirection(t_minishell *minishell, int *pipefd);
 void	exec_builtin(t_minishell *minishell, int *pipefd);
 void	exec_pipe(t_minishell *minishell, int *pipefd);
 char	**exec_heredoc(t_minishell *minishell, char **cmd);
