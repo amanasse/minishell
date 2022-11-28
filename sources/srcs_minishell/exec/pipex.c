@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/25 15:58:34 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/28 10:43:37 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	ft_fork(t_minishell *minishell, int *pipefd, int tmp_fd)
 		}
 		if (minishell->parse[minishell->index_cmd].file_in != NULL
 			|| minishell->parse[minishell->index_cmd].delimiter != NULL)
-			exec_redirection(minishell);
+			exec_redirection(minishell, pipefd);
 		else if (check_builtins(minishell->parse[minishell->index_cmd].tab_cmd) == 1)
 			exec_builtin(minishell, pipefd);
 		else
@@ -125,22 +125,6 @@ int	execution(t_minishell *minishell)
 	loc = 0;
 	tmp_pipefd = 0;
 	minishell->index_cmd = 0;
-	// printf("heredoc = %d\n", minishell->parse[0].if_heredoc);
-	// if (minishell->parse[0].if_heredoc == 1)
-	// {
-	// 	if (pipe(pipefd) == -1)
-	// 		return (0);
-	// 	env_in_tab(minishell);
-	// 	if (minishell->tab_env == NULL)
-	// 		return (0);
-	// 	ft_fork(minishell, pipefd, tmp_pipefd);
-	// 	free(minishell->tab_env);
-	// 	minishell->tab_env = NULL;
-	// 	close(pipefd[1]);
-	// 	if (tmp_pipefd > 0)
-	// 		close (tmp_pipefd);
-	// 	tmp_pipefd = pipefd[0];
-	// }
 	while (minishell->parse[minishell->index_cmd].tab_cmd)
 	{
 		if (pipe(pipefd) == -1)
@@ -166,6 +150,5 @@ int	execution(t_minishell *minishell)
 			minishell->shell.status = loc / 256;
 		i++;
 	}
-	// printf("loc = %d", loc);
 	return (0);
 }
