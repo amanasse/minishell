@@ -43,9 +43,7 @@ HEADERS	= -I includes
 CC		= cc
 CFLAGS	= -MMD -Wall -Wextra -Werror -g3
 
-${NAME} : minishell
-
-minishell :	${OBJS}
+${NAME} :	${OBJS}
 			make -C ./sources/libft
 			${CC} ${CFLAGS} ${OBJS} ./sources/libft/libft.a -o ${NAME} -lreadline
 

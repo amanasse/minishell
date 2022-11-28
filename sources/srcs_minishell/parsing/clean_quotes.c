@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 11:19:20 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/28 13:34:35 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/28 15:53:42 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,11 @@ int	in_a_quote(t_minishell *minishell)
 	return (minishell->quote);
 }
 
-char	*ft_clean_simple_quotes(char *str)
+char	*ft_clean_simple_quotes(char *str, t_minishell *minishell, int i)
 {
 	char	*new_str;
-	int		i;
 	int		j;
 
-	i = 0;
 	j = 0;
 	new_str = malloc(sizeof(char) * (ft_strlen(str) + 1));
 	if (new_str == NULL)
@@ -35,16 +33,18 @@ char	*ft_clean_simple_quotes(char *str)
 	while (str[i])
 	{
 		if (str[i] == '\'')
+		{
+			minishell->quote = in_a_quote(minishell);
 			i++;
-		if (str[i] == '"' && str[i + 1] == '"')
-			i += 2;
-		// else if (str[i] == '"' && minishell->quote == 0)
-		// 	i++;
-		new_str[j] = str[i];
-		if (str[i] == '\0')
-			break ;
-		i++;
-		j++;
+		}
+		else if (str[i] == '"' && minishell->quote == 0)
+			i++;
+		else
+		{
+			new_str[j] = str[i];
+			i++;
+			j++;
+		}
 	}
 	new_str[j] = '\0';
 	return (free(str), new_str);
