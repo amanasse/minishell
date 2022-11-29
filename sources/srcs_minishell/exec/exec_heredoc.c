@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 14:44:12 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/29 13:15:55 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/29 16:53:22 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ int	heredoc(t_minishell *mini)
 
 	mini->parse[mini->index_cmd].delim
 		= ft_clean_if_quotes_delim(mini->parse[mini->index_cmd].delim, -1);
-	fd = open("heredoc.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	fd = open("heredoc.txt", O_WRONLY | O_TRUNC
+			| O_CREAT, S_IRWXU, S_IRGRP, S_IROTH);
 	if (fd == -1)
 		return (-1);
 	while (1)
@@ -72,15 +73,14 @@ int	heredoc(t_minishell *mini)
 
 char	**new_cmd_heredoc(t_minishell *minishell, char **cmd)
 {
-	int		fd;
 	int		i;
 	char	**new_cmd;
 
 	i = 0;
-	fd = heredoc(minishell);
-	if (fd == -1)
+	minishell->parse[minishell->index_cmd].fd_heredoc = heredoc(minishell);
+	close(minishell->parse[minishell->index_cmd].fd_heredoc);
+	if (minishell->parse[minishell->index_cmd].fd_heredoc == -1)
 		exit(1);
-	minishell->parse[minishell->index_cmd].fd_heredoc = fd;
 	printf("heredoc fd = %d\n", minishell->parse[minishell->index_cmd].fd_heredoc);
 	while (cmd[i])
 		i++;

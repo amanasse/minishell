@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/29 13:09:05 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/29 16:29:17 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ int	main(int argc, char **argv, char **env)
 		ft_build_struc_parse(&minishell, minishell.count);
 		if (execution(&minishell) == -1)
 			return (0);
+		if (open("heredoc.txt", O_RDONLY) != -1)
+			unlink("heredoc.txt");
 		add_history(str);
 		control_d_or_clear(str, &minishell);
 	}
