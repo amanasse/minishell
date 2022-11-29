@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:16:25 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/29 12:52:23 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/29 17:39:28 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@ void	exec_pipe(t_minishell *m, int *pipefd)
 	char	*path;
 
 	path = get_path(m->environ, m->parse[m->index_cmd].tab_cmd, m);
-	printf("cmd = %s\n",  m->parse[m->index_cmd].tab_cmd[0]);
-	printf("path = %s\n",  path);
-	printf("index = %d\n", m->index_cmd);
-	printf("count = %d\n", m->count);
-	printf("fd out = %d\n", m->parse[m->index_cmd].fd_out);
-	printf("fd in = %d\n", m->parse[m->index_cmd].fd_in);
+	// printf("cmd = %s\n",  m->parse[m->index_cmd].tab_cmd[0]);
+	// printf("index = %d\n", m->index_cmd);
+	// printf("count = %d\n", m->count);
+	// printf("fd in = %d\n", m->parse[m->index_cmd].fd_in);
+	// printf("fd out = %d\n", m->parse[m->index_cmd].fd_out);
+	// printf("std fd in = %d\n", STDIN_FILENO);
+	// printf("std fd out = %d\n", STDOUT_FILENO);
 	if (path == NULL)
 	{
 		path = m->parse[m->index_cmd].tab_cmd[0];

@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/29 16:35:41 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/29 17:05:31 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_minishell
 	int			bool;
 	int			index_cmd;
 	int			fd;
+	int			fd_heredoc;
 	int			i;
 	int			i_parse;
 	int			quote;

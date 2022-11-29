@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:29:36 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/29 16:38:36 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/29 17:09:13 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_fill_parse(t_parse *parse, t_lstms *temp, int j, int i)
 		parse[j].if_heredoc = 1;
 		parse[j].fd_in = STDIN_FILENO;
 		parse[j].fd_out = STDOUT_FILENO;
-		parse[j].fd_heredoc = -1;
+		// parse[j].fd_heredoc = -1;
 		parse[j].delim = ft_strncpy(temp->str, ft_strlen(temp->str));
 		parse[j].tab_cmd[i] = ft_calloc(1, 1);
 	}
@@ -79,6 +79,8 @@ void	ft_fill_tab_cmd(t_lstms *temp, t_minishell *ms)
 		while (temp->type != PIPE && temp != NULL)
 		{
 			ft_fill_parse(ms->parse, temp, j, ms->i_parse);
+			if (temp->type == HEREDOC)
+				ms->fd_heredoc = -1;
 			ms->i_parse++;
 			temp = temp->next;
 			if (temp == NULL)
