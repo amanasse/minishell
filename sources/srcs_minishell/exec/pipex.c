@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/28 17:19:57 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/29 11:45:06 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	close_pipe_and_wait(int tmp_pipefd, t_minishell *minishell)
 
 	loc = 0;
 	if (tmp_pipefd > 0)
-		close (tmp_pipefd);
+		close(tmp_pipefd);
 	i = 0;
 	while (i < minishell->count + 1)
 	{	
@@ -83,7 +83,7 @@ int	execution(t_minishell *minishell)
 		minishell->tab_env = NULL;
 		close(pipefd[1]);
 		if (tmp_pipefd > 0)
-			close (tmp_pipefd);
+			close(tmp_pipefd);
 		tmp_pipefd = pipefd[0];
 		minishell->index_cmd++;
 	}

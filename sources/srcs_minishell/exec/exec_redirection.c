@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:05:50 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/28 18:10:34 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/29 11:52:18 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,10 @@ void	exec_redir_right(t_minishell *minishell)
 
 void	exec_redir_left(t_minishell *minishell, int *pipefd)
 {
+	printf("minishell->count = %d\n", minishell->count);
+	printf("cmd = %s\n", minishell->parse[minishell->index_cmd].tab_cmd[0]);
+	printf("fd out = %d\n", minishell->parse[minishell->index_cmd].fd_out);
+	printf("fd in = %d\n", minishell->parse[minishell->index_cmd].fd_in);
 	if (minishell->index_cmd < minishell->count)
 		dup2(pipefd[1], STDOUT);
 	else
@@ -64,13 +68,17 @@ void	exec_redir_left(t_minishell *minishell, int *pipefd)
 
 void	exec_heredoc(t_minishell *minishell, int *pipefd)
 {
-	(void)pipefd;
-	printf("fd out = %d\n", minishell->parse[minishell->index_cmd].fd_out);
-	printf("fd in = %d\n", minishell->parse[minishell->index_cmd].fd_in);
+	// (void)pipefd;
+	if (minishell->index_cmd < minishell->count)
+		dup2(pipefd[1], STDOUT);
 	if (minishell->parse[minishell->index_cmd].fd_out > 0)
-		dup2(1, STDOUT);
+		dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT);
 	if (minishell->parse[minishell->index_cmd].fd_in > 0)
 		dup2(minishell->parse[minishell->index_cmd].fd_in, STDIN);
+	printf("minishell->count = %d\n", minishell->count);
+	printf("cmd = %s\n", minishell->parse[minishell->index_cmd].tab_cmd[0]);
+	printf("fd out = %d\n", minishell->parse[minishell->index_cmd].fd_out);
+	printf("fd in = %d\n", minishell->parse[minishell->index_cmd].fd_in);
 }
 
 void	exec_redirection(t_minishell *minishell, int *pipefd)
@@ -94,7 +102,6 @@ void	exec_redirection(t_minishell *minishell, int *pipefd)
 		printf("%s: command not found\n", cmd[0]);
 		exit(1);
 	}
-	printf("cmd[0] = %s\n", cmd[0]);
 	if (minishell->parse[minishell->index_cmd].type == REDIR_R)
 		exec_redir_right(minishell);
 	else if (minishell->parse[minishell->index_cmd].type == HEREDOC)

@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 14:44:12 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/28 18:10:20 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/29 11:24:35 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ char	**new_cmd_heredoc(t_minishell *minishell, char **cmd)
 	if (fd == -1)
 		exit(1);
 	minishell->parse[minishell->index_cmd].fd_in = fd;
+	printf("heredoc fd = %d\n", minishell->parse[minishell->index_cmd].fd_in);
 	while (cmd[i])
 		i++;
 	new_cmd = malloc(sizeof(char *) * i + 1);
