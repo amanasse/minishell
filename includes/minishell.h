@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/28 18:09:49 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/29 14:24:12 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,6 @@
 # include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
-# define STDIN 0
-# define STDOUT 1
 
 # define QUOTES 0
 # define STRING 1

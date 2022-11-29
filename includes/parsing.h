@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/28 17:19:34 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/29 13:12:46 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_parse
 	char	*delim;
 	int		fd_in;
 	int		fd_out;
+	int		fd_heredoc;
 	int		type;
 	int		if_pipe;
 	int		if_heredoc;

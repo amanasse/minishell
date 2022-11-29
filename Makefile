@@ -44,18 +44,18 @@ CC		= cc
 CFLAGS	= -MMD -Wall -Wextra -Werror -g3
 
 ${NAME} :	${OBJS}
-			make -C ./sources/libft
+			${MAKE} -C ./sources/libft
 			${CC} ${CFLAGS} ${OBJS} ./sources/libft/libft.a -o ${NAME} -lreadline
 
 all :		minishell
 
 clean:
 			rm -f ${OBJS} ${DEPS}
-			make -C ./sources/libft clean
+			${MAKE} -C ./sources/libft clean
 
 fclean:		clean
 			rm -f minishell
-			make -C ./sources/libft fclean
+			${MAKE} -C ./sources/libft fclean
 
 re:			fclean all
 

@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:05:50 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/29 11:52:18 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/29 14:22:27 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,41 +44,38 @@ char	**make_new_tab_cmd(t_minishell *minishell, int i, int j)
 void	exec_redir_right(t_minishell *minishell)
 {
 	if (minishell->parse[minishell->index_cmd].fd_out > 0)
-		dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT);
+		dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT_FILENO);
 	if (minishell->parse[minishell->index_cmd].fd_in > 0)
-		dup2(0, STDIN);
+		dup2(0, STDIN_FILENO);
 }
 
 void	exec_redir_left(t_minishell *minishell, int *pipefd)
 {
-	printf("minishell->count = %d\n", minishell->count);
-	printf("cmd = %s\n", minishell->parse[minishell->index_cmd].tab_cmd[0]);
 	printf("fd out = %d\n", minishell->parse[minishell->index_cmd].fd_out);
 	printf("fd in = %d\n", minishell->parse[minishell->index_cmd].fd_in);
 	if (minishell->index_cmd < minishell->count)
-		dup2(pipefd[1], STDOUT);
+		dup2(pipefd[1], STDOUT_FILENO);
 	else
 	{
 		if (minishell->parse[minishell->index_cmd].fd_out > 0)
-			dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT);
+			dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT_FILENO);
 		if (minishell->parse[minishell->index_cmd].fd_in > 0)
-			dup2(minishell->parse[minishell->index_cmd].fd_in, STDIN);
+			dup2(minishell->parse[minishell->index_cmd].fd_in, STDIN_FILENO);
 	}
 }
 
 void	exec_heredoc(t_minishell *minishell, int *pipefd)
 {
 	// (void)pipefd;
-	if (minishell->index_cmd < minishell->count)
-		dup2(pipefd[1], STDOUT);
-	if (minishell->parse[minishell->index_cmd].fd_out > 0)
-		dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT);
-	if (minishell->parse[minishell->index_cmd].fd_in > 0)
-		dup2(minishell->parse[minishell->index_cmd].fd_in, STDIN);
-	printf("minishell->count = %d\n", minishell->count);
-	printf("cmd = %s\n", minishell->parse[minishell->index_cmd].tab_cmd[0]);
 	printf("fd out = %d\n", minishell->parse[minishell->index_cmd].fd_out);
-	printf("fd in = %d\n", minishell->parse[minishell->index_cmd].fd_in);
+	printf("fd heredoc = %d\n", minishell->parse[minishell->index_cmd].fd_heredoc);
+	if (minishell->index_cmd < minishell->count)
+		dup2(pipefd[1], STDOUT_FILENO);
+	if (minishell->parse[minishell->index_cmd].fd_out >= 0)
+		dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT_FILENO);
+	if (minishell->parse[minishell->index_cmd].fd_in >= 0)
+		dup2(minishell->parse[minishell->index_cmd].fd_heredoc, STDIN_FILENO);
+	close(minishell->parse[minishell->index_cmd].fd_heredoc);
 }
 
 void	exec_redirection(t_minishell *minishell, int *pipefd)

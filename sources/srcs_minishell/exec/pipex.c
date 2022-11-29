@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/29 11:45:06 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/29 14:25:21 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ int	execution(t_minishell *minishell)
 		tmp_pipefd = pipefd[0];
 		minishell->index_cmd++;
 	}
+	if (minishell->parse[minishell->index_cmd].fd_heredoc != -1)
+		unlink("heredoc.txt");
 	close_pipe_and_wait(tmp_pipefd, minishell);
 	return (0);
 }
