@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/29 16:29:17 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/30 12:10:28 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,21 @@ void	signal_handler(int signum, siginfo_t *sa, void *context)
 			rl_redisplay();
 		}
 	}
-	if (signum == SIGQUIT)
+}
+
+void	signal_handler_child(int signum, siginfo_t *sb, void *context)
+{
+	(void)context;
+	(void)sb;
+	if (signum == SIGINT)
 	{
-		g_minishell->shell.status = 131;
+		g_minishell->shell.status = 130;
 		if (g_minishell->pid == 0)
-			signal(SIGQUIT, SIG_IGN);
+			replace_prompt();
 		else
 		{
-			printf("Quit (core dumped)\n");
-			signal(SIGQUIT, SIG_IGN);
+			write(2, "", 1);
+			rl_redisplay();
 		}
 	}
 }
@@ -58,7 +64,18 @@ void	signals(void)
 	sa.sa_flags = SA_RESTART | SA_SIGINFO;
 	sa.sa_sigaction = signal_handler;
 	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	signal_child(void)
+{
+	struct sigaction	sb;
+
+	sigemptyset(&sb.sa_mask);
+	sb.sa_flags = SA_RESTART | SA_SIGINFO;
+	sb.sa_sigaction = signal_handler_child;
+	sigaction(SIGINT, &sb, NULL);
+	signal(SIGQUIT, SIG_DFL);
 }
 
 void	ft_init_all(t_minishell *minishell, char **env, char *prompt)
@@ -70,7 +87,6 @@ void	ft_init_all(t_minishell *minishell, char **env, char *prompt)
 	ft_memset(minishell, 0, sizeof(t_minishell));
 	g_minishell = minishell;
 	copy_of_env(env, minishell);
-	signals();
 	minishell->line_heredoc[0] = '>';
 	minishell->line_heredoc[1] = ' ';
 	minishell->line_heredoc[2] = '\0';
@@ -85,9 +101,10 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	ft_init_all(&minishell, env, prompt);
+	signals();
 	while (1)
 	{
-		minishell.pid = 0;
+		// minishell.pid = 0;
 		minishell.lstms = NULL;
 		str = readline(prompt);
 		ft_lexer(&minishell, str, 0);

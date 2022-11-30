@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin_pipe.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:16:25 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/29 17:39:28 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/30 10:50:20 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ void	exec_builtin(t_minishell *minishell, int *pipefd)
 void	exec_pipe(t_minishell *m, int *pipefd)
 {
 	char	*path;
+	int i;
+
+	i = 0;
 
 	path = get_path(m->environ, m->parse[m->index_cmd].tab_cmd, m);
 	// printf("cmd = %s\n",  m->parse[m->index_cmd].tab_cmd[0]);
@@ -39,8 +42,17 @@ void	exec_pipe(t_minishell *m, int *pipefd)
 		if (access(path, F_OK) == 0)
 			execve(path, m->parse[m->index_cmd].tab_cmd,
 				m->tab_env);
-		printf("%s: command not found\n",
-			m->parse[m->index_cmd].tab_cmd[0]);
+		while (path[i])
+		{
+			if (path[i] == '/')
+			{
+				printf("%s: not a directory\n", m->parse[m->index_cmd].tab_cmd[0]);
+				m->shell.status = 126;
+				exit(m->shell.status);
+			}
+			i++;
+		}
+		printf("%s: command not found\n", m->parse[m->index_cmd].tab_cmd[0]);
 		m->shell.status = 127;
 		exit(m->shell.status);
 	}

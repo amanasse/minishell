@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/29 17:05:31 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/30 12:11:23 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,6 @@ void	exec_pipe(t_minishell *minishell, int *pipefd);
 char	**new_cmd_heredoc(t_minishell *minishell, char **cmd);
 int		heredoc(t_minishell *minishell);
 void	signals(void);
+void	signal_child(void);
 
 #endif
