@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/30 14:58:17 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/30 17:12:57 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,6 @@ void	signal_handler(int signum, siginfo_t *sa, void *context)
 	}
 }
 
-void	signal_handler_child(int signum, siginfo_t *sb, void *context)
-{
-	(void)context;
-	(void)sb;
-	if (signum == SIGINT)
-	{
-		g_minishell->shell.status = 130;
-		if (g_minishell->pid == 0)
-			replace_prompt();
-		else
-		{
-			write(2, "", 1);
-			rl_redisplay();
-		}
-	}
-}
-
 void	signals(void)
 {
 	struct sigaction	sa;
@@ -73,8 +56,6 @@ void	signal_child(void)
 
 	sigemptyset(&sb.sa_mask);
 	sb.sa_flags = SA_RESTART | SA_SIGINFO;
-	sb.sa_sigaction = signal_handler_child;
-	sigaction(SIGINT, &sb, NULL);
 	signal(SIGQUIT, SIG_DFL);
 }
 
@@ -104,6 +85,7 @@ int	main(int argc, char **argv, char **env)
 	signals();
 	while (1)
 	{
+		minishell.pid = 0;
 		minishell.lstms = NULL;
 		str = readline(prompt);
 		ft_lexer(&minishell, str, 0);
@@ -113,8 +95,6 @@ int	main(int argc, char **argv, char **env)
 			ft_build_struc_parse(&minishell, minishell.count);
 			if (execution(&minishell) == -1)
 				return (0);
-			if (open("heredoc.txt", O_RDONLY) != -1)
-				unlink("heredoc.txt");
 		}
 		minishell.error = 0;
 		add_history(str);

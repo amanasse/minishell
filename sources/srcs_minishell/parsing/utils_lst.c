@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 14:47:35 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/30 14:26:14 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/30 16:27:00 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,14 @@ void	ft_lstadd_back_ms(t_lstms **lst, t_lstms *new)
 	}
 	else
 		*lst = new;
+}
+
+void	ft_lstadd_front_ms(t_lstms **lst, t_lstms *new)
+{
+	if (lst == NULL || new == NULL)
+		return ;
+	new->next = *lst;
+	*lst = new;
 }
 
 void	ft_view_lst(t_lstms *lst)

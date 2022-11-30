@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/30 14:57:22 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/30 17:10:38 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_fork(t_minishell *m, int *pipefd, int tmp_fd)
 	m->pid = fork();
 	if (m->pid == 0)
 	{
-		// m->pid = 1;
+		m->pid = 1;
 		signal_child();
 		if (tmp_fd > 0)
 		{

@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/29 13:12:46 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/30 16:27:16 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_parse
 
 t_lstms	*ft_lstnew_ms(void *content, int type);
 void	ft_lstadd_back_ms(t_lstms **lst, t_lstms *new);
+void	ft_lstadd_front_ms(t_lstms **lst, t_lstms *new);
 void	ft_view_lst(t_lstms *lst);
 void	ft_lstclear_ms(t_lstms *lst);
 char	*ft_malloc(int len);
