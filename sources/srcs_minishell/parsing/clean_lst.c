@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/28 15:04:07 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/30 15:10:25 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*get_value_var(char *value, char *to_replace, char *str, int i)
 	value = getenv(to_replace);
 	if (value == NULL)
 		value = "";
-	return (value);
+	return (free(to_replace), value);
 }
 
 char	*ft_replace_var(char *str, t_minishell *minishell)
@@ -54,7 +54,10 @@ char	*ft_replace_var(char *str, t_minishell *minishell)
 	to_replace = NULL;
 	value = NULL;
 	if (str[i + 1] == '?')
+	{
 		value = ft_itoa(minishell->shell.status);
+		return (free(to_replace), value);
+	}
 	i = while_char_is_caract(str, i);
 	if (!value)
 		value = get_value_var(value, to_replace, str, i);

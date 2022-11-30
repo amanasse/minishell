@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 11:19:20 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/28 15:53:42 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/30 14:24:28 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*ft_stock_str(char *old_str, char c)
 	}
 	new_str[i] = c;
 	new_str[i + 1] = '\0';
-	return (free(old_str), new_str);
+	return (free(old_str), old_str = NULL, new_str);
 }
 
 char	*ft_malloc(int len)
@@ -105,5 +105,5 @@ char	*ft_clean_temp_str(char *str, t_minishell *minishell, int i)
 	}
 	if (new_str == NULL)
 		new_str = ft_malloc(1);
-	return (free(str), new_str);
+	return (free(str), str = NULL, new_str);
 }

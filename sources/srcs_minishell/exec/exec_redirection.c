@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:05:50 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/29 17:37:47 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/30 15:36:51 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	exec_heredoc(t_minishell *minishell, int *pipefd)
 	minishell->fd_heredoc = open("heredoc.txt", O_RDONLY);
 	if (minishell->index_cmd < minishell->count)
 		dup2(pipefd[1], STDOUT_FILENO);
+	minishell->parse[minishell->index_cmd].fd_out = -1;
 	if (minishell->parse[minishell->index_cmd].fd_out >= 0)
 		dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT_FILENO);
 	if (minishell->fd_heredoc >= 0)
