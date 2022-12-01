@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:05:50 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/30 16:31:18 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/01 11:36:00 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ void	exec_redirection(t_minishell *minishell, int *pipefd)
 		printf("%s: command not found\n", cmd[0]);
 		exit(1);
 	}
-	if (minishell->parse[minishell->index_cmd].type == REDIR_R)
+	if (minishell->parse[minishell->index_cmd].type == REDIR_R
+		|| minishell->parse[minishell->index_cmd].type == APPEND)
 		exec_redir_right(minishell);
 	else if (minishell->parse[minishell->index_cmd].type == HEREDOC)
 		exec_heredoc(minishell, pipefd);

@@ -1,10 +1,10 @@
 SRCS    = 	main.c\
 		parsing/lexer.c\
 		parsing/utils_lst.c\
-		parsing/clean_lst.c\
-		parsing/clean_quotes.c\
+		parsing/dollar.c\
+		parsing/clean_tmp_str.c\
 		parsing/check_separators.c\
-		parsing/redirection.c\
+		parsing/lexer_redirection.c\
 		parsing/init_tab_cmd.c\
 		parsing/fill_tab_cmd.c\
 		builtins/init_env.c\

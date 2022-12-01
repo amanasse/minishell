@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:47:06 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/30 14:15:50 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/01 11:38:23 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,15 @@ void	free_parse(t_minishell *minishell)
 {
 	int	i;
 
+	minishell->index_cmd = 0;
+	while (minishell->index_cmd <= minishell->count)
+	{
+		if (minishell->parse[minishell->index_cmd].delim)
+			free(minishell->parse[minishell->index_cmd].delim);
+		if (minishell->parse[minishell->index_cmd].file_in)
+			free(minishell->parse[minishell->index_cmd].file_in);
+		minishell->index_cmd++;
+	}
 	minishell->index_cmd = 0;
 	while (minishell->parse[minishell->index_cmd].tab_cmd)
 	{

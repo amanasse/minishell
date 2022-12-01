@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:29:36 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/30 15:13:07 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/01 11:42:14 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,19 @@ void	ft_fill_parse_redir_l_r(t_parse *parse, t_lstms *temp, int j, int i)
 	if (temp->type == REDIR_L)
 	{
 		parse[j].file_in = ft_strncpy(temp->str, ft_strlen(temp->str));
-		parse[j].fd_in = open(temp->str, O_RDONLY, S_IRWXU);
+		free(temp->str);
+		parse[j].fd_in = open(parse[j].file_in, O_RDONLY, S_IRWXU);
 		if (parse[j].fd_in == -1)
 			printf("minishell: %s: No such file or directory\n", temp->str);
-		parse[j].fd_out = 1;
+		parse[j].fd_out = STDOUT_FILENO;
 		parse[j].tab_cmd[i] = ft_calloc(1, 1);
 	}
 	else if (temp->type == REDIR_R)
 	{
 		parse[j].file_in = ft_strncpy(temp->str, ft_strlen(temp->str));
-		parse[j].fd_in = 1;
-		parse[j].fd_out = open(temp->str, O_WRONLY
+		free(temp->str);
+		parse[j].fd_in = STDIN_FILENO;
+		parse[j].fd_out = open(parse[j].file_in, O_WRONLY
 				| O_TRUNC | O_CREAT, S_IRWXU, S_IRGRP, S_IROTH);
 		if (parse[j].fd_out == -1)
 			printf("minishell: %s: No such file or directory\n", temp->str);
@@ -52,8 +54,9 @@ void	ft_fill_parse(t_parse *parse, t_lstms *temp, int j, int i)
 	else if (temp->type == APPEND)
 	{
 		parse[j].file_in = ft_strncpy(temp->str, ft_strlen(temp->str));
-		parse[j].fd_in = 1;
-		parse[j].fd_out = open(temp->str, O_WRONLY
+		free(temp->str);
+		parse[j].fd_in = STDIN_FILENO;
+		parse[j].fd_out = open(parse[j].file_in, O_WRONLY
 				| O_APPEND | O_CREAT, S_IRWXU, S_IRGRP, S_IROTH);
 		if (parse[j].fd_out == -1)
 			printf("minishell: %s: No such file or directory\n", temp->str);
