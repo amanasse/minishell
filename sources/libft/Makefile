@@ -80,7 +80,7 @@ $(DIR_OBJ)%.o: $(DIR_SRC)%.c
 
 ${NAME}:	${OBJS} 
 			@ar -rc ${NAME} ${OBJS}
-			@echo "$(GREEN)libft compiled!$(DEF_COLOR)"
+			@echo "$(YELLOW)libft compiled!$(DEF_COLOR)"
 
 all :		${NAME}
 

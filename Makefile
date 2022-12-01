@@ -1,3 +1,15 @@
+# Colors
+
+DEF_COLOR = \033[0;39m
+GRAY = \033[0;90m
+RED = \033[0;91m
+GREEN = \033[0;92m
+YELLOW = \033[0;93m
+BLUE = \033[0;94m
+MAGENTA = \033[0;95m
+CYAN = \033[0;96m
+WHITE = \033[0;97m
+
 SRCS    = 	main.c\
 		parsing/lexer.c\
 		parsing/utils_lst.c\
@@ -44,8 +56,9 @@ CC		= cc
 CFLAGS	= -MMD -Wall -Wextra -Werror -g3
 
 ${NAME} :	${OBJS}
-			make -C ./sources/libft
-			${CC} ${CFLAGS} ${OBJS} ./sources/libft/libft.a -o ${NAME} -lreadline
+			@make -C ./sources/libft
+			@echo "$(CYAN)Minishell compiled!$(DEF_COLOR)"
+			@${CC} ${CFLAGS} ${OBJS} ./sources/libft/libft.a -o ${NAME} -lreadline
 
 all :		minishell
 
@@ -60,7 +73,8 @@ fclean:		clean
 re:			fclean all
 
 $(DIR_OBJ)%.o: $(DIR_SRC_MINISHELL)%.c
-	${CC} ${CFLAGS} -c $< ${HEADERS} -o $@
+	@echo "$(BLUE)Compiling: $< $(DEF_COLOR)"
+	@${CC} ${CFLAGS} -c $< ${HEADERS} -o $@
 
 -include ${DEPS}
 
