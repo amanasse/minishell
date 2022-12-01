@@ -3,64 +3,102 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/16 16:10:17 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/30 17:12:57 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
-#include "../../includes/builtins.h"
+#include "minishell.h"
 
-int main(int argc, char **argv, char **env)
+t_minishell	*g_minishell;
+
+void	replace_prompt(void)
 {
-	t_shell	shell;
-	char **cmd;
-	(void) argc;
-	(void) **argv;
-	(void) **env;
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	write(2, "\n", 1);
+	rl_redisplay();
+}
 
-	shell.environ = NULL;
-	copy_of_env(env, &shell);
-	cmd = NULL;
-	cmd = malloc(sizeof(char *) * 3);
-	if (cmd == NULL)
-		return (0);
-	memset(cmd, 0, 4);
-	cmd[0] = "unset";
-	cmd[1] = "CHROME_DESKTOP";
-	cmd[2] = NULL;
-	// cmd[0] = "export";
-	// cmd[1] = NULL;
-	// cmd[1] = "USER_ZDOTDIR";
-	// cmd[1] = ",doek";
+void	signal_handler(int signum, siginfo_t *sa, void *context)
+{
+	(void)context;
+	(void)sa;
+	if (signum == SIGINT)
+	{
+		g_minishell->shell.status = 130;
+		if (g_minishell->pid == 0)
+			replace_prompt();
+		else
+		{
+			write(2, "", 1);
+			rl_redisplay();
+		}
+	}
+}
 
+void	signals(void)
+{
+	struct sigaction	sa;
 
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART | SA_SIGINFO;
+	sa.sa_sigaction = signal_handler;
+	sigaction(SIGINT, &sa, NULL);
+	signal(SIGQUIT, SIG_IGN);
+}
 
+void	signal_child(void)
+{
+	struct sigaction	sb;
 
+	sigemptyset(&sb.sa_mask);
+	sb.sa_flags = SA_RESTART | SA_SIGINFO;
+	signal(SIGQUIT, SIG_DFL);
+}
 
-	builtins(cmd, &shell);
-	ft_view_env(shell.environ);
-	ft_lstclear_env(shell.environ);
-	
-	
-	// free(shell.old_pwd);
-	// free(shell.pwd);
-	free(cmd);
-	
-	
+void	ft_init_all(t_minishell *minishell, char **env, char *prompt)
+{
+	prompt[0] = '$';
+	prompt[1] = '>';
+	prompt[2] = ' ';
+	prompt[3] = '\0';
+	ft_memset(minishell, 0, sizeof(t_minishell));
+	g_minishell = minishell;
+	copy_of_env(env, minishell);
+	minishell->line_heredoc[0] = '>';
+	minishell->line_heredoc[1] = ' ';
+	minishell->line_heredoc[2] = '\0';
+}
 
-	
-	// cmd[3] = "-n";
-	// cmd[3] = "..";
-	// cmd[4] = "ahah";
-	// cmd_cd(cmd);
-	// cmd_pwd(cmd);
-	// cmd_exit(cmd);
-	// free(cmd);
+int	main(int argc, char **argv, char **env)
+{
+	char			prompt[4];
+	char			*str;
+	t_minishell		minishell;
 
-
-	
+	(void)argc;
+	(void)argv;
+	ft_init_all(&minishell, env, prompt);
+	signals();
+	while (1)
+	{
+		minishell.pid = 0;
+		minishell.lstms = NULL;
+		str = readline(prompt);
+		ft_lexer(&minishell, str, 0);
+		minishell.count = ft_clean_lst(&minishell);
+		if (minishell.error == 0)
+		{
+			ft_build_struc_parse(&minishell, minishell.count);
+			if (execution(&minishell) == -1)
+				return (0);
+		}
+		minishell.error = 0;
+		add_history(str);
+		control_d_or_clear(str, &minishell);
+	}
 	return (0);
 }

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_cmd_pwd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:41:08 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/15 17:19:06 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/17 17:01:28 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
-#include "../../../includes/builtins.h"
+#include "minishell.h"
+#include "builtins.h"
 
-int	cmd_pwd(char **cmd, t_shell *shell)
+int	cmd_pwd(char **cmd, t_minishell *minishell)
 {
 	t_env	*tmp;
 
@@ -24,7 +24,7 @@ int	cmd_pwd(char **cmd, t_shell *shell)
 	}
 	else
 	{
-		tmp = shell->environ;
+		tmp = minishell->environ;
 		while (tmp != NULL)
 		{
 			if (ft_strnstr(tmp->str, "PWD=", 4) == 0)

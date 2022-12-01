@@ -6,141 +6,104 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/02 10:12:46 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/11/30 14:56:27 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
+#include "minishell.h"
 
-/*prio ' ' et " " : verifier si fermes, sinon erreur
-chaque maillon = 1 mot (split espace)
-types :
-0 = entre guillemets OK
-1 = cmd - str OK
-2 = pipe　OK
-3 = redirection entree < OK
-4 = redirection sortie > OK
-5 = redirection << (append) doit recevoir un delimiteur OK
-6 = redirection sortie append (reecrit dessus) >> OK
-7 = var environnement $var ???
-*/
-
-int	ft_append(t_ms **lex, char *str)
+int	ft_lexer_quotes(int i, char *str, t_minishell *mini)
 {
 	char	*temp;
-	int		i;
+	int		j;
 
-	i = 2;
-	while (str[i] == ' ')
-		i++;
-	while ((str[i] != ' ') && (str[i] != '\0') && (str[i] != '<')
-		&& (str[i] != '>'))
-		i++;
-	temp = ft_substr(str, 0, i);
-	if (str[1] == '<')
-		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 5));
-	else if (str[1] == '>')
-		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 6));	
-	return (i);
+	j = i + 1;
+	while (str[j] != str[i])
+		j++;
+	while (char_is_space(str[j]) == 0 && str[j] != '\0')
+		j++;
+	temp = ft_strncpy(str + i, j - i);
+	if (temp == NULL)
+		return (free(temp), -1);
+	if (str[i] == '"')
+		ft_lstadd_back_ms(&mini->lstms, ft_lstnew_ms(temp, QUOTES));
+	else
+		ft_lstadd_back_ms(&mini->lstms, ft_lstnew_ms(temp, S_QUOTES));
+	return (j);
 }
 
-
-int	ft_check_quotes(char *str, char c)
+int	ft_lexer_others(int i, char *str, t_minishell *mini)
 {
-	int	i;
-	
-	i = 1;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (i);
-		i++;
-	}
+	char	*temp;
+	int		j;
+
+	j = i;
+	while ((char_is_separator(str[j]) == 0) && (char_is_space(str[j]) == 0)
+		&& (str[j] != '\0'))
+		j++;
+	temp = ft_substr(str + i, 0, j - i);
+	if (temp == NULL)
+		return (free(temp), -1);
+	ft_lstadd_back_ms(&mini->lstms, ft_lstnew_ms(temp, STRING));
+	return (j);
+}
+
+int	check_errors_before_lexer(char *str)
+{
+	if (str && check_if_quotes_are_closed(str, -1) == 0)
+		return (printf("%s\n", ERR_SYNTAX), -1);
+	else if (str && (str[0] == '|' || str[0] == '>' || str[0] == '<')
+		&& str[1] == '\0')
+		return (printf("%s '%c'\n", ERR_SY_TOK, str[0]), -1);
+	else if (str && (str[0] == '<' && str[1] == '<') && str[2] == '\0')
+		return (printf("%s '%c%c'\n", ERR_SY_TOK, str[0], str[1]), -1);
 	return (0);
 }
 
-int	ft_chevron(t_ms **lex, char *str, char c)
+static int	ft_lexer_pipe(t_minishell *mini, char *str, int i)
 {
-	int		i;
-	int 	j;
-	char	*temp;
-
-	i = 1;
-	j = 1;
-	if (str[i] == c)
-	{
-		if (str[i + 1] == '<' || str[i + 1] == '>')
-			return (-1);
-		i = ft_append(lex, str);
-		return (i);
-	}
-	while (str[++i] == ' ')
+	i++;
+	while (str[i] == ' ')
 		i++;
-	while ((str[++i] != ' ') && (str[++i] != '\0') && (str[++i] != '<')
-		&& (str[++i] != '>'))
-		i++;
-	if (j == 1)
+	if (str[i] == '|')
 		return (-1);
-	temp = ft_substr(str, 0, i);
-	if (c == '<') 
-		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 3));
-	else if (c == '>')
-		ft_lstadd_back_ms(lex, ft_lstnew_ms(temp, 4));
+	ft_lstadd_back_ms(&mini->lstms, ft_lstnew_ms("|", PIPE));
 	return (i);
-	
 }
 
-int	ft_lexer(t_ms *lex, char *str)
+int	ft_lexer(t_minishell *minishell, char *str, int i)
 {
-	int		i;
-	int		j;
-	int		res;
-	char	*temp;
+	int	j;
 
-	i = 0;
-	while (str[i] != '\0')
+	if (str && (check_errors_before_lexer(str) == -1))
+		return (0);
+	while (str && str[i] != '\0')
 	{
-		if (str[i] == '\'' || str[i] == '"')
-		{			
-			j = ft_check_quotes(str + i, str[i]);
-			if (j == 0)
-				return (0);
-			temp = ft_strncpy(str + i, j + 1);
-			ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, 0));
-			i += j + 1;
-		}
+		if (str[i] == '"' || str[i] == '\'')
+			i = ft_lexer_quotes(i, str, minishell);
 		else if (str[i] == '<' || str[i] == '>')
 		{
-			res = ft_chevron(&lex, str + i, str[i]);
-			i += res + 1;
-			if (res == 0)
-				i++;
-			else if (res == -1)
-			{	
-				printf("syntax error near unexpected token '%c'\n", str[i]);
-				return (0);
+			j = i;
+			i = ft_lexer_redirection(i, str, minishell);
+			if (i == -1)
+			{
+				minishell->error = 1;
+				return (printf("%s '%c'\n", ERR_SY_TOK, str[j]), 0);
 			}
 		}
 		else if (str[i] == '|')
 		{
-			ft_lstadd_back_ms(&lex, ft_lstnew_ms("|", 2));
-			i++;
+			i = ft_lexer_pipe(minishell, str, i);
+			if (i == -1)
+			{
+				minishell->error = 1;
+				return (printf("%s '%c'\n", ERR_SY_TOK, str[0]), -1);
+			}
 		}
 		else if (str[i] == ' ')
 			i++;
 		else
-		{
-			j = i;
-			while ((str[j] != ' ') && (str[j] != '\0') && (str[j] != '<') 
-				&& (str[j] != '>') && (str[j] != '|'))
-				j++;
-			temp = ft_substr(str + i, 0, j - i);
-			ft_lstadd_back_ms(&lex, ft_lstnew_ms(temp, 1));
-			i = j;
-		}
+			i = ft_lexer_others(i, str, minishell);
 	}
-	ft_view_lst(lex);
-	ft_clean_lst(&lex);
-	ft_view_lst(lex);
 	return (1);
 }

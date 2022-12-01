@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_lst.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:38:05 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/15 17:21:18 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/17 17:01:37 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
-#include "../../../includes/builtins.h"
+#include "minishell.h"
+#include "builtins.h"
 
 void	ft_view_env(t_env *lst)
 {

@@ -6,20 +6,20 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:41:42 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/16 16:22:34 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/25 12:11:31 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
-#include "../../../includes/builtins.h"
+#include "minishell.h"
+#include "builtins.h"
 
-char	*search_old_pwd(t_shell *shell)
+char	*search_old_pwd(t_minishell *minishell)
 {
 	t_env	*tmp;
 	size_t	i;
 	char	*srch_old_pwd;
 
-	tmp = shell->environ;
+	tmp = minishell->environ;
 	srch_old_pwd = NULL;
 	while (tmp != NULL)
 	{
@@ -38,14 +38,14 @@ char	*search_old_pwd(t_shell *shell)
 	return (srch_old_pwd);
 }
 
-int	old_pwd(t_shell *shell)
+int	old_pwd(t_minishell *minishell)
 {
 	t_env	*tmp2;
 	char	*tmp_pwd;
 	char	*old_pwd;
 
-	tmp2 = shell->environ;
-	old_pwd = search_old_pwd(shell);
+	tmp2 = minishell->environ;
+	old_pwd = search_old_pwd(minishell);
 	if (old_pwd == NULL)
 		return (-1);
 	while (tmp2 != NULL)
@@ -54,7 +54,7 @@ int	old_pwd(t_shell *shell)
 		{
 			tmp_pwd = tmp2->str;
 			tmp2->str = old_pwd;
-			shell->old_pwd = tmp2->str;
+			minishell->shell.old_pwd = tmp2->str;
 			free (tmp_pwd);
 		}
 		tmp2 = tmp2->next;
@@ -62,14 +62,14 @@ int	old_pwd(t_shell *shell)
 	return (0);
 }
 
-int	new_pwd(t_shell *shell, char *dir)
+int	new_pwd(t_minishell *minishell, char *dir)
 {
 	t_env	*tmp;
 	size_t	i;
 	char	*tmp_pwd;
 
 	i = ft_strlen(dir) + 5;
-	tmp = shell->environ;
+	tmp = minishell->environ;
 	while (tmp != NULL)
 	{
 		if (ft_strnstr(tmp->str, "PWD=", 4) == 0)
@@ -80,7 +80,7 @@ int	new_pwd(t_shell *shell, char *dir)
 				return (-1);
 			tmp->str = strcpy(tmp->str, "PWD=");
 			tmp->str = ft_strcat_mini(tmp->str, dir);
-			shell->pwd = tmp->str;
+			minishell->shell.pwd = tmp->str;
 			free(tmp_pwd);
 			return (0);
 		}
@@ -89,10 +89,13 @@ int	new_pwd(t_shell *shell, char *dir)
 	return (0);
 }
 
-char	*go_home(t_env *tmp)
+char	*go_home(t_minishell *minishell)
 {
 	char	*dir;
+	t_env	*tmp;
 
+	dir = NULL;
+	tmp = minishell->environ;
 	while (tmp != NULL)
 	{
 		if (ft_strnstr(tmp->str, "HOME=", 5) == 0)
@@ -103,7 +106,7 @@ char	*go_home(t_env *tmp)
 }
 
 // PENSER A FREE EN CAS DERREUR ENV + CMD SI JAMAIS ON EXIT LE PROGRAMME
-int	cmd_cd(char **cmd, t_shell *shell)
+int	cmd_cd(char **cmd, t_minishell *minishell)
 {
 	int		t;
 	int		i;
@@ -114,20 +117,20 @@ int	cmd_cd(char **cmd, t_shell *shell)
 	while (cmd[i])
 		i++;
 	if (i == 1)
-		dir = go_home(shell->environ);
+		dir = go_home(minishell);
 	else if (i == 2 && (ft_strcmp(cmd[1], "~")) == 0)
-		dir = go_home(shell->environ);
+		dir = go_home(minishell);
 	else
 		dir = cmd[1];
 	t = chdir(dir);
 	if (t == 0)
 	{
 		dir = getcwd(NULL, 0);
-		old_pwd(shell);
-		new_pwd(shell, dir);
+		old_pwd(minishell);
+		new_pwd(minishell, dir);
 		free(dir);
 	}
 	else
-		return (printf("Error : Directory change failed.\n"), 1);
+		return (printf("Error: Directory change failed.\n"), 1);
 	return (0);
 }

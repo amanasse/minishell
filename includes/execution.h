@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/02 16:35:14 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/07 14:35:40 by mede-sou         ###   ########.fr       */
+/*   Created: 2022/11/15 11:16:02 by mede-sou          #+#    #+#             */
+/*   Updated: 2022/11/28 11:26:22 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#ifndef EXECUTION_H
+# define EXECUTION_H
 
-size_t	ft_strlen(const char *s)
+# include "minishell.h"
+# include "parsing.h"
+# include "builtins.h"
+
+typedef struct s_exec
 {
-	int	i;
+	int				count_pipe;
+}					t_exec;
 
-	i = 0;
-	if (s == NULL)
-		return (0);
-	while (s[i] != 0)
-		i++;
-	return (i);
-}
+void	close_fd(int *fd);
+
+#endif

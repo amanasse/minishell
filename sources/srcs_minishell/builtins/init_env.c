@@ -6,12 +6,12 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 11:57:06 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/15 15:08:34 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/11/28 11:25:46 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
-#include "../../../includes/builtins.h"
+#include "minishell.h"
+#include "builtins.h"
 
 char	**sort_env(char **tab, int size)
 {
@@ -41,36 +41,35 @@ char	**sort_env(char **tab, int size)
 	return (tab);
 }
 
-char	**env_in_tab(t_shell *shell)
+void	env_in_tab(t_minishell *minishell)
 {
 	int		i;
-	char	**tab;
 	t_env	*tmp;
 	t_env	*tmp2;
 
 	i = 0;
-	tmp = shell->environ;
-	tmp2 = shell->environ;
+	tmp = minishell->environ;
+	tmp2 = minishell->environ;
 	while (tmp)
 	{
 		tmp = tmp->next;
 		i++;
 	}
-	tab = malloc(sizeof(char *) * (i + 1));
-	if (tab == NULL)
-		return (NULL);
+	minishell->tab_env = malloc(sizeof(char *) * (i + 1));
+	if (minishell->tab_env == NULL)
+		return ;
 	i = 0;
 	while (tmp2)
 	{
-		tab[i] = tmp2->str;
+		minishell->tab_env[i] = tmp2->str;
 		tmp2 = tmp2->next;
 		i++;
 	}
-	tab[i] = NULL;
-	return (tab);
+	minishell->tab_env[i] = NULL;
+	return ;
 }
 
-int	copy_of_env(char **env, t_shell *shell)
+int	copy_of_env(char **env, t_minishell *minishell)
 {
 	int		i;
 	t_env	*tmp;
@@ -81,7 +80,7 @@ int	copy_of_env(char **env, t_shell *shell)
 		tmp = ft_lstnew_env(env[i]);
 		if (tmp == NULL)
 			return (-1);
-		ft_lstadd_back_env(&shell->environ, tmp);
+		ft_lstadd_back_env(&minishell->environ, tmp);
 		i++;
 	}
 	return (0);

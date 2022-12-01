@@ -6,14 +6,14 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 14:29:14 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/15 15:09:02 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/12/01 17:24:32 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
-#include "../../../includes/builtins.h"
+#include "minishell.h"
+#include "builtins.h"
 
-int	replace_or_create_var(t_shell *shell, t_export *export, char *str)
+int	replace_or_create_var(t_minishell *ms, t_export *export, char *str)
 {
 	while (export->tmp != NULL)
 	{
@@ -25,7 +25,6 @@ int	replace_or_create_var(t_shell *shell, t_export *export, char *str)
 				return (free(export->compare), -1);
 			export->tmp->str = ft_strcpy(export->tmp->str, str);
 			export->is_ok = 1;
-			free(export->compare);
 		}
 		export->tmp = export->tmp->next;
 	}
@@ -34,13 +33,13 @@ int	replace_or_create_var(t_shell *shell, t_export *export, char *str)
 		export->element = ft_lstnew_env(str);
 		if (export->element == NULL)
 			return (-1);
-		ft_lstadd_back_env(&shell->environ, export->element);
+		ft_lstadd_back_env(&ms->environ, export->element);
 	}
 	export->is_ok = 0;
 	return (0);
 }
 
-int	replace_var_env(t_shell *shell, char *str, t_export *export)
+int	replace_var_env(t_minishell *ms, char *str, t_export *export)
 {
 	while (str && str[export->i] != '=')
 		export->i++;
@@ -50,84 +49,83 @@ int	replace_var_env(t_shell *shell, char *str, t_export *export)
 	if (export->compare == NULL)
 		return (-1);
 	export->compare = ft_strcpy_egal(export->compare, str);
-	if (replace_or_create_var(shell, export, str) == -1)
-		return (-1);
-	return (0);
-}
-
-void	print_export(t_shell *shell)
-{
-	shell->i = 0;
-	while (shell->tab_env[shell->i])
+	if (str[export->i - 1] == '+')
 	{
-		shell->j = 0;
-		write (1, "declare -x ", 11);
-		while (shell->tab_env[shell->i][shell->j])
-		{
-			ft_putchar_fd(shell->tab_env[shell->i][shell->j], 1);
-			if (shell->tab_env[shell->i][shell->j] == '='
-			&& shell->tab_env[shell->i][shell->j + 1] != '\0')
-				write (1, "\"", 1);
-			shell->j++;
-		}
-		write (1, "\"", 1);
-		write (1, "\n", 1);
-		shell->i++;
-	}	
-}
-
-int	check_var_env(t_export *export, t_shell *shell, char **cmd)
-{
-	while (cmd[shell->i])
-	{
-		export->tmp = shell->environ;
-		shell->j = 0;
-		while (cmd[shell->i][shell->j])
-		{
-			if (cmd[shell->i][shell->j] == '=')
-				export->var_env = 1;
-			shell->j++;
-		}
-		if (export->var_env == 0)
-		{
-			export->element = ft_lstnew_env(cmd[shell->i]);
-			if (export->element == NULL)
-				return (1);
-			ft_lstadd_back_env(&shell->environ, export->element);
-		}
-		else
-		{
-			if (replace_var_env(shell, cmd[shell->i], export) == -1)
-				return (1);
-		}
-		shell->i++;
-	}
-	return (0);
-}
-
-int	cmd_export(char **cmd, t_shell *shell)
-{
-	t_export	export;
-
-	shell->i = 0;
-	shell->j = 0;
-	init_export(&export);
-	if (!cmd[1])
-	{	
-		shell->tab_env = env_in_tab(shell);
-		if (shell->tab_env == NULL)
-			return (1);
-		while (shell->tab_env[shell->i])
-			shell->i++;
-		sort_env(shell->tab_env, shell->i);
-		print_export(shell);
-		free (shell->tab_env);
-		return (0);
+		free(export->compare);
+		export->compare = NULL;
+		export->compare = ft_strcpy_concataine(str);
+		if (concataine_var(export, str) == -1)
+			return (free(export->compare), -1);
 	}
 	else
 	{
-		shell->i = 1;
-		if (check_var_env(&export, shell, cmd) == 1)
+		if (replace_or_create_var(ms, export, str) == -1)
+			return (free(export->compare), -1);
+	}
+	return (free(export->compare), 0);
+}
+
+int	add_var(char **cmd, t_export *ex, t_minishell *ms)
+{
+	if (check_if_var_exist(cmd[ex->k], ms) == 0)
+	{
+		ex->element = ft_lstnew_env(cmd[ex->k]);
+		if (ex->element == NULL)
+			return (1);
+		ft_lstadd_back_env(&ms->environ, ex->element);
+	}
+	return (0);
+}
+
+int	check_var_env(t_export *ex, t_minishell *ms, char **cmd)
+{
+	while (cmd[ex->k])
+	{
+		ex->tmp = ms->environ;
+		ex->j = 0;
+		while (cmd[ex->k][ex->j])
+		{
+			if (cmd[ex->k][ex->j] == '=' && ex->j > 0 && cmd[ex->k][0] != '+')
+				ex->var_env = 1;
+			ex->j++;
+		}
+		if (ex->var_env == 0)
+		{
+			if (add_var(cmd, ex, ms) == 1)
+				return (1);
+		}
+		else
+		{
+			if (replace_var_env(ms, cmd[ex->k], ex) == -1)
+				return (1);
+		}
+		ex->k++;
+	}
+	return (0);
+}
+
+int	cmd_export(t_minishell *m)
+{
+	t_export	export;
+	int			i;
+	int			type;
+
+	i = 0;
+	init_export(&export);
+	type = m->parse[m->index_cmd].type;
+	if (type == REDIR_L || type == REDIR_R || type == APPEND
+		|| !m->parse[m->index_cmd].tab_cmd[1])
+	{	
+		while (m->tab_env[i])
+			i++;
+		sort_env(m->tab_env, i);
+		print_export(m);
+		free(m->tab_env);
+		m->tab_env = NULL;
+	}
+	else
+	{
+		if (check_var_env(&export, m, m->parse[m->index_cmd].tab_cmd) == 1)
 			return (1);
 	}
 	return (0);
