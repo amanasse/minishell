@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:21:36 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/28 11:28:28 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/12/01 17:50:31 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_export
 	int				i;
 	int				j;
 	int				k;
+	int				l;
 	int				var_env;
 	char			*compare;
 	int				is_ok;
@@ -72,6 +73,8 @@ typedef struct s_unset
 void	init_unset(t_unset *unset);
 
 void	init_export(t_export *export);
+int		concataine_var(t_export *ex, char *str);
+int		count_str(char *str);
 char	**print_sort_env(char **tab, int size);
 
 int		cmd_exit(char **cmd);
@@ -81,12 +84,12 @@ void	init_echo(t_echo *echo);
 int		cmd_echo(char **cmd);
 void	parse_cmd_n(t_echo *e, char **cmd);
 int		cmd_echo2(t_echo *echo, char **cmd);
-
 int		check_builtins(char **cmd);
 
 /*UTILS*/
 char	*ft_strcpy(char *dest, char *src);
 char	*ft_strcpy_egal(char *dest, char *src);
+char 	*ft_strcpy_concataine(char *src);
 char	*ft_strcat_mini(char *dest, char *src);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_str_is_numeric(char *str);

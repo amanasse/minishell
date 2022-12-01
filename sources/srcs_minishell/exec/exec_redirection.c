@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:05:50 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/01 16:17:01 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/01 17:41:15 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,17 @@ char	**make_new_tab_cmd(t_minishell *minishell, int i, int j)
 	return (new_tab_cmd);
 }
 
-void	exec_redir_right(t_minishell *minishell)
+void	exec_redir_right(t_minishell *minishell, int *pipefd)
 {
-	if (minishell->parse[minishell->index_cmd].fd_out >= 0)
-		dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT_FILENO);
-	if (minishell->parse[minishell->index_cmd].fd_in >= 0)
-		dup2(0, STDIN_FILENO);
+	if (minishell->index_cmd < minishell->count)
+		dup2(pipefd[1], STDOUT_FILENO);
+	else
+	{
+		if (minishell->parse[minishell->index_cmd].fd_out >= 0)
+			dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT_FILENO);
+		if (minishell->parse[minishell->index_cmd].fd_in >= 0)
+			dup2(minishell->parse[minishell->index_cmd].fd_in, STDIN_FILENO);
+	}
 }
 
 void	exec_redir_left(t_minishell *minishell, int *pipefd)
@@ -110,7 +115,7 @@ void	exec_redirection(t_minishell *mini, int *pipefd)
 		}
 		if (mini->parse[mini->index_cmd].type == REDIR_R
 			|| mini->parse[mini->index_cmd].type == APPEND)
-			exec_redir_right(mini);
+			exec_redir_right(mini, pipefd);
 		else if (mini->parse[mini->index_cmd].type == HEREDOC)
 			exec_heredoc(mini, pipefd);
 		else if (mini->parse[mini->index_cmd].type == REDIR_L)

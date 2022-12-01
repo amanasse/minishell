@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/01 12:10:28 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/01 18:29:28 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_minishell
 	t_env		*environ;
 	char		**tab_env;
 	char		line_heredoc[3];
+	char		*filename;
 	int			count;
 	int			bool;
 	int			index_cmd;
@@ -88,14 +89,19 @@ void	env_in_tab(t_minishell *minishell);
 int		copy_of_env(char **env, t_minishell *minishell);
 int		replace_var_env(t_minishell *ms, char *str, t_export *export);
 int		check_var_env(t_export *export, t_minishell *ms, char **cmd);
+int		concataine_var(t_export *export, char *str);
 
 /*export*/
 int		cmd_export(t_minishell *minishell);
+void	print_export(t_minishell *ms);
+int 	check_if_var_exist(char *str, t_minishell *ms);
 int		check_var_env(t_export *export, t_minishell *minishell, char **cmd);
 
 /*PARSING*/
 int		ft_lexer(t_minishell *minishell, char *str, int i);
 int		ft_lexer_redirection(int i, char *str, t_minishell *mini);
+void	ft_fill_parse_redir_l_r(t_minishell *ms, t_lstms *temp, int j, int i);
+void	ft_fill_parse(t_minishell *ms, t_lstms *temp, int j, int i);
 void	ft_build_struc_parse(t_minishell *minishell, int count);
 void	ft_fill_tab_cmd(t_lstms *temp, t_minishell *ms);
 int		ft_clean_lst(t_minishell *minishell);
@@ -114,6 +120,7 @@ int		execution(t_minishell *minishell);
 char	**make_new_tab_cmd(t_minishell *minishell, int i, int j);
 void	exec_redirection(t_minishell *minishell, int *pipefd);
 void	exec_redir_left(t_minishell *minishell, int *pipefd);
+void	exec_redir_right(t_minishell *minishell, int *pipefd);
 void	exec_builtin(t_minishell *minishell, int *pipefd);
 void	exec_pipe(t_minishell *minishell, int *pipefd);
 char	**new_cmd_heredoc(t_minishell *minishell, char **cmd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 13:54:52 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/17 16:38:06 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/01 17:23:34 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,29 @@ char	*ft_strcpy_egal(char *dest, char *src)
 
 	i = 0;
 	while (src[i] != '=')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '=';
+	i++;
+	dest[i] = '\0';
+	return (dest);
+}
+
+char	*ft_strcpy_concataine(char *src)
+{
+	int		i;
+	char	*dest;
+
+	i = 0;
+	while (src[i] && src[i] != '+')
+	{
+		i++;
+	}
+	dest = malloc(sizeof(char) * i + 2);
+	i = 0;
+	while (src[i] != '+')
 	{
 		dest[i] = src[i];
 		i++;
