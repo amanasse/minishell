@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/01 13:10:57 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/01 13:11:48 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ char	*get_value_var(t_minishell *m, char *replace, char *str, int i)
 		{
 			while (tmp->str && tmp->str[j] != '=' && tmp->str[j] != '\0')
 				j++;
-			if (tmp->str[j] == '=' && j == (int)ft_strlen(replace) && tmp->str[j] != '\0')
+			if (tmp->str[j] == '=' && j == (int)ft_strlen(replace)
+				&& tmp->str[j] != '\0')
 			{
 				value = ft_substr(tmp->str, j + 1, ft_strlen(tmp->str));
 				if (value)

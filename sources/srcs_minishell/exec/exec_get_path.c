@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_get_path.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 13:39:30 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/30 10:49:04 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/12/01 15:33:15 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*get_path_2(char **split_paths, char **cmd, t_minishell *m)
 	char	*path;
 	char	*path_slash;
 
-	while (split_paths[m->i])
+	while (split_paths[m->i] && cmd[0])
 	{
 		path_slash = ft_strjoin(split_paths[m->i], "/");
 		if (path_slash == NULL)

@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:29:36 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/01 11:42:14 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/01 15:36:56 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	ft_fill_parse_redir_l_r(t_parse *parse, t_lstms *temp, int j, int i)
 	parse[j].tab_cmd[i] = temp->str;
 	if (temp->type == REDIR_L)
 	{
+		if (parse[j].file_in)
+			free(parse[j].file_in);
 		parse[j].file_in = ft_strncpy(temp->str, ft_strlen(temp->str));
 		free(temp->str);
 		parse[j].fd_in = open(parse[j].file_in, O_RDONLY, S_IRWXU);
@@ -27,6 +29,8 @@ void	ft_fill_parse_redir_l_r(t_parse *parse, t_lstms *temp, int j, int i)
 	}
 	else if (temp->type == REDIR_R)
 	{
+		if (parse[j].file_in)
+			free(parse[j].file_in);
 		parse[j].file_in = ft_strncpy(temp->str, ft_strlen(temp->str));
 		free(temp->str);
 		parse[j].fd_in = STDIN_FILENO;
@@ -49,10 +53,13 @@ void	ft_fill_parse(t_parse *parse, t_lstms *temp, int j, int i)
 		parse[j].fd_in = STDIN_FILENO;
 		parse[j].fd_out = STDOUT_FILENO;
 		parse[j].delim = ft_strncpy(temp->str, ft_strlen(temp->str));
+		free(temp->str);
 		parse[j].tab_cmd[i] = ft_calloc(1, 1);
 	}
 	else if (temp->type == APPEND)
 	{
+		if (parse[j].file_in)
+			free(parse[j].file_in);
 		parse[j].file_in = ft_strncpy(temp->str, ft_strlen(temp->str));
 		free(temp->str);
 		parse[j].fd_in = STDIN_FILENO;
