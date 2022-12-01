@@ -63,12 +63,12 @@ ${NAME} :	${OBJS}
 all :		minishell
 
 clean:
-			rm -f ${OBJS} ${DEPS}
-			make -C ./sources/libft clean
+			@rm -f ${OBJS} ${DEPS}
+			@echo "$(BLUE)Minishell cleaned$(DEF_COLOR)"
 
 fclean:		clean
-			rm -f minishell
-			make -C ./sources/libft fclean
+			@make -C ./sources/libft fclean
+			@rm -f minishell
 
 re:			fclean all
 

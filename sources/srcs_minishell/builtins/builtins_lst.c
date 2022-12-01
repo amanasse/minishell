@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:38:05 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/17 17:01:37 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/01 11:57:29 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ void	ft_view_env(t_env *lst)
 	while (lst->next != NULL)
 	{
 		if (lst->printable == 1)
-			printf("[%d]%s\n", i, lst->str);
+			printf("%s\n", lst->str);
 		lst = lst->next;
 		i++;
 	}
 	if (lst->printable == 1)
-		printf("[%d]%s\n", i, lst->str);
+		printf("%s\n", lst->str);
 }
 
 void	ft_lstclear_env(t_env *lst)

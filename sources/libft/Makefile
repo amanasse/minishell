@@ -85,7 +85,8 @@ ${NAME}:	${OBJS}
 all :		${NAME}
 
 clean:
-			@rm -f ${OBJS} ${DEPS} 
+			@rm -f ${OBJS} ${DEPS}
+			@echo "$(GREEN)Libft cleaned$(DEF_COLOR)"
 
 fclean:		clean
 			@rm -f ${NAME}

@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/30 14:52:37 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/01 12:10:28 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ char	*ft_clean_temp_str(char *str, t_minishell *minishell, int i);
 char	*ft_clean_simple_quotes(char *str, t_minishell *minishell, int i);
 char	*ft_replace_dollar(char *str, char *new_str, t_minishell *minishell);
 char	*ft_replace_var(char *str, t_minishell *minishell);
+char	*get_value_var(t_minishell *m, char *to_replace, char *str, int i);
 
 /*EXEC*/
 char	*get_path(t_env *environ, char **cmd, t_minishell *minishell);
