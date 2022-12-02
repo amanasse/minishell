@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/30 16:27:16 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/02 16:47:25 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_parse
 	int		fd_heredoc;
 	int		type;
 	int		if_pipe;
+	int		file_already_exists;
 	int		if_heredoc;
 }			t_parse;
 

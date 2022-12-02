@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 11:19:20 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/01 11:27:16 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/02 18:27:03 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ char	*ft_clean_temp_str(char *str, t_minishell *minishell, int i)
 		}
 		else if (str[i] == '$' && str[i + 1] != '$')
 		{
+			if (str[0] == '$' && str[i + 1] == '\0')
+				return (free(str), free(new_str), "$");
 			new_str = ft_replace_dollar(str + i, new_str, minishell);
 			i = while_char_is_caract(str, i);
 		}

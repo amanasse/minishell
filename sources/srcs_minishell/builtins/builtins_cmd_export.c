@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_cmd_export.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 14:29:14 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/01 17:24:32 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/12/02 17:18:50 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,11 @@ int	check_var_env(t_export *ex, t_minishell *ms, char **cmd)
 	{
 		ex->tmp = ms->environ;
 		ex->j = 0;
+		if (cmd[ex->k][0] == '\0')
+		{
+			printf("minishell: export: not a valid identifier\n");
+				return (1);
+		}
 		while (cmd[ex->k][ex->j])
 		{
 			if (cmd[ex->k][ex->j] == '=' && ex->j > 0 && cmd[ex->k][0] != '+')

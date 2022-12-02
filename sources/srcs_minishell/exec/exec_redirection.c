@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:05:50 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/02 15:56:40 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/02 18:02:53 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	exec_redirection(t_minishell *mini, int *pipefd)
 			mini->parse[mini->index_cmd].file_in);
 		exit(1);
 	}
-	if (cmd[0][0] != '\0')
+	if (cmd[0])
 	{
 		path = get_path(mini->environ, cmd, mini);
 		if (path == NULL)

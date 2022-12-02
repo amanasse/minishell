@@ -6,35 +6,11 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:29:36 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/02 15:11:05 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/02 17:56:38 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_fill_parse_redir_l_r(t_minishell *ms, t_lstms *temp, int j, int i)
-{
-	if (ms->parse[j].file_in)
-		free(ms->parse[j].file_in);
-	ms->parse[j].file_in = ft_strncpy(temp->str, ft_strlen(temp->str));
-	free(temp->str);
-	if (temp->type == REDIR_L)
-	{
-		ms->parse[j].fd_in = open(ms->parse[j].file_in, O_RDONLY, 0644);
-		if (ms->parse[j].fd_in == -1)
-			printf("minishell: %s: No such file or directory\n", temp->str);
-		ms->parse[j].fd_out = STDOUT_FILENO;
-	}
-	else if (temp->type == REDIR_R)
-	{
-		ms->parse[j].fd_in = STDIN_FILENO;
-		ms->parse[j].fd_out = open(ms->parse[j].file_in, O_WRONLY | O_CREAT, 0644);
-		if (ms->parse[j].fd_out == -1)
-			printf("minishell: %s: No such file or directory\n", temp->str);
-		// ms->fd = ms->parse[j].fd_out;
-	}	
-	ms->parse[j].tab_cmd[i] = ft_calloc(1, 1);
-}
 
 int	ft_check_if_file_exists(t_parse *parse, int j)
 {
@@ -60,6 +36,46 @@ int	ft_check_if_file_exists(t_parse *parse, int j)
 	return (0);
 }
 
+void	ft_fill_parse_redir_l_r(t_minishell *ms, t_lstms *temp, int j, int i)
+{
+	int	k;
+	
+	// if (ms->parse[j].file_in)
+	// 	free(ms->parse[j].file_in);
+	if (temp->type == REDIR_L)
+	{
+		ms->parse[j].file_in = ft_strncpy(temp->str, ft_strlen(temp->str));
+		ms->parse[j].fd_in = open(ms->parse[j].file_in, O_RDONLY, 0644);
+		if (ms->parse[j].fd_in == -1)
+			printf("minishell: %s: No such file or directory\n", temp->str);
+		free(temp->str);
+		ms->parse[j].fd_out = STDOUT_FILENO;
+	}
+	else if (temp->type == REDIR_R)
+	{
+		// if (ms->parse[j].file_in)
+		// 	free(ms->parse[j].file_in);
+		ms->parse[j].file_in = ft_strncpy(temp->str, ft_strlen(temp->str));
+		ms->parse[j].fd_in = STDIN_FILENO;
+		ms->parse[j].fd_out = open(ms->parse[j].file_in, O_WRONLY | O_CREAT, 0644);
+		if (ms->parse[j].fd_out == -1)
+			printf("minishell: %s: No such file or directory\n", temp->str);
+		free(temp->str);
+		if (ft_check_if_file_exists(ms->parse, j) == 1)
+			ms->parse[j].file_already_exists = 1;
+		if (ms->parse[j].file_already_exists == 1)
+		{
+			k = j;
+			while (k >= 0)
+			{
+				ms->parse[j].tab_cmd[k] = ft_calloc(1, 1);
+				k--;
+			}
+		}
+	}	
+	ms->parse[j].tab_cmd[i] = ft_calloc(1, 1);
+}
+
 void	ft_fill_parse(t_minishell *ms, t_lstms *temp, int j, int i)
 {
 	ms->parse[j].tab_cmd[i] = temp->str;
@@ -77,19 +93,17 @@ void	ft_fill_parse(t_minishell *ms, t_lstms *temp, int j, int i)
 	}
 	else if (temp->type == APPEND)
 	{
-		if (ms->parse[j].file_in)
-			free(ms->parse[j].file_in);
+		// if (ms->parse[j].file_in)
+		// 	free(ms->parse[j].file_in);
+		ms->parse[j].fd_in = STDIN_FILENO;
 		ms->parse[j].file_in = ft_strncpy(temp->str, ft_strlen(temp->str));
 		free(temp->str);
-		ms->parse[j].fd_in = STDIN_FILENO;
 		ms->parse[j].fd_out = open(ms->parse[j].file_in, O_WRONLY
 				| O_APPEND | O_CREAT, 0644);
 		if (ms->parse[j].fd_out == -1)
 			printf("minishell: %s: No such file or directory\n", temp->str);
 		ms->parse[j].tab_cmd[i] = ft_calloc(1, 1);
 	}
-	if (ft_check_if_file_exists(ms->parse, j) == 1)
-		ms->parse[j].tab_cmd[0] = ft_calloc(1, 1);
 }
 
 void	ft_fill_tab_cmd(t_lstms *temp, t_minishell *ms)
@@ -102,6 +116,7 @@ void	ft_fill_tab_cmd(t_lstms *temp, t_minishell *ms)
 	{
 		ms->i_parse = 0;
 		nb_cmd = ft_count_cmd(temp);
+		ms->parse[j].file_already_exists = 0;
 		ms->parse[j].tab_cmd = malloc(sizeof(char *) * (nb_cmd + 1));
 		if (ms->parse[j].tab_cmd == NULL)
 			return ;
