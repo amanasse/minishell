@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:47:06 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/01 16:55:09 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/02 12:14:15 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@ void	free_parse(t_minishell *minishell)
 		if (minishell->parse[minishell->index_cmd].delim)
 			free(minishell->parse[minishell->index_cmd].delim);
 		if (minishell->parse[minishell->index_cmd].file_in)
+		{
 			free(minishell->parse[minishell->index_cmd].file_in);
+			minishell->parse[minishell->index_cmd].file_in = NULL;
+			minishell->filename = NULL;
+		}
 		minishell->index_cmd++;
 	}
 	minishell->index_cmd = 0;
