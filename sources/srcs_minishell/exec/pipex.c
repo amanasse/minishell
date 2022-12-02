@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/02 12:08:40 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/02 15:28:21 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,6 @@ int	execution(t_minishell *minishell)
 		free(minishell->tab_env);
 		minishell->tab_env = NULL;
 		close(pipefd[1]);
-		printf("sortie fork fd_in  = %d cmd = %s\n", minishell->parse[minishell->index_cmd].fd_in, minishell->parse[minishell->index_cmd].tab_cmd[0]);
-		printf("sortie fork fd_out  = %d cmd = %s\n", minishell->parse[minishell->index_cmd].fd_out, minishell->parse[minishell->index_cmd].tab_cmd[0]);
-		printf("STDIN_FILENO = %d, STDOUT_FILENO = %d\n", STDIN_FILENO, STDOUT_FILENO);
 		if (minishell->parse[minishell->index_cmd].fd_out
 			!= STDOUT_FILENO && minishell->parse[minishell->index_cmd].fd_out != -1)
 			close(minishell->parse[minishell->index_cmd].fd_out);

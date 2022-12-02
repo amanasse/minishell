@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/02 12:36:19 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/02 14:10:06 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_minishell
 	t_env		*environ;
 	char		**tab_env;
 	char		line_heredoc[3];
-	char		*filename;
+	// char		**filename;
 	int			count;
 	int			bool;
 	int			index_cmd;
