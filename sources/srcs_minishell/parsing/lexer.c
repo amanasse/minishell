@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/30 14:56:27 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/05 10:57:44 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ int	check_errors_before_lexer(char *str)
 		return (printf("%s\n", ERR_SYNTAX), -1);
 	else if (str && (str[0] == '|' || str[0] == '>' || str[0] == '<')
 		&& str[1] == '\0')
-		return (printf("%s '%c'\n", ERR_SY_TOK, str[0]), -1);
+		return (printf("%s '%c'\n", ERR_TOK, str[0]), -1);
 	else if (str && (str[0] == '<' && str[1] == '<') && str[2] == '\0')
-		return (printf("%s '%c%c'\n", ERR_SY_TOK, str[0], str[1]), -1);
+		return (printf("%s '%c%c'\n", ERR_TOK, str[0], str[1]), -1);
 	return (0);
 }
 
@@ -71,39 +71,31 @@ static int	ft_lexer_pipe(t_minishell *mini, char *str, int i)
 	return (i);
 }
 
-int	ft_lexer(t_minishell *minishell, char *str, int i)
+int	ft_lexer(t_minishell *m, char *s, int i)
 {
-	int	j;
-
-	if (str && (check_errors_before_lexer(str) == -1))
+	if (s && (check_errors_before_lexer(s) == -1))
 		return (0);
-	while (str && str[i] != '\0')
+	while (s && s[i] != '\0')
 	{
-		if (str[i] == '"' || str[i] == '\'')
-			i = ft_lexer_quotes(i, str, minishell);
-		else if (str[i] == '<' || str[i] == '>')
+		if (s[i] == '"' || s[i] == '\'')
+			i = ft_lexer_quotes(i, s, m);
+		else if (s[i] == '<' || s[i] == '>')
 		{
-			j = i;
-			i = ft_lexer_redirection(i, str, minishell);
+			m->j = i;
+			i = ft_lexer_redirection(i, s, m);
 			if (i == -1)
-			{
-				minishell->error = 1;
-				return (printf("%s '%c'\n", ERR_SY_TOK, str[j]), 0);
-			}
+				return (m->error = 1, printf("%s '%c'\n", ERR_TOK, s[m->j]), 0);
 		}
-		else if (str[i] == '|')
+		else if (s[i] == '|')
 		{
-			i = ft_lexer_pipe(minishell, str, i);
+			i = ft_lexer_pipe(m, s, i);
 			if (i == -1)
-			{
-				minishell->error = 1;
-				return (printf("%s '%c'\n", ERR_SY_TOK, str[0]), -1);
-			}
+				return (m->error = 1, printf("%s '%c'\n", ERR_TOK, s[0]), -1);
 		}
-		else if (str[i] == ' ')
+		else if (s[i] == ' ')
 			i++;
 		else
-			i = ft_lexer_others(i, str, minishell);
+			i = ft_lexer_others(i, s, m);
 	}
 	return (1);
 }

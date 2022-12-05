@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:50:17 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/02 15:26:35 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/05 10:36:00 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,6 @@ void	signal_child(void)
 	signal(SIGQUIT, SIG_DFL);
 }
 
-void	ft_init_all(t_minishell *minishell, char **env, char *prompt)
-{
-	prompt[0] = '$';
-	prompt[1] = '>';
-	prompt[2] = ' ';
-	prompt[3] = '\0';
-	ft_memset(minishell, 0, sizeof(t_minishell));
-	g_minishell = minishell;
-	copy_of_env(env, minishell);
-	minishell->line_heredoc[0] = '>';
-	minishell->line_heredoc[1] = ' ';
-	minishell->line_heredoc[2] = '\0';
-}
-
 int	main(int argc, char **argv, char **env)
 {
 	char			prompt[4];
@@ -96,8 +82,6 @@ int	main(int argc, char **argv, char **env)
 			if (execution(&minishell) == -1)
 				return (0);
 		}
-		minishell.error = 0;
-		add_history(str);
 		control_d_or_clear(str, &minishell);
 	}
 	return (0);

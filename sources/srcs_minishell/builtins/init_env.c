@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 11:57:06 by amanasse          #+#    #+#             */
-/*   Updated: 2022/11/28 11:25:46 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/12/05 10:15:38 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,18 @@ int	copy_of_env(char **env, t_minishell *minishell)
 		i++;
 	}
 	return (0);
+}
+
+void	ft_init_all(t_minishell *minishell, char **env, char *prompt)
+{
+	prompt[0] = '$';
+	prompt[1] = '>';
+	prompt[2] = ' ';
+	prompt[3] = '\0';
+	ft_memset(minishell, 0, sizeof(t_minishell));
+	g_minishell = minishell;
+	copy_of_env(env, minishell);
+	minishell->line_heredoc[0] = '>';
+	minishell->line_heredoc[1] = ' ';
+	minishell->line_heredoc[2] = '\0';
 }

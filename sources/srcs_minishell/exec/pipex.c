@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/02 18:08:08 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/05 10:06:32 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ int	execution(t_minishell *minishell)
 		env_in_tab(minishell);
 		if (minishell->tab_env == NULL)
 			return (-1);
+		// tmp_pipefd = 0;
 		ft_fork(minishell, pipefd, tmp_pipefd);
-		tmp_pipefd = 0;
 		free(minishell->tab_env);
 		minishell->tab_env = NULL;
 		close(pipefd[1]);

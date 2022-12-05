@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/02 16:47:25 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/05 10:45:00 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_parse
 /*ERRORS*/
 # define ERR_CHEVRON "syntax error near unexpected token"
 # define ERR_SYNTAX "minishell: syntax error near unexpected token 'newline'"
-# define ERR_SY_TOK "minishell: syntax error near unexpected token"
+# define ERR_TOK "minishell: syntax error near unexpected token"
 
 t_lstms	*ft_lstnew_ms(void *content, int type);
 void	ft_lstadd_back_ms(t_lstms **lst, t_lstms *new);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/02 17:48:10 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/05 11:11:52 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,12 @@ typedef struct s_minishell
 	int			count;
 	int			bool;
 	int			index_cmd;
+	int			nb_cmd;
 	int			fd;
 	int			fd_heredoc;
 	int			i;
+	int			j;
+	int 		k;
 	int			i_parse;
 	int			quote;
 	int			error;
@@ -112,9 +115,11 @@ char	*ft_replace_var(char *str, t_minishell *minishell);
 char	*get_value_var(t_minishell *m, char *to_replace, char *str, int i);
 
 /*EXEC*/
+void	ft_init_all(t_minishell *minishell, char **env, char *prompt);
 char	*get_path(t_env *environ, char **cmd, t_minishell *minishell);
 int		ft_fork(t_minishell *minishell, int *pipefd, int tmp_fd);
 void	free_parse(t_minishell *minishell);
+void	free_delim_and_file_in(t_minishell *minishell);
 void	control_d_or_clear(char *str, t_minishell *minishell);
 int		execution(t_minishell *minishell);
 char	**make_new_tab_cmd(t_minishell *minishell, int i, int j);
