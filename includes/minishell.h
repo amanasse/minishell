@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/05 16:33:24 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/12/05 18:19:15 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ typedef struct s_minishell
 	char		*value;
 	char		*get_value;
 	char		*new_str;
+	char		*tmp;
+	char		*tmp2;
 	char		line_heredoc[3];
 	int			count;
 	int			bool;
@@ -63,6 +65,7 @@ typedef struct s_minishell
 	int			j;
 	int			k;
 	int			l;
+	int			m;
 	int			i_parse;
 	int			quote;
 	int			error;

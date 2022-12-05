@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_get_path.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 13:39:30 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/02 18:00:52 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/05 17:48:08 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,20 @@ char	*check_path(t_env *environ, t_minishell *minishell)
 char	*get_path_2(char **split_paths, char **cmd, t_minishell *m)
 {
 	char	*path;
+	char	*tmp;
 	char	*path_slash;
 
+	m->i = 0;
 	while (split_paths[m->i] && cmd[0])
 	{
 		path_slash = ft_strjoin(split_paths[m->i], "/");
 		if (path_slash == NULL)
 			return (free_split_paths(m, split_paths), NULL);
+		tmp = path_slash;
 		path = ft_strjoin(path_slash, cmd[0]);
+		free(tmp);
 		if (path == NULL)
-			return (free(path_slash), free_split_paths(m, split_paths), NULL);
-		free(path_slash);
+			return (free_split_paths(m, split_paths), NULL);
 		if (access(path, F_OK) == 0)
 			return (m->shell.status = 0, path);
 		free(path);

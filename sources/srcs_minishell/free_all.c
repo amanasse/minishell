@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:47:06 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/05 12:25:56 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/12/05 17:59:52 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ void	free_parse(t_minishell *minishell)
 		while (minishell->parse[minishell->index_cmd].tab_cmd[i])
 		{
 			if (minishell->parse[minishell->index_cmd].tab_cmd[i])
+			{
 				free(minishell->parse[minishell->index_cmd].tab_cmd[i]);
+				minishell->parse[minishell->index_cmd].tab_cmd[i] = NULL;
+			}
 			i++;
 		}
 		free(minishell->parse[minishell->index_cmd].tab_cmd);

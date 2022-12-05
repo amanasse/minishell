@@ -17,6 +17,7 @@ SRCS    = 	main.c\
 		parsing/clean_tmp_str.c\
 		parsing/check_separators.c\
 		parsing/lexer_redirection.c\
+		parsing/parsing_utils.c\
 		parsing/init_tab_cmd.c\
 		parsing/fill_tab_cmd.c\
 		parsing/fill_tab_redir.c\
