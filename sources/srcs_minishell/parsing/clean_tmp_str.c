@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_tmp_str.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 11:19:20 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/02 18:27:03 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/05 12:26:39 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,34 +69,32 @@ char	*ft_stock_str(char *old_str, char c)
 	return (free(old_str), old_str = NULL, new_str);
 }
 
-char	*ft_clean_temp_str(char *str, t_minishell *minishell, int i)
+char	*ft_clean_temp_str(char *str, t_minishell *ms, int i)
 {
-	char	*new_str;
-
-	new_str = NULL;
+	ms->new_str = NULL;
 	while (str[i])
 	{
 		if (str[i] == '"')
-			minishell->quote = in_a_quote(minishell);
+			ms->quote = in_a_quote(ms);
 		else if (str[i] == '\'')
 		{
-			if (minishell->quote == 1)
-				new_str = ft_stock_str(new_str, str[i]);
+			if (ms->quote == 1)
+				ms->new_str = ft_stock_str(ms->new_str, str[i]);
 		}
 		else if (str[i] == '$' && str[i + 1] != '$')
 		{
 			if (str[0] == '$' && str[i + 1] == '\0')
-				return (free(str), free(new_str), "$");
-			new_str = ft_replace_dollar(str + i, new_str, minishell);
+				return (free(str), free(ms->new_str), "$");
+			ms->new_str = ft_replace_dollar(str + i, ms->new_str, ms);
 			i = while_char_is_caract(str, i);
 		}
 		else
-			new_str = ft_stock_str(new_str, str[i]);
+			ms->new_str = ft_stock_str(ms->new_str, str[i]);
 		i++;
 	}
-	if (new_str == NULL)
-		new_str = ft_malloc(1);
-	return (free(str), str = NULL, new_str);
+	if (ms->new_str == NULL)
+		ms->new_str = ft_malloc(1);
+	return (free(str), str = NULL, ms->new_str);
 }
 
 int	ft_clean_lst(t_minishell *minishell)

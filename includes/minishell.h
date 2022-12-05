@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/05 11:11:52 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/12/05 12:28:02 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ typedef struct s_minishell
 	t_lstms		*lstms;
 	t_parse		*parse;
 	t_env		*environ;
+	t_env		*tmp;
 	char		**tab_env;
+	char		*new_str;
 	char		line_heredoc[3];
 	int			count;
 	int			bool;

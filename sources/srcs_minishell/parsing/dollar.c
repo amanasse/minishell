@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/02 18:15:03 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/05 12:31:00 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,30 +36,29 @@ char	*ft_replace_dollar(char *str, char *new_str, t_minishell *minishell)
 char	*get_value_var(t_minishell *m, char *replace, char *str, int i)
 {
 	char	*value;
-	t_env	*tmp;
 	int		j;
-	
+
 	j = 0;
 	value = NULL;
 	replace = ft_substr(str, 1, i);
-	tmp = m->environ;
+	m->tmp = m->environ;
 	if (replace == NULL)
 		return (NULL);
-	while (tmp)
+	while (m->tmp)
 	{
-		if (ft_strncmp(tmp->str, replace, ft_strlen(replace)) == 0)
+		if (ft_strncmp(m->tmp->str, replace, ft_strlen(replace)) == 0)
 		{
-			while (tmp->str && tmp->str[j] != '=' && tmp->str[j] != '\0')
+			while (m->tmp->str && m->tmp->str[j] != '=' && m->tmp->str[j] != '\0')
 				j++;
-			if (tmp->str[j] == '=' && j == (int)ft_strlen(replace)
-				&& tmp->str[j] != '\0')
+			if (m->tmp->str[j] == '=' && j == (int)ft_strlen(replace)
+				&& m->tmp->str[j] != '\0')
 			{
-				value = ft_substr(tmp->str, j + 1, ft_strlen(tmp->str));
+				value = ft_substr(m->tmp->str, j + 1, ft_strlen(m->tmp->str));
 				if (value)
 					return (free(replace), value);
 			}
 		}
-		tmp = tmp->next;
+		m->tmp = m->tmp->next;
 	}
 	if (value == NULL)
 		value = "";

@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/05 10:45:00 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/12/05 11:52:14 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,6 @@ int		check_if_quotes_are_closed(char *str, int i);
 int		ft_count_cmd(t_lstms *lex);
 void	ft_print_struc_parse(t_parse *parse, int count);
 void	ft_init_struc_parse(t_parse *parse, int i);
+int		ft_check_if_file_exists(t_parse *parse, int j);
 
 #endif

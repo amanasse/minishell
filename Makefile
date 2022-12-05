@@ -19,6 +19,7 @@ SRCS    = 	main.c\
 		parsing/lexer_redirection.c\
 		parsing/init_tab_cmd.c\
 		parsing/fill_tab_cmd.c\
+		parsing/fill_tab_redir.c\
 		builtins/init_env.c\
 		builtins/builtins_lst.c\
 		builtins/builtins.c\
