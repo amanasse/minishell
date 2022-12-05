@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/05 12:28:02 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/12/05 14:17:01 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,11 @@ typedef struct s_minishell
 	t_lstms		*lstms;
 	t_parse		*parse;
 	t_env		*environ;
-	t_env		*tmp;
+	t_env		*t;
 	char		**tab_env;
+	char		*replace;
+	char		*value;
+	char		*get_value;
 	char		*new_str;
 	char		line_heredoc[3];
 	int			count;
@@ -59,6 +62,7 @@ typedef struct s_minishell
 	int			i;
 	int			j;
 	int 		k;
+	int			l;
 	int			i_parse;
 	int			quote;
 	int			error;
@@ -114,7 +118,8 @@ char	*ft_clean_temp_str(char *str, t_minishell *minishell, int i);
 char	*ft_clean_simple_quotes(char *str, t_minishell *minishell, int i);
 char	*ft_replace_dollar(char *str, char *new_str, t_minishell *minishell);
 char	*ft_replace_var(char *str, t_minishell *minishell);
-char	*get_value_var(t_minishell *m, char *to_replace, char *str, int i);
+char	*get_value_var(t_minishell *m, char *str, int i);
+int		ft_init_get_value(t_minishell *m, char *s, int i);
 
 /*EXEC*/
 void	ft_init_all(t_minishell *minishell, char **env, char *prompt);
@@ -130,6 +135,7 @@ void	exec_redir_left(t_minishell *minishell, int *pipefd);
 void	exec_redir_right(t_minishell *minishell, int *pipefd);
 void	exec_builtin(t_minishell *minishell, int *pipefd);
 void	exec_pipe(t_minishell *minishell, int *pipefd);
+void	path_errors(char *path, t_minishell *minishell);
 char	**new_cmd_heredoc(t_minishell *minishell, char **cmd);
 int		heredoc(t_minishell *minishell);
 void	signals(void);

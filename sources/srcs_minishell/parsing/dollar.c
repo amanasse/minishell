@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/05 12:31:00 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/12/05 14:09:44 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,67 +33,69 @@ char	*ft_replace_dollar(char *str, char *new_str, t_minishell *minishell)
 	return (free(new_str), free(tmp), tmp2);
 }
 
-char	*get_value_var(t_minishell *m, char *replace, char *str, int i)
+int	ft_init_get_value(t_minishell *m, char *s, int i)
 {
-	char	*value;
-	int		j;
+	m->l = 0;
+	m->get_value = NULL;
+	m->replace = ft_substr(s, 1, i);
+	m->t = m->environ;
+	if (m->replace == NULL)
+		return (-1);
+	return (0);
+}
 
-	j = 0;
-	value = NULL;
-	replace = ft_substr(str, 1, i);
-	m->tmp = m->environ;
-	if (replace == NULL)
+char	*get_value_var(t_minishell *m, char *s, int i)
+{
+	if (ft_init_get_value(m, s, i) == -1)
 		return (NULL);
-	while (m->tmp)
+	while (m->t)
 	{
-		if (ft_strncmp(m->tmp->str, replace, ft_strlen(replace)) == 0)
+		if (ft_strncmp(m->t->str, m->replace, ft_strlen(m->replace)) == 0)
 		{
-			while (m->tmp->str && m->tmp->str[j] != '=' && m->tmp->str[j] != '\0')
-				j++;
-			if (m->tmp->str[j] == '=' && j == (int)ft_strlen(replace)
-				&& m->tmp->str[j] != '\0')
+			while (m->t->str[m->l] != '=' && m->t->str[m->l] != '\0')
+				m->l++;
+			if (m->t->str[m->l] == '=' && m->l == (int)ft_strlen(m->replace)
+				&& m->t->str[m->l] != '\0')
 			{
-				value = ft_substr(m->tmp->str, j + 1, ft_strlen(m->tmp->str));
-				if (value)
-					return (free(replace), value);
+				m->get_value = ft_substr(m->t->str, m->l + 1,
+						ft_strlen(m->t->str));
+				if (m->get_value)
+					return (free(m->replace), m->get_value);
 			}
 		}
-		m->tmp = m->tmp->next;
+		m->t = m->t->next;
 	}
-	if (value == NULL)
-		value = "";
-	return (free(replace), value);
+	if (m->get_value == NULL)
+		m->get_value = "";
+	return (free(m->replace), m->get_value);
 }
 
 char	*ft_replace_var(char *str, t_minishell *minishell)
 {
 	int		i;
-	char	*value;
-	char	*to_replace;
 	char	*tmp_str;
 
 	i = 0;
 	tmp_str = NULL;
-	to_replace = NULL;
-	value = NULL;
+	minishell->value = NULL;
 	if (str[i + 1] == '?')
 	{
-		value = ft_itoa(minishell->shell.status);
-		return (free(to_replace), value);
+		minishell->value = ft_itoa(minishell->shell.status);
+		return (minishell->value);
 	}
 	i = while_char_is_caract(str, i);
-	if (!value)
+	if (!minishell->value)
 	{
-		value = get_value_var(minishell, to_replace, str, i);
-		return (free(to_replace), value);
+		minishell->value = get_value_var(minishell, str, i);
+		return (minishell->value);
 	}
 	if (!tmp_str)
-		tmp_str = ft_strdup(value);
+		tmp_str = ft_strdup(minishell->value);
 	else
-		tmp_str = ft_strjoin(tmp_str, value);
+		tmp_str = ft_strjoin(tmp_str, minishell->value);
 	if (tmp_str == NULL)
-		return (free(to_replace), free(value), NULL);
-	return (free(to_replace), tmp_str);
+		return (free(minishell->value), NULL);
+	return (tmp_str);
 }
 
 char	*ft_malloc(int len)
