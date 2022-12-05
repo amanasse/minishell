@@ -6,17 +6,11 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/05 10:06:32 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/12/05 16:31:36 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	close_fd(int *fd)
-{
-	close(fd[0]);
-	close(fd[1]);
-}
 
 void	close_pipe_and_wait(int tmp_pipefd, t_minishell *minishell)
 {
@@ -49,11 +43,7 @@ int	ft_fork(t_minishell *m, int *pipefd, int tmp_fd)
 	{
 		m->pid = 1;
 		signal_child();
-		if (tmp_fd > 0)
-		{
-			dup2(tmp_fd, 0);
-			close(tmp_fd);
-		}
+		dupper_child(tmp_fd);
 		if (m->parse[m->index_cmd].file_in != NULL
 			|| m->parse[m->index_cmd].delim != NULL)
 			exec_redirection(m, pipefd);
@@ -65,36 +55,28 @@ int	ft_fork(t_minishell *m, int *pipefd, int tmp_fd)
 	return (1);
 }
 
-int	execution(t_minishell *minishell)
+int	execution(t_minishell *m)
 {
 	int	tmp_pipefd;
 	int	pipefd[2];
 
 	tmp_pipefd = 0;
-	minishell->index_cmd = 0;
-	while (minishell->parse[minishell->index_cmd].tab_cmd)
+	m->index_cmd = 0;
+	while (m->parse[m->index_cmd].tab_cmd)
 	{
 		if (pipe(pipefd) == -1)
 			return (-1);
-		env_in_tab(minishell);
-		if (minishell->tab_env == NULL)
+		env_in_tab(m);
+		if (m->tab_env == NULL)
 			return (-1);
-		// tmp_pipefd = 0;
-		ft_fork(minishell, pipefd, tmp_pipefd);
-		free(minishell->tab_env);
-		minishell->tab_env = NULL;
+		ft_fork(m, pipefd, tmp_pipefd);
+		free(m->tab_env);
+		m->tab_env = NULL;
 		close(pipefd[1]);
-		if (minishell->parse[minishell->index_cmd].fd_out
-			!= STDOUT_FILENO && minishell->parse[minishell->index_cmd].fd_out != -1)
-			close(minishell->parse[minishell->index_cmd].fd_out);
-		if (minishell->parse[minishell->index_cmd].fd_in
-			!= STDIN_FILENO && minishell->parse[minishell->index_cmd].fd_in != -1)
-			close(minishell->parse[minishell->index_cmd].fd_in);
-		if (tmp_pipefd > 0)
-			close(tmp_pipefd);
+		check_for_close(m, tmp_pipefd);
 		tmp_pipefd = pipefd[0];
-		minishell->index_cmd++;
+		m->index_cmd++;
 	}
-	close_pipe_and_wait(tmp_pipefd, minishell);
+	close_pipe_and_wait(tmp_pipefd, m);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/05 14:17:01 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/12/05 16:33:24 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_minishell
 	int			fd_heredoc;
 	int			i;
 	int			j;
-	int 		k;
+	int			k;
 	int			l;
 	int			i_parse;
 	int			quote;
@@ -101,9 +101,9 @@ int		check_var_env(t_export *export, t_minishell *ms, char **cmd);
 int		concataine_var(t_export *export, char *str);
 
 /*export*/
-int		cmd_export(t_minishell *minishell);
 void	print_export(t_minishell *ms);
-int 	check_if_var_exist(char *str, t_minishell *ms);
+int		cmd_export(t_minishell *minishell);
+int		check_if_var_exist(char *str, t_minishell *ms);
 int		check_var_env(t_export *export, t_minishell *minishell, char **cmd);
 
 /*PARSING*/
@@ -135,6 +135,7 @@ void	exec_redir_left(t_minishell *minishell, int *pipefd);
 void	exec_redir_right(t_minishell *minishell, int *pipefd);
 void	exec_builtin(t_minishell *minishell, int *pipefd);
 void	exec_pipe(t_minishell *minishell, int *pipefd);
+void	check_for_close(t_minishell *m, int tmp_pipefd);
 void	path_errors(char *path, t_minishell *minishell);
 char	**new_cmd_heredoc(t_minishell *minishell, char **cmd);
 int		heredoc(t_minishell *minishell);

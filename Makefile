@@ -35,6 +35,7 @@ SRCS    = 	main.c\
 		builtins/builtins_cmd_unset.c\
 		exec/pipex.c\
 		exec/exec_redirection.c\
+		exec/exec_close_fd.c\
 		exec/exec_builtin_pipe.c\
 		exec/exec_heredoc.c\
 		exec/exec_get_path.c\

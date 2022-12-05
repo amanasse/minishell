@@ -6,7 +6,7 @@
 /*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 11:16:02 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/28 11:26:22 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/12/05 16:30:19 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ typedef struct s_exec
 }					t_exec;
 
 void	close_fd(int *fd);
+void	dupper_child(int tmp_fd);
 
 #endif

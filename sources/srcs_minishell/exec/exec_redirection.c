@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:05:50 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/02 18:02:53 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/05 16:32:09 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ void	exec_redir_right(t_minishell *minishell, int *pipefd)
 	// 	dup2(pipefd[1], STDOUT_FILENO);
 	// else
 	// {
-		if (minishell->parse[minishell->index_cmd].fd_out >= 0)
-			dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT_FILENO);
-		if (minishell->parse[minishell->index_cmd].fd_in >= 0)
-			dup2(minishell->parse[minishell->index_cmd].fd_in, STDIN_FILENO);
+	if (minishell->parse[minishell->index_cmd].fd_out >= 0)
+		dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT_FILENO);
+	if (minishell->parse[minishell->index_cmd].fd_in >= 0)
+		dup2(minishell->parse[minishell->index_cmd].fd_in, STDIN_FILENO);
 	// }
 }
 

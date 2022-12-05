@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:21:36 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/01 17:50:31 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/05 16:32:25 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int		check_builtins(char **cmd);
 /*UTILS*/
 char	*ft_strcpy(char *dest, char *src);
 char	*ft_strcpy_egal(char *dest, char *src);
-char 	*ft_strcpy_concataine(char *src);
+char	*ft_strcpy_concataine(char *src);
 char	*ft_strcat_mini(char *dest, char *src);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_str_is_numeric(char *str);
