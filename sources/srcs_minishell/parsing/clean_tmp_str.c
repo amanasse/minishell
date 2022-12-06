@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_tmp_str.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 11:19:20 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/05 12:26:39 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/12/06 16:41:37 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,23 +50,20 @@ char	*ft_clean_simple_quotes(char *str, t_minishell *minishell, int i)
 	return (free(str), new_str);
 }
 
-char	*ft_stock_str(char *old_str, char c)
+int	ft_str_is_dollar(t_minishell *ms, char *str, int i)
 {
-	char	*new_str;
-	int		i;
-
-	i = 0;
-	new_str = malloc(sizeof(char) *(ft_strlen(old_str) + 2));
-	if (new_str == NULL)
-		return (NULL);
-	while (old_str && old_str[i])
+	if (str[0] == '$' && str[i + 1] == '\0')
 	{
-		new_str[i] = old_str[i];
-		i++;
+		if (ms->new_str)
+			free(ms->new_str);
+		ms->new_str = malloc(sizeof(char) * 2);
+		ms->new_str[0] = '$';
+		ms->new_str[1] = '\0';
+		return (-1);
 	}
-	new_str[i] = c;
-	new_str[i + 1] = '\0';
-	return (free(old_str), old_str = NULL, new_str);
+	ms->new_str = ft_replace_dollar(str + i, ms->new_str, ms);
+	i = while_char_is_caract(str, i);
+	return (i);
 }
 
 char	*ft_clean_temp_str(char *str, t_minishell *ms, int i)
@@ -83,17 +80,9 @@ char	*ft_clean_temp_str(char *str, t_minishell *ms, int i)
 		}
 		else if (str[i] == '$' && str[i + 1] != '$')
 		{
-			if (str[0] == '$' && str[i + 1] == '\0')
-			{
-				if (ms->new_str)
-					free(ms->new_str);
-				ms->new_str = malloc(sizeof(char) * 2);
-				ms->new_str[0] = '$';
-				ms->new_str[1] = '\0';
+			i = ft_str_is_dollar(ms, str, i);
+			if (i == -1)
 				return (free(str), ms->new_str);
-			}
-			ms->new_str = ft_replace_dollar(str + i, ms->new_str, ms);
-			i = while_char_is_caract(str, i);
 		}
 		else
 			ms->new_str = ft_stock_str(ms->new_str, str[i]);

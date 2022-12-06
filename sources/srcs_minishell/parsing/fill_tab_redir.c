@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 11:49:00 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/06 15:46:58 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/06 16:30:20 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ void	redir_r(t_minishell *ms, t_lstms *temp, int j)
 	ms->parse[j].file_in = ft_strncpy(temp->str, ft_strlen(temp->str));
 	ms->parse[j].fd_in = STDIN_FILENO;
 	ms->parse[j].fd_out = open(ms->parse[j].file_in, O_WRONLY | O_CREAT, 0644);
-	if (ms->parse[j].fd_out == -1)
-		printf("minishell: %s: No such file or directory\n", temp->str);
 	free(temp->str);
 	if (ft_check_if_file_exists(ms->parse, j) == 1)
 		ms->parse[j].file_already_exists = 1;
@@ -63,8 +61,6 @@ void	redir_l(t_minishell *ms, t_lstms *temp, int j)
 {
 	ms->parse[j].file_in = ft_strncpy(temp->str, ft_strlen(temp->str));
 	ms->parse[j].fd_in = open(ms->parse[j].file_in, O_RDONLY, 0644);
-	if (ms->parse[j].fd_in == -1)
-		printf("minishell: %s: No such file or directory\n", temp->str);
 	free(temp->str);
 	ms->parse[j].fd_out = STDOUT_FILENO;
 }
@@ -100,8 +96,6 @@ void	ft_fill_parse(t_minishell *ms, t_lstms *temp, int j, int i)
 		free(temp->str);
 		ms->parse[j].fd_out = open(ms->parse[j].file_in, O_WRONLY
 				| O_APPEND | O_CREAT, 0644);
-		if (ms->parse[j].fd_out == -1)
-			printf("minishell: %s: No such file or directory\n", temp->str);
 		ms->parse[j].tab_cmd[i] = ft_calloc(1, 1);
 	}
 }

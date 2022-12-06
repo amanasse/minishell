@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:05:50 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/06 15:49:05 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/06 16:26:51 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,11 @@ void	exec_redir_right(t_minishell *minishell)
 void	exec_redir_left(t_minishell *minishell, int *pipefd)
 {
 	if (minishell->index_cmd < minishell->count)
+	{
 		dup2(pipefd[1], STDOUT_FILENO);
+		if (minishell->parse[minishell->index_cmd].fd_in >= 0)
+			dup2(minishell->parse[minishell->index_cmd].fd_in, STDIN_FILENO);
+	}
 	else
 	{
 		if (minishell->parse[minishell->index_cmd].fd_out >= 0)
@@ -62,28 +66,29 @@ void	exec_redir_left(t_minishell *minishell, int *pipefd)
 	}
 }
 
-void	exec_heredoc(t_minishell *minishell, int *pipefd)
+void	exec_cmd(t_minishell *mini, char **cmd, int *pipefd)
 {
-	minishell->fd_heredoc = heredoc(minishell);
-	if (minishell->fd_heredoc == -1)
+	char	*path;
+
+	path = get_path(mini->environ, cmd, mini);
+	if (path == NULL)
+	{
+		printf("%s: command not found\n", cmd[0]);
 		exit(1);
-	close(minishell->fd_heredoc);
-	minishell->fd_heredoc = open("heredoc.txt", O_RDONLY);
-	if (minishell->index_cmd < minishell->count)
-		dup2(pipefd[1], STDOUT_FILENO);
-	if (minishell->parse[minishell->index_cmd].fd_out >= 0)
-		dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT_FILENO);
-	if (minishell->fd_heredoc >= 0)
-		dup2(minishell->fd_heredoc, STDIN_FILENO);
-	close(minishell->fd_heredoc);
-	if (open("heredoc.txt", O_RDONLY) != -1)
-		unlink("heredoc.txt");
+	}
+	if (mini->parse[mini->index_cmd].type == REDIR_R
+		|| mini->parse[mini->index_cmd].type == APPEND)
+		exec_redir_right(mini);
+	else if (mini->if_heredoc == 1)
+		exec_heredoc(mini, pipefd);
+	else if (mini->parse[mini->index_cmd].type == REDIR_L)
+		exec_redir_left(mini, pipefd);
+	mini->shell.status = execve(path, cmd, mini->tab_env);
 }
 
 void	exec_redirection(t_minishell *mini, int *pipefd)
 {
 	char	**cmd;
-	char	*path;
 
 	cmd = make_new_tab_cmd(mini, 0, 0);
 	if (mini->parse[mini->index_cmd].delim != NULL && cmd[0] == NULL)
@@ -99,20 +104,5 @@ void	exec_redirection(t_minishell *mini, int *pipefd)
 		exit(1);
 	}
 	if (cmd[0])
-	{
-		path = get_path(mini->environ, cmd, mini);
-		if (path == NULL)
-		{
-			printf("%s: command not found\n", cmd[0]);
-			exit(1);
-		}
-		if (mini->parse[mini->index_cmd].type == REDIR_R
-			|| mini->parse[mini->index_cmd].type == APPEND)
-			exec_redir_right(mini);
-		else if (mini->if_heredoc == 1)
-			exec_heredoc(mini, pipefd);
-		else if (mini->parse[mini->index_cmd].type == REDIR_L)
-			exec_redir_left(mini, pipefd);
-		mini->shell.status = execve(path, cmd, mini->tab_env);
-	}
+		exec_cmd(mini, cmd, pipefd);
 }

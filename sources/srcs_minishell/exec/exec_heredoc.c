@@ -6,13 +6,13 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 14:44:12 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/06 15:24:34 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/06 16:35:22 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_clean_if_quotes_delim(char *str, int i)
+char	*ft_delim(char *str, int i)
 {
 	int		quote;
 	char	*new_str;
@@ -41,24 +41,21 @@ char	*ft_clean_if_quotes_delim(char *str, int i)
 	return (free(str), new_str);
 }
 
-int	heredoc(t_minishell *mini)
+int	heredoc(t_minishell *m)
 {
-	int		fd;
 	char	*line;
 	char	*tmp;
 
-	mini->parse[mini->index_cmd].delim
-		= ft_clean_if_quotes_delim(mini->parse[mini->index_cmd].delim, -1);
-	fd = open("heredoc.txt", O_WRONLY | O_TRUNC | O_CREAT, 0664);
-	if (fd == -1)
+	m->parse[m->index_cmd].delim = ft_delim(m->parse[m->index_cmd].delim, -1);
+	m->fd = open("heredoc.txt", O_WRONLY | O_TRUNC | O_CREAT, 0664);
+	if (m->fd == -1)
 		return (-1);
 	while (1)
 	{
-		line = readline(mini->line_heredoc);
+		line = readline(m->line_heredoc);
 		if (line == NULL)
 			return (-1);
-		if (ft_strcmp(line,
-				mini->parse[mini->index_cmd].delim) == 0)
+		if (ft_strcmp(line, m->parse[m->index_cmd].delim) == 0)
 		{
 			free(line);
 			break ;
@@ -66,9 +63,27 @@ int	heredoc(t_minishell *mini)
 		tmp = ft_strjoin(line, "\n");
 		if (tmp == NULL)
 			return (-1);
-		write(fd, tmp, ft_strlen(tmp));
+		write(m->fd, tmp, ft_strlen(tmp));
 		free(tmp);
 		free(line);
 	}
-	return (fd);
+	return (m->fd);
+}
+
+void	exec_heredoc(t_minishell *minishell, int *pipefd)
+{
+	minishell->fd_heredoc = heredoc(minishell);
+	if (minishell->fd_heredoc == -1)
+		exit(1);
+	close(minishell->fd_heredoc);
+	minishell->fd_heredoc = open("heredoc.txt", O_RDONLY);
+	if (minishell->index_cmd < minishell->count)
+		dup2(pipefd[1], STDOUT_FILENO);
+	if (minishell->parse[minishell->index_cmd].fd_out >= 0)
+		dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT_FILENO);
+	if (minishell->fd_heredoc >= 0)
+		dup2(minishell->fd_heredoc, STDIN_FILENO);
+	close(minishell->fd_heredoc);
+	if (open("heredoc.txt", O_RDONLY) != -1)
+		unlink("heredoc.txt");
 }
