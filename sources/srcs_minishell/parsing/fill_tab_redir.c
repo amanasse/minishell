@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 11:49:00 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/06 13:20:09 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/06 15:46:58 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	ft_fill_parse(t_minishell *ms, t_lstms *temp, int j, int i)
 		ft_fill_parse_redir_l_r(ms, temp, j, i);
 	else if (temp->type == HEREDOC)
 	{
-		ms->parse[j].if_heredoc = 1;
+		ms->if_heredoc = 1;
 		ms->parse[j].fd_in = STDIN_FILENO;
 		ms->parse[j].fd_out = STDOUT_FILENO;
 		ms->parse[j].delim = ft_strncpy(temp->str, ft_strlen(temp->str));

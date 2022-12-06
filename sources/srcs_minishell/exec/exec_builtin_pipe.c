@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:16:25 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/06 13:24:40 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/06 15:12:09 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	exec_pipe(t_minishell *m, int *pipefd)
 	char	*path;
 
 	path = get_path(m->environ, m->parse[m->index_cmd].tab_cmd, m);
-	printf("cmd = %s\n", m->parse[m->index_cmd].tab_cmd[0]);
 	if (path == NULL)
 	{
 		path = m->parse[m->index_cmd].tab_cmd[0];
@@ -57,8 +56,6 @@ void	exec_pipe(t_minishell *m, int *pipefd)
 	}
 	if (m->index_cmd < m->count)
 		dup2(pipefd[1], STDOUT_FILENO);
-	// printf("STDIN = %d\n", STDIN_FILENO);
-	// printf("STDOUT_FILENO %d\n", STDOUT_FILENO);
 	close_fd(pipefd);
 	m->shell.status = execve(path, m->parse[m->index_cmd].tab_cmd, m->tab_env);
 }

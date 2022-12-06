@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/06 13:22:36 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/06 15:47:54 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	ft_fork(t_minishell *m, int *pipefd, int tmp_fd)
 		m->pid = 1;
 		signal_child();
 		dupper_child(tmp_fd);
-		printf("type = %d\n", m->parse[m->index_cmd].type);
 		if (m->parse[m->index_cmd].type == 3
 			|| m->parse[m->index_cmd].type == 4
 			|| m->parse[m->index_cmd].type == 5
@@ -70,6 +69,8 @@ int	execution(t_minishell *m)
 	{
 		if (pipe(pipefd) == -1)
 			return (-1);
+		if (m->parse[m->index_cmd].type == HEREDOC)
+			tmp_pipefd = 0;
 		env_in_tab(m);
 		if (m->tab_env == NULL)
 			return (-1);
@@ -82,5 +83,6 @@ int	execution(t_minishell *m)
 		m->index_cmd++;
 	}
 	close_pipe_and_wait(tmp_pipefd, m);
+	m->if_heredoc = 0;
 	return (0);
 }

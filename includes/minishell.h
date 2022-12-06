@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/06 13:09:30 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/06 15:36:13 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_minishell
 	int			nb_cmd;
 	int			fd;
 	int			fd_heredoc;
+	int			if_heredoc;
 	int			i;
 	int			j;
 	int			k;
@@ -137,6 +138,7 @@ int		execution(t_minishell *minishell);
 char	**make_new_tab_cmd(t_minishell *minishell, int i, int j);
 void	exec_redirection(t_minishell *minishell, int *pipefd);
 void	exec_redir_left(t_minishell *minishell, int *pipefd);
+void	exec_heredoc(t_minishell *mini, int *pipefd);
 void	exec_redir_right(t_minishell *minishell);
 void	exec_builtin(t_minishell *minishell, int *pipefd);
 void	exec_pipe(t_minishell *minishell, int *pipefd);

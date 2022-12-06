@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:05:50 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/06 13:16:24 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/06 15:49:05 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,10 @@ void	exec_redirection(t_minishell *mini, int *pipefd)
 	char	*path;
 
 	cmd = make_new_tab_cmd(mini, 0, 0);
-	// printf("count = %d\n", mini->count);
-	// printf("cmd[0] = %s\n", cmd[0]);
-	if (mini->parse[mini->index_cmd].delim != NULL && mini->count == 0)
+	if (mini->parse[mini->index_cmd].delim != NULL && cmd[0] == NULL)
 	{
 		exec_heredoc(mini, pipefd);
-		if (cmd[0] == NULL)
-			exit(0);
+		exit(0);
 	}
 	if (mini->parse[mini->index_cmd].fd_out == -1
 		|| mini->parse[mini->index_cmd].fd_in == -1)
@@ -112,7 +109,7 @@ void	exec_redirection(t_minishell *mini, int *pipefd)
 		if (mini->parse[mini->index_cmd].type == REDIR_R
 			|| mini->parse[mini->index_cmd].type == APPEND)
 			exec_redir_right(mini);
-		else if (mini->parse[mini->index_cmd].type == HEREDOC && mini->count > 0)
+		else if (mini->if_heredoc == 1)
 			exec_heredoc(mini, pipefd);
 		else if (mini->parse[mini->index_cmd].type == REDIR_L)
 			exec_redir_left(mini, pipefd);

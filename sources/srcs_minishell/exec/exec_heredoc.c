@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 14:44:12 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/06 12:13:33 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/06 15:24:34 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ int	heredoc(t_minishell *mini)
 
 	mini->parse[mini->index_cmd].delim
 		= ft_clean_if_quotes_delim(mini->parse[mini->index_cmd].delim, -1);
-	fd = open("heredoc.txt", O_WRONLY | O_TRUNC
-			| O_CREAT, S_IRWXU, S_IRGRP, S_IROTH);
+	fd = open("heredoc.txt", O_WRONLY | O_TRUNC | O_CREAT, 0664);
 	if (fd == -1)
 		return (-1);
 	while (1)
