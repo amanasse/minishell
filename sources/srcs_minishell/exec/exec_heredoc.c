@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 14:44:12 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/01 16:54:42 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/06 12:13:33 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,35 +72,4 @@ int	heredoc(t_minishell *mini)
 		free(line);
 	}
 	return (fd);
-}
-
-char	**new_cmd_heredoc(t_minishell *minishell, char **cmd)
-{
-	int		i;
-	char	**new_cmd;
-
-	(void)minishell;
-	i = 0;
-	while (cmd[i])
-		i++;
-	new_cmd = malloc(sizeof(char *) * (i + 1));
-	if (new_cmd == NULL)
-		return (NULL);
-	i = 0;
-	while (cmd[i])
-	{
-		new_cmd[i] = ft_strdup(cmd[i]);
-		if (new_cmd[i] == NULL)
-			return (NULL);
-		i++;
-	}
-	new_cmd[i] = NULL;
-	i = 0;
-	while (cmd[i])
-	{
-		free(cmd[i]);
-		i++;
-	}
-	free(cmd);
-	return (new_cmd);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:05:50 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/05 16:32:09 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/12/06 13:16:24 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,12 @@ char	**make_new_tab_cmd(t_minishell *minishell, int i, int j)
 	return (new_tab_cmd);
 }
 
-void	exec_redir_right(t_minishell *minishell, int *pipefd)
+void	exec_redir_right(t_minishell *minishell)
 {
-	(void)pipefd;
-	// if (minishell->index_cmd < minishell->count
-	// 	&& minishell->parse[minishell->index_cmd + 1].tab_cmd[0][0] != '\0')
-	// 	dup2(pipefd[1], STDOUT_FILENO);
-	// else
-	// {
 	if (minishell->parse[minishell->index_cmd].fd_out >= 0)
 		dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT_FILENO);
 	if (minishell->parse[minishell->index_cmd].fd_in >= 0)
 		dup2(minishell->parse[minishell->index_cmd].fd_in, STDIN_FILENO);
-	// }
 }
 
 void	exec_redir_left(t_minishell *minishell, int *pipefd)
@@ -93,12 +86,13 @@ void	exec_redirection(t_minishell *mini, int *pipefd)
 	char	*path;
 
 	cmd = make_new_tab_cmd(mini, 0, 0);
-	if (mini->parse[mini->index_cmd].delim != NULL && mini->count > 0)
-		cmd = new_cmd_heredoc(mini, cmd);
-	else if (mini->parse[mini->index_cmd].delim != NULL && mini->count == 0)
+	// printf("count = %d\n", mini->count);
+	// printf("cmd[0] = %s\n", cmd[0]);
+	if (mini->parse[mini->index_cmd].delim != NULL && mini->count == 0)
 	{
 		exec_heredoc(mini, pipefd);
-		exit(0);
+		if (cmd[0] == NULL)
+			exit(0);
 	}
 	if (mini->parse[mini->index_cmd].fd_out == -1
 		|| mini->parse[mini->index_cmd].fd_in == -1)
@@ -117,8 +111,8 @@ void	exec_redirection(t_minishell *mini, int *pipefd)
 		}
 		if (mini->parse[mini->index_cmd].type == REDIR_R
 			|| mini->parse[mini->index_cmd].type == APPEND)
-			exec_redir_right(mini, pipefd);
-		else if (mini->parse[mini->index_cmd].type == HEREDOC)
+			exec_redir_right(mini);
+		else if (mini->parse[mini->index_cmd].type == HEREDOC && mini->count > 0)
 			exec_heredoc(mini, pipefd);
 		else if (mini->parse[mini->index_cmd].type == REDIR_L)
 			exec_redir_left(mini, pipefd);

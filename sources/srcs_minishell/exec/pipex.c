@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/05 16:31:36 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/12/06 13:22:36 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	close_pipe_and_wait(int tmp_pipefd, t_minishell *minishell)
 	while (i < minishell->count + 1)
 	{	
 		wait(&loc);
+		if (minishell->if_builtins == 0)
 			minishell->shell.status = loc / 256;
 		i++;
 	}
@@ -44,10 +45,13 @@ int	ft_fork(t_minishell *m, int *pipefd, int tmp_fd)
 		m->pid = 1;
 		signal_child();
 		dupper_child(tmp_fd);
-		if (m->parse[m->index_cmd].file_in != NULL
-			|| m->parse[m->index_cmd].delim != NULL)
+		printf("type = %d\n", m->parse[m->index_cmd].type);
+		if (m->parse[m->index_cmd].type == 3
+			|| m->parse[m->index_cmd].type == 4
+			|| m->parse[m->index_cmd].type == 5
+			|| m->parse[m->index_cmd].type == 6)
 			exec_redirection(m, pipefd);
-		else if (check_builtins(m->parse[m->index_cmd].tab_cmd) == 1)
+		else if (check_builtins(m->parse[m->index_cmd].tab_cmd, m) == 1)
 			exec_builtin(m, pipefd);
 		else
 			exec_pipe(m, pipefd);

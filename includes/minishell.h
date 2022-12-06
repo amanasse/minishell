@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/05 18:19:15 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/12/06 13:09:30 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_minishell
 	int			k;
 	int			l;
 	int			m;
+	int			if_builtins;
 	int			i_parse;
 	int			quote;
 	int			error;
@@ -77,6 +78,7 @@ extern t_minishell	*g_minishell;
 
 /*BUILTINS*/
 void	builtins(t_minishell *minishell);
+int		check_builtins(char **cmd, t_minishell *minishell);
 int		check_builtins_env(char **cmd, t_minishell *minishell);
 
 /*pwd*/
@@ -135,7 +137,7 @@ int		execution(t_minishell *minishell);
 char	**make_new_tab_cmd(t_minishell *minishell, int i, int j);
 void	exec_redirection(t_minishell *minishell, int *pipefd);
 void	exec_redir_left(t_minishell *minishell, int *pipefd);
-void	exec_redir_right(t_minishell *minishell, int *pipefd);
+void	exec_redir_right(t_minishell *minishell);
 void	exec_builtin(t_minishell *minishell, int *pipefd);
 void	exec_pipe(t_minishell *minishell, int *pipefd);
 void	check_for_close(t_minishell *m, int tmp_pipefd);
