@@ -84,7 +84,14 @@ char	*ft_clean_temp_str(char *str, t_minishell *ms, int i)
 		else if (str[i] == '$' && str[i + 1] != '$')
 		{
 			if (str[0] == '$' && str[i + 1] == '\0')
-				return (free(str), free(ms->new_str), "$");
+			{
+				if (ms->new_str)
+					free(ms->new_str);
+				ms->new_str = malloc(sizeof(char) * 2);
+				ms->new_str[0] = '$';
+				ms->new_str[1] = '\0';
+				return (free(str), ms->new_str);
+			}
 			ms->new_str = ft_replace_dollar(str + i, ms->new_str, ms);
 			i = while_char_is_caract(str, i);
 		}
