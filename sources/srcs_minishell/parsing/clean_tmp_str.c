@@ -6,45 +6,40 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 11:19:20 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/06 16:41:37 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/06 18:43:55 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	in_a_quote(t_minishell *minishell)
+int	in_a_quote(int quote)
 {
-	if (minishell->quote == 0)
-		minishell->quote = 1;
+	if (quote == 0)
+		quote = 1;
 	else
-		minishell->quote = 0;
-	return (minishell->quote);
+		quote = 0;
+	return (quote);
 }
 
-char	*ft_clean_simple_quotes(char *str, t_minishell *minishell, int i)
+char	*ft_clean_simple_quotes(char *str, t_minishell *ms, int i, int j)
 {
 	char	*new_str;
-	int		j;
 
-	j = 0;
 	new_str = malloc(sizeof(char) * (ft_strlen(str) + 1));
 	if (new_str == NULL)
 		return (NULL);
 	while (str[i])
 	{
-		if (str[i] == '\'')
-		{
-			minishell->quote = in_a_quote(minishell);
-			i++;
-		}
-		else if (str[i] == '"' && minishell->quote == 0)
-			i++;
+		if (str[i] == '\'' && ms->d_quote == 0)
+			ms->s_quote = in_a_quote(ms->s_quote);
+		else if (str[i] == '"' && ms->s_quote == 0)
+			ms->d_quote = in_a_quote(ms->d_quote);
 		else
 		{
 			new_str[j] = str[i];
-			i++;
 			j++;
 		}
+		i++;
 	}
 	new_str[j] = '\0';
 	return (free(str), new_str);
@@ -71,12 +66,14 @@ char	*ft_clean_temp_str(char *str, t_minishell *ms, int i)
 	ms->new_str = NULL;
 	while (str[i])
 	{
-		if (str[i] == '"')
-			ms->quote = in_a_quote(ms);
+		if (str[i] == '"' && ms->s_quote == 0)
+			ms->d_quote = in_a_quote(ms->d_quote);
 		else if (str[i] == '\'')
 		{
-			if (ms->quote == 1)
+			if (ms->d_quote == 1)
 				ms->new_str = ft_stock_str(ms->new_str, str[i]);
+			else
+				ms->s_quote = in_a_quote(ms->s_quote);
 		}
 		else if (str[i] == '$' && str[i + 1] != '$')
 		{
@@ -100,7 +97,8 @@ int	ft_clean_lst(t_minishell *minishell)
 	int		i;
 
 	i = 0;
-	minishell->quote = 0;
+	minishell->d_quote = 0;
+	minishell->s_quote = 0;
 	temp = minishell->lstms;
 	count = 0;
 	while (temp != NULL)
@@ -110,7 +108,7 @@ int	ft_clean_lst(t_minishell *minishell)
 			|| temp->type == APPEND)
 			temp->str = ft_clean_temp_str(temp->str, minishell, 0);
 		else if (temp->type == S_QUOTES)
-			temp->str = ft_clean_simple_quotes(temp->str, minishell, 0);
+			temp->str = ft_clean_simple_quotes(temp->str, minishell, 0, 0);
 		else if (temp->type == PIPE)
 			count++;
 		temp = temp->next;

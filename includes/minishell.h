@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/06 15:36:13 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/06 18:44:53 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ typedef struct s_minishell
 	int			m;
 	int			if_builtins;
 	int			i_parse;
-	int			quote;
+	int			s_quote;
+	int			d_quote;
 	int			error;
 	int			no_exit;
 	pid_t		pid;
@@ -121,7 +122,7 @@ void	ft_build_struc_parse(t_minishell *minishell, int count);
 void	ft_fill_tab_cmd(t_lstms *temp, t_minishell *ms);
 int		ft_clean_lst(t_minishell *minishell);
 char	*ft_clean_temp_str(char *str, t_minishell *minishell, int i);
-char	*ft_clean_simple_quotes(char *str, t_minishell *minishell, int i);
+char	*ft_clean_simple_quotes(char *str, t_minishell *minishell, int i, int j);
 char	*ft_replace_dollar(char *str, char *new_str, t_minishell *minishell);
 char	*ft_replace_var(char *str, t_minishell *minishell);
 char	*get_value_var(t_minishell *m, char *str, int i);

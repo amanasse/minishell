@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:16:25 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/06 15:12:09 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/06 17:38:05 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	path_errors(char *path, t_minishell *m)
 		if (path[i] == '/')
 		{
 			printf("%s: not a directory\n", m->parse[m->index_cmd].tab_cmd[0]);
-			m->shell.status = 126;
+			m->shell.status = 127;
 			exit(m->shell.status);
 		}
 		i++;

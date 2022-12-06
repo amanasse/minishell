@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:54:29 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/05 10:57:44 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/12/06 18:19:22 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,15 @@ int	ft_lexer_quotes(int i, char *str, t_minishell *mini)
 	while (str[j] != str[i])
 		j++;
 	while (char_is_space(str[j]) == 0 && str[j] != '\0')
+	{
 		j++;
+		if (str[j] == str[i])
+		{
+			j++;
+			while (str[j] != str[i] && str[j] != '\0')
+				j++;
+		}
+	}
 	temp = ft_strncpy(str + i, j - i);
 	if (temp == NULL)
 		return (free(temp), -1);

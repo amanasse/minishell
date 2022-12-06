@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:23:23 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/06 16:13:54 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/06 16:56:40 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	close_pipe_and_wait(int tmp_pipefd, t_minishell *minishell)
 
 int	ft_fork(t_minishell *m, int *pipefd, int tmp_fd)
 {
-	m->fd = m->parse[m->index_cmd].fd_in;
 	if (check_builtins_env(m->parse[m->index_cmd].tab_cmd, m) == 1)
 	{
 		if (m->count == 0)

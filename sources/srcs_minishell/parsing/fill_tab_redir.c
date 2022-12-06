@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 11:49:00 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/06 16:30:20 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/06 16:52:55 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	redir_r(t_minishell *ms, t_lstms *temp, int j)
 	ms->parse[j].file_in = ft_strncpy(temp->str, ft_strlen(temp->str));
 	ms->parse[j].fd_in = STDIN_FILENO;
 	ms->parse[j].fd_out = open(ms->parse[j].file_in, O_WRONLY | O_CREAT, 0644);
+	ms->fd = ms->parse[j].fd_out;
 	free(temp->str);
 	if (ft_check_if_file_exists(ms->parse, j) == 1)
 		ms->parse[j].file_already_exists = 1;
