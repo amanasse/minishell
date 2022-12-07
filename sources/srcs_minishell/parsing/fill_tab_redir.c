@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_tab_redir.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 11:49:00 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/06 16:52:55 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/07 13:02:34 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ int	ft_check_if_file_exists(t_parse *parse, int j)
 void	redir_r(t_minishell *ms, t_lstms *temp, int j)
 {
 	int	k;
-
+	char *tmp;
+	
+	if (ms->parse[j].file_in)
+		free(ms->parse[j].file_in);
 	ms->parse[j].file_in = ft_strncpy(temp->str, ft_strlen(temp->str));
 	ms->parse[j].fd_in = STDIN_FILENO;
 	ms->parse[j].fd_out = open(ms->parse[j].file_in, O_WRONLY | O_CREAT, 0644);
@@ -52,7 +55,12 @@ void	redir_r(t_minishell *ms, t_lstms *temp, int j)
 		k = j;
 		while (k >= 0)
 		{
-			ms->parse[j].tab_cmd[k] = ft_calloc(1, 1);
+			if (ms->parse[j].tab_cmd[k])
+			{
+				tmp = ms->parse[j].tab_cmd[k];
+				ms->parse[j].tab_cmd[k] = ft_calloc(1, 1);
+				free(tmp);
+			}
 			k--;
 		}
 	}
@@ -78,7 +86,6 @@ void	ft_fill_parse_redir_l_r(t_minishell *ms, t_lstms *temp, int j, int i)
 void	ft_fill_parse(t_minishell *ms, t_lstms *temp, int j, int i)
 {
 	ms->parse[j].tab_cmd[i] = temp->str;
-	ms->parse[j].type = temp->type;
 	if (temp->type == REDIR_L || temp->type == REDIR_R)
 		ft_fill_parse_redir_l_r(ms, temp, j, i);
 	else if (temp->type == HEREDOC)
@@ -99,4 +106,5 @@ void	ft_fill_parse(t_minishell *ms, t_lstms *temp, int j, int i)
 				| O_APPEND | O_CREAT, 0644);
 		ms->parse[j].tab_cmd[i] = ft_calloc(1, 1);
 	}
+	printf("type = %d\n", ms->parse[j].type);
 }

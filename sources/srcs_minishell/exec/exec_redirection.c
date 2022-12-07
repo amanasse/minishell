@@ -3,34 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:05:50 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/06 16:49:14 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/07 12:53:37 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**make_new_tab_cmd(t_minishell *minishell, int i, int j)
+char	**make_new_tab_cmd(t_minishell *ms, int i, int j)
 {
 	char	**new_tab_cmd;
 	int		k;
 
 	k = 0;
-	while (minishell->parse[minishell->index_cmd].tab_cmd[i])
+	while (ms->parse[ms->index_cmd].tab_cmd[i])
 		i++;
 	new_tab_cmd = malloc(sizeof(char *) * i + 1);
 	if (new_tab_cmd == NULL)
 		return (NULL);
 	while (k < i && j < i)
 	{
-		if (minishell->parse[minishell->index_cmd].tab_cmd[k][0] == '\0')
+		if (ms->parse[ms->index_cmd].tab_cmd[k][0] == '\0')
 			k++;
 		else
 		{
-			new_tab_cmd[j]
-				= ft_strdup(minishell->parse[minishell->index_cmd].tab_cmd[k]);
+			new_tab_cmd[j] = ft_strdup(ms->parse[ms->index_cmd].tab_cmd[k]);
 			if (new_tab_cmd[j] == NULL)
 				return (NULL);
 			k++;
@@ -43,6 +42,7 @@ char	**make_new_tab_cmd(t_minishell *minishell, int i, int j)
 
 void	exec_redir_right(t_minishell *minishell)
 {
+	printf("fd = %d\n", minishell->parse[minishell->index_cmd].fd_out);
 	if (minishell->parse[minishell->index_cmd].fd_out >= 0)
 		dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT_FILENO);
 	if (minishell->parse[minishell->index_cmd].fd_in >= 0)
@@ -91,6 +91,8 @@ void	exec_redirection(t_minishell *mini, int *pipefd)
 	char	**cmd;
 
 	cmd = make_new_tab_cmd(mini, 0, 0);
+	printf("cmd[0] = %s\n", cmd[0]);
+	printf("cmd[1] = %s\n", cmd[1]);
 	if (mini->parse[mini->index_cmd].delim != NULL && cmd[0] == NULL)
 	{
 		exec_heredoc(mini, pipefd);
@@ -105,4 +107,9 @@ void	exec_redirection(t_minishell *mini, int *pipefd)
 	}
 	if (cmd[0])
 		exec_cmd(mini, cmd, pipefd);
+	else
+	{
+		if (cmd)
+			free(cmd);
+	}
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection.c                                      :+:      :+:    :+:   */
+/*   lexer_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 16:09:07 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/30 16:30:57 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/07 12:05:51 by amanasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	ft_chevron(t_minishell *mini, char *str, char c, int i)
 	}
 	while (str[j] == ' ')
 		j++;
+	while (str[i] == ' ')
+		i++;
 	i++;
 	while ((str[i] != ' ') && (str[i] != '\0') && (str[i] != '<')
 		&& (str[i] != '>'))
