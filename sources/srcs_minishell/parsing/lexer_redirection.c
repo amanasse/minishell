@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 16:09:07 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/07 12:05:51 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/12/07 14:42:42 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@ int	ft_append(t_minishell *mini, char *str)
 	return (i);
 }
 
+int	pass_spaces(char *str, int i)
+{
+	while (str[i] == ' ')
+		i++;
+	return (i);
+}
+
 int	ft_chevron(t_minishell *mini, char *str, char c, int i)
 {
 	int		j;
@@ -47,10 +54,8 @@ int	ft_chevron(t_minishell *mini, char *str, char c, int i)
 			return (-1);
 		return (ft_append(mini, str));
 	}
-	while (str[j] == ' ')
-		j++;
-	while (str[i] == ' ')
-		i++;
+	j = pass_spaces(str, j);
+	i = pass_spaces(str, i);
 	i++;
 	while ((str[i] != ' ') && (str[i] != '\0') && (str[i] != '<')
 		&& (str[i] != '>'))

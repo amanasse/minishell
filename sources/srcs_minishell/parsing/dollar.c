@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:52:08 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/05 18:38:49 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/12/07 14:22:36 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_replace_dollar(char *str, char *new_str, t_minishell *minishell)
 	if (new_str != NULL)
 	{
 		tmp3 = new_str;
-		tmp2 = ft_strjoin(new_str, ft_strncpy(tmp, ft_strlen(tmp)));
+		tmp2 = ft_strjoin(new_str, tmp);
 		free(tmp3);
 	}
 	else

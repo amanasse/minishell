@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:05:50 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/07 12:53:37 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/12/07 14:09:31 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ char	**make_new_tab_cmd(t_minishell *ms, int i, int j)
 
 void	exec_redir_right(t_minishell *minishell)
 {
-	printf("fd = %d\n", minishell->parse[minishell->index_cmd].fd_out);
 	if (minishell->parse[minishell->index_cmd].fd_out >= 0)
 		dup2(minishell->parse[minishell->index_cmd].fd_out, STDOUT_FILENO);
 	if (minishell->parse[minishell->index_cmd].fd_in >= 0)
@@ -91,8 +90,6 @@ void	exec_redirection(t_minishell *mini, int *pipefd)
 	char	**cmd;
 
 	cmd = make_new_tab_cmd(mini, 0, 0);
-	printf("cmd[0] = %s\n", cmd[0]);
-	printf("cmd[1] = %s\n", cmd[1]);
 	if (mini->parse[mini->index_cmd].delim != NULL && cmd[0] == NULL)
 	{
 		exec_heredoc(mini, pipefd);

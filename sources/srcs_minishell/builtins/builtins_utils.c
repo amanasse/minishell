@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 10:34:10 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/02 11:46:58 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/07 14:26:52 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ int	ft_strcmp(char *s1, char *s2)
 	int	i;
 
 	i = 0;
+	if (s1 == NULL || s2 == NULL)
+		return (1);
 	while ((s1[i] != '\0' || s2[i] != '\0') && s1[i] == s2[i])
 		i++;
 	if (s1[i] == s2[i])

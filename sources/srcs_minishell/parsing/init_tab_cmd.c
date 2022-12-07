@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:17:05 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/12/06 13:19:00 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/07 14:00:00 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	ft_init_struc_parse(t_parse *parse, int i)
 	parse[i].fd_out = 1;
 	parse[i].if_heredoc = 0;
 	parse[i].if_pipe = 0;
+	parse[i].type = 0;
 }
 
 void	ft_build_struc_parse(t_minishell *minishell, int count)
