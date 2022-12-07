@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:34:33 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/07 14:43:49 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/07 15:51:06 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int		cmd_pwd(char **cmd, t_minishell *minishell);
 
 /*cd*/
 char	*go_home(t_minishell *minishell);
-int		cmd_cd(char **cmd, t_minishell *minishell);
+int		cmd_cd(char **cmd, t_minishell *minishell, int t, int i);
 
 /*unset*/
 int		cmd_unset(char **cmd, t_minishell *minishell);

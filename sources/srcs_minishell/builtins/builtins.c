@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 10:20:05 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/06 13:11:27 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/07 15:50:04 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	builtins(t_minishell *m)
 	else if ((ft_strcmp(m->parse[m->index_cmd].tab_cmd[0], "pwd")) == 0)
 		m->shell.status = cmd_pwd(m->parse[m->index_cmd].tab_cmd, m);
 	else if ((ft_strcmp(m->parse[m->index_cmd].tab_cmd[0], "cd")) == 0)
-		m->shell.status = cmd_cd(m->parse[m->index_cmd].tab_cmd, m);
+		m->shell.status = cmd_cd(m->parse[m->index_cmd].tab_cmd, m, 0, 0);
 	else if ((ft_strcmp(m->parse[m->index_cmd].tab_cmd[0], "echo")) == 0)
 		m->shell.status = cmd_echo(m->parse[m->index_cmd].tab_cmd);
 	else if ((ft_strcmp(m->parse[m->index_cmd].tab_cmd[0], "env")) == 0)

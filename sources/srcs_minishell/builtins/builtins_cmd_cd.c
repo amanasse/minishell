@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:41:42 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/06 13:12:59 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/07 15:50:38 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,15 +105,10 @@ char	*go_home(t_minishell *minishell)
 	return (dir);
 }
 
-// PENSER A FREE EN CAS DERREUR ENV + CMD SI JAMAIS ON EXIT LE PROGRAMME
-int	cmd_cd(char **cmd, t_minishell *minishell)
+int	cmd_cd(char **cmd, t_minishell *minishell, int t, int i)
 {
-	int		t;
-	int		i;
 	char	*dir;
 
-	t = 0;
-	i = 0;
 	while (cmd[i])
 		i++;
 	if (i == 1)
@@ -122,6 +117,8 @@ int	cmd_cd(char **cmd, t_minishell *minishell)
 		dir = go_home(minishell);
 	else
 		dir = cmd[1];
+	if (dir == NULL)
+		return (0);
 	t = chdir(dir);
 	if (t == 0)
 	{

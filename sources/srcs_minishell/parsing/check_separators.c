@@ -6,7 +6,7 @@
 /*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 17:26:05 by mede-sou          #+#    #+#             */
-/*   Updated: 2022/11/28 13:35:07 by mede-sou         ###   ########.fr       */
+/*   Updated: 2022/12/07 15:45:04 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	char_is_separator(char c)
 int	while_char_is_caract(char *str, int i)
 {
 	while (str[i + 1] != ' ' && str[i + 1] != '\0'
-		&& str[i + 1] != '"' && str[i + 1] != '\'')
+		&& str[i + 1] != '"' && str[i + 1] != '\'' && str[i + 1] != '/')
 			i++;
 	return (i);
 }

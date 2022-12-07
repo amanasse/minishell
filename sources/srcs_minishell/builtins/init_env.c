@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amanasse <amanasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mede-sou <mede-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 11:57:06 by amanasse          #+#    #+#             */
-/*   Updated: 2022/12/05 10:15:38 by amanasse         ###   ########.fr       */
+/*   Updated: 2022/12/07 15:48:59 by mede-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,17 @@ int	copy_of_env(char **env, t_minishell *minishell)
 			return (-1);
 		ft_lstadd_back_env(&minishell->environ, tmp);
 		i++;
+	}
+	if (minishell->environ == NULL)
+	{
+		tmp = ft_lstnew_env(ft_strjoin("PWD=", getcwd(NULL, 0)));
+		if (tmp == NULL)
+			return (-1);
+		ft_lstadd_back_env(&minishell->environ, tmp);
+		tmp = ft_lstnew_env(ft_strjoin("OLDPWD=", getcwd(NULL, 0)));
+		if (tmp == NULL)
+			return (-1);
+		ft_lstadd_back_env(&minishell->environ, tmp);
 	}
 	return (0);
 }
