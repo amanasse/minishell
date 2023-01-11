@@ -81,4 +81,5 @@ $(DIR_OBJ)%.o: $(DIR_SRC_MINISHELL)%.c
 
 -include ${DEPS}
 
+
 .PHONY: all clean fclean re
